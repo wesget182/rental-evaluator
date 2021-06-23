@@ -1,1 +1,6 @@
 # rental-evaluator
+
+
+### contributores
+
+@aramay
