@@ -1,1 +1,5 @@
 # rental-evaluator
+
+@contributors
+
+- @aramay
