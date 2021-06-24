@@ -33,7 +33,8 @@ module.exports = {
         use: 'file-loader?name=./images/[name].[ext]'
       },
       {
-        test: /\.css$/,
+        // test: /\.css$/,
+        test: /.(css|scss)$/,
         use: ['style-loader', 'css-loader'],
         
       },
@@ -41,7 +42,7 @@ module.exports = {
   },
   plugins: [htmlPlugin],
   devServer: {
-    host: 'localhost',
+    host: 'localhost', 
     port: 8080,
     contentBase: path.resolve(__dirname, '/dist'),
     compress: true,
