@@ -15,7 +15,10 @@ import {
 const App = () => {
 
   return (
-    <div>rental evaluator</div>
+    <>
+      <div>rental evaluator</div>
+      <button>Click me</button>
+    </>
   );
 };
 
