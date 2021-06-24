@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack --mode development",
     "dev1": "webpack serve --hot --open",
-    "dev": "concurrently \"cross-env NODE_ENV=development webpack server --open --hot --inline --progress --content-base ./\" \"nodemon ./BE/server.js\" \"--history-api-fallback\"",
+    "dev": "concurrently \"cross-env NODE_ENV=development webpack server --open --hot --inline --progress --content-base ./\" \"nodemon ./server.js\" \"--history-api-fallback\"",
     "build": "webpack --config webpack.config.js --mode production"
   },
   "repository": {
