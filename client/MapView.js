@@ -5,7 +5,7 @@ import ReactMapGL, { Marker, NavigationControl } from 'react-map-gl';
 import { Container, Col, Row } from 'reactstrap';
 // import Geocoder from 'react-mapbox-gl-geocoder';
 import Pin from './Pin';
-
+import 'mapbox-gl/dist/mapbox-gl.css';
 
 
 const mapboxApiKey = 'pk.eyJ1IjoiYXJhbWF5IiwiYSI6ImNrcWI2Z3JjOTAxazQydnBlbHIyNWprbXAifQ.HNWa9dA4WXSefOVnqhIVZA';
@@ -28,16 +28,16 @@ const MapView = () => {
   };
 
   const [viewport, setViewport] = useState({
-    lng: -100,
-    lat: 40,
+    longitude: -121.27096757069442,
+    latitude: 36.23291459044428,
     zoom: 4,
     bearing: 0,
     pitch: 0
   });
 
   const [marker, setMarker] = useState({
-    lng: viewport.lng,
-    lat: viewport.lat
+    lng: viewport.longitude,
+    lat: viewport.latitude
   });
 
   return (
@@ -49,7 +49,6 @@ const MapView = () => {
             mapStyle='mapbox://styles/mapbox/streets-v11'
             // mapStyle='mapbox://styles/mapbox/light-v9'
             {...viewport}
-
             {...mapStyle}
             // onViewportChange={ (viewport ) => setViewport(viewport)}
             onViewportChange={ setViewport }
@@ -62,11 +61,16 @@ const MapView = () => {
               <Pin size={20} />
             </Marker>
             <div style={navStyle}>
-              <NavigationControl />
+              <NavigationControl 
+              
+                
+              />
             </div>
           </ReactMapGL>
         </Col>
       </Row>
+      lat: {viewport.latitude} <br />
+      lng: {viewport.longitude}
     </Container>
   );
 };
