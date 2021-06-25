@@ -5,7 +5,7 @@ console.log(' ## path ##');
 console.log(__dirname + '/index.html');
 const htmlPlugin = new HtmlWebPackPlugin({
   // path to build index.html in /build
-  template: '/index.html',
+  template: './index.html',
 });
 
 module.exports = {
