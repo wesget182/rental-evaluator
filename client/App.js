@@ -10,7 +10,7 @@ import {
   Route,
   Redirect,
 } from 'react-router-dom';
-
+import MapView from './MapView';
 
 const App = () => {
 
@@ -20,6 +20,8 @@ const App = () => {
       <button onClick={ () => alert('hello')}>
         Click me
       </button>
+
+      <MapView />
     </>
   );
 };
