@@ -1,18 +1,24 @@
+//basic imports
 const express = require('express');
 const app = express();
 const path = require('path');
 const mongoose = require('mongoose');
+require('dotenv').config();
+
+//route imports
+const signupRouter = require('./routes/signupRoute')
 
 /*
 TD
 -add mongo connection string to env
+-use passport js??
 */
 
 //CONNECT TO DB
 mongoose.connect(
-  'TEMP')//put real string in env
-  .then(console.log('Connected to DB'))
-  .catch((err) => console.log('Mongo DB Connection Error:', err))
+  process.env.DB_CONNECT_STRING)
+  .then(console.log('Connected to DB: ENV Test String: ', process.env.TEST_STRING))
+  .catch((err) => console.log('Mongo DB Connection Error:', err));
 
 app.use(express.json());
 
@@ -21,9 +27,18 @@ app.get('/', (req, res) => {
   return res.status(200).sendFile(path.join(__dirname, '.././index.html'));
 });
 
-app.get('/clickme', (req, res) => {
-  return res.status(200).json('Clicked!');
+//server test route
+app.use('/testRoute', (req, res) => {
+  return res.status(299).send('test success')
 });
+
+//signup route
+app.use('/signup', signupRouter);
+
+// //test
+// app.get('/clickme', (req, res) => {
+//   return res.status(200).json('Clicked!');
+// });
 
 //listen on 3000
 app.listen(3000, () => {

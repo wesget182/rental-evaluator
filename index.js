@@ -1,6 +1,7 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
 import App from './client/App.js';
+import TestApp from './client/Test_app'
 import 'bootstrap/dist/css/bootstrap.min.css';
 // import './App.css';
 // import store from './store/store';
@@ -12,7 +13,7 @@ import { persistStore } from 'redux-persist';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <TestApp />
   </React.StrictMode>,
   document.getElementById('entry-point')
 );
