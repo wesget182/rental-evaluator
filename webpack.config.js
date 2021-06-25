@@ -12,6 +12,7 @@ module.exports = {
   devtool: 'eval-source-map',
   mode: 'development',
   entry: ['./index.js'],
+  
   output: {
     filename: 'bundle.[hash].js',
     path: path.resolve(__dirname, 'dist')
@@ -58,6 +59,8 @@ module.exports = {
         secure: false,
         changeOrigin: true
       }
-    }
+    },
+  
+    
   }
 };

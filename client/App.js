@@ -1,9 +1,9 @@
 import React from 'react';
 // import LandingPage from '../FE/LandingPage';
 import { Container, Jumbotron, Navbar } from 'react-bootstrap';
-// import DeckList from '../FE/DecksList';
-// import { DeckCards } from '../FE/DeckCards';
-// import { ReviewCards }  from '../FE/ReviewCards';
+import SignIn from './components/Signin'
+
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -14,13 +14,21 @@ import {
 
 const App = () => {
 
+  {/* <div>rental evaluator</div>
+  <button onClick={ () => alert('hello')}>
+    Click me
+  </button> */}
   return (
-    <>
-      <div>rental evaluator</div>
-      <button onClick={ () => alert('hello')}>
-        Click me
-      </button>
-    </>
+  
+    <main>
+      <Switch>
+          {/* <Route exact path="/" component={MainDisplay} /> */}
+          <Route exact path="/signin" component={SignIn} />
+          {/* <Route exact path="/user" component={Register} /> */}
+        </Switch>
+    </main>
+  
+
   );
 };
 
