@@ -33,7 +33,7 @@ app.use('/testRoute', (req, res) => {
 });
 
 //signup route
-app.use('/signup', signupRouter);
+app.use('/register', signupRouter);
 
 // //test
 // app.get('/clickme', (req, res) => {

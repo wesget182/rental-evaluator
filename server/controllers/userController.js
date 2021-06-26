@@ -12,6 +12,7 @@ userController.createUser = (req, res, next) => {
   if (req.body.username && req.body.password) {
     User.create({
       username: req.body.username, 
+      email: req.body.email,
       password: req.body.password});
   } else {
     console.log('userController.createUser error');
