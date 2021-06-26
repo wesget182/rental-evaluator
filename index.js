@@ -1,9 +1,10 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
-import App from './client/App.js';
+import App from './client/App';
 import 'bootstrap/dist/css/bootstrap.min.css';
 // import './App.css';
 // import store from './store/store';
+import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
@@ -12,7 +13,9 @@ import { persistStore } from 'redux-persist';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('entry-point')
 );
