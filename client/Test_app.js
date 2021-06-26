@@ -31,15 +31,16 @@ class TestApp extends Component {
   addUser = () => {
     const un = document.getElementById('username').value;
     const pw = document.getElementById('password').value;
+    const em = document.getElementById('email').value;
     const body = {
       username: un,
       password: pw,
-      success: false,
+      email: em
     }
     // fetch('/signup')
     // .then(res=>res.text())
     // .then(data => console.log(data))
-    fetch('/signup', {
+    fetch('/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'Application/JSON'
@@ -53,7 +54,8 @@ class TestApp extends Component {
 
   serverTest = () => {
     fetch('/testRoute')
-    .then(res => res.text()) //this should log 'test success' in chrome
+    .then(res => res.text())
+    //.then(res => res.text()) //this should log 'test success' in chrome
     .then(data => console.log(data))  
   }
 
@@ -65,6 +67,11 @@ class TestApp extends Component {
           <input
           type="text"
           id="username" 
+          />
+          <label>Email: </label>
+          <input
+          type="text"
+          id="email"
           />
           <label>Password: </label>
           <input 

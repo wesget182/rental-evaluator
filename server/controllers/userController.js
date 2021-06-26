@@ -1,41 +1,67 @@
 const User = require('../models/userModel');
 const userController = {};
+const bcrypt = require('bcrypt');
+const salt_rounds = 10;
 
 /*
-TODO:
--bcrypt
--oauth
+AUTHENTICATION PROTOCOL
+1 - User submits login/pw
+2 - Check login/pw against mongo.
+3 - Upon success - create JWT and send to front end
+4 - 
 */
 
 //USER CREATION - STANDARD (no OAuth)
+
 userController.createUser = (req, res, next) => {
-  if (req.body.username && req.body.password) {
-    User.create({
-      username: req.body.username, 
-      email: req.body.email,
-      password: req.body.password});
-  } else {
-    console.log('userController.createUser error');
+  //check request for correct data
+  if (req.body.name && req.body.password) {
+    //perform encryption
+    bcrypt.hash(req.body.password, salt_rounds, (error, hash) => {
+      //error check
+      if (error) res.status(500).json(error)
+      //create user w encrypted pw
+      else {
+        User.create({
+          username: req.body.name,
+          email: req.body.email,
+          password: hash
+        })
+      }
+    })
+    next()
   }
-  next();
-};
+  else console.log('usercontroller.createuser error - no data recieved')
+}
 
 //USER VERIFICATION - STANDARD (no OAuth)
-userController.verifyUser = (req, res, next) => {
-  //find user
-  User.find({
-    username: req.body.username,
-    password: req.body.password,
+
+userController.verifyLogin = (req, res, next) => {
+  //find by username
+  User.findOne({email: req.body.email})
+  .then(user => {
+    //if none found, return error
+    if(!user) res.status(405).send('No user found')
+    //if user found, compare passwords
+    else {
+      bcrypt.compare(req.body.password, user.password, (error, match) => {
+        //handle weird errors
+        if (error) res.status(500).json(error)
+        //login success
+        else if (match) {
+          res.status(203).send('Login Success')
+          next()
+        }
+        //login fail (incorrect pw)
+        else res.status(403).send('incorrect password')
+        //what happens here???
+      })
+    }
   })
-    .then(data=>{
-      //if nothing is returned (user not found)
-      if(data[0] === undefined){
-        console.log('userController.verifyUser error');
-        return res.status(302).send('bad login');
-      }
-      else return next();
-    }); 
-};
+  .catch(error => {
+    res.status(500).json(error)
+  })
+}
 
 
 module.exports = userController;
