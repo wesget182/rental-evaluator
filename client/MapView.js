@@ -330,7 +330,7 @@ const MapView = () => {
   const [viewport, setViewport] = useState({
     longitude: -121.27096757069442,
     latitude: 36.23291459044428,
-    zoom: 4,
+    zoom: 12,
     bearing: 0,
     pitch: 0
   });
@@ -383,7 +383,8 @@ const MapView = () => {
         </Col>
       </Row>
       lat: {viewport.latitude} <br />
-      lng: {viewport.longitude}
+      lng: {viewport.longitude} <br />
+      zoom: {viewport.zoom}
     </Container>
   );
 };
