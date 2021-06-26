@@ -60,16 +60,19 @@ export default function SignIn() {
   const classes = useStyles();
 
   //state to store input field values
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [validatePassword, setValidatePassword] = useState('');
 
   //submit fxn to make http call to BE
   const handleSubmit = (e) => {
     e.preventDefault();
     api({
       method: 'post',
-      url: '/signin',
+      url: '/register',
       data: {
+        name,
         email,
         password,
       },
@@ -117,12 +120,40 @@ export default function SignIn() {
                   margin="normal"
                   required
                   fullWidth
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  autoComplete="email"
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+                />
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
                   name="password"
                   label="Password"
                   type="password"
                   id="password"
                   autoComplete="current-password"
                   value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
+                />
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="validatePassword"
+                  label="Re-Enter Password"
+                  type="validatePassword"
+                  id="validatePassword"
+                  value={validatePassword}
                   onChange={(e) => {
                     setPassword(e.target.value);
                   }}
@@ -138,17 +169,12 @@ export default function SignIn() {
                   color="primary"
                   className={classes.submit}
                 >
-                  Sign In
+                  Register
                 </Button>
                 <Grid container>
                   <Grid item xs>
                     <Link href="#" variant="body2">
-                      Forgot password?
-                    </Link>
-                  </Grid>
-                  <Grid item>
-                    <Link href="#" variant="body2">
-                      {"Don't have an account? Sign Up"}
+                      Already Have An Account? Sign In
                     </Link>
                   </Grid>
                 </Grid>
