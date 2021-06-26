@@ -10,8 +10,11 @@ app.use(express.json());
 
 //serve index.html
 app.get('/', (req, res) => {
-  return res.status(200).sendFile(path.join(__dirname, '.././index.html'));
+  return res
+    .status(200)
+    .sendFile(path.join(__dirname, '.././index.html'))
 });
+//app.use('/', express.static(path.resolve(__dirname, '.././index.html')));
 
 // app.get('/clickme', (req, res) => {
 //   return res.status(200).json('Clicked!');
@@ -35,17 +38,21 @@ app.get('/clickMe', async (req, res) => {
   };
   url.search = new URLSearchParams(params).toString();
   console.log(url);
-  const result = await fetch(url, { method: 'GET', headers: headers });
-  const result1 = await result.json();
-  // const result2 = result1['props'].map(({ zpid, latitude, longitude, address, price }) => ({ zpid, latitude, longitude, address, price }));
-  const result2 = { features: 
-    result1['props']
-      .filter(x => !isNaN(Number(x.zpid)))
-      .map(({ zpid, latitude, longitude, address, price }) => ({
+  let result = await fetch(url, { method: 'GET', headers: headers });
+  result = await result.json();
+  // console.log(result);
+  result = { features: 
+    result['props']
+      .filter(x => ! isNaN(Number(x.zpid)))
+      .map(({ zpid, latitude, longitude, address, price, propertyType, livingArea, bedrooms, bathrooms }) => ({
         type: 'Feature',
         properties: {
-          title: address,
-          description: address
+          Address: address,
+          'Monthly rent': `$${price}`,
+          Type: propertyType,
+          Size: `${livingArea} sqft`,
+          '# bedrooms': bedrooms,
+          '# bathrooms': bathrooms
         },
         geometry: {
           coordinates: [longitude, latitude],
@@ -53,18 +60,10 @@ app.get('/clickMe', async (req, res) => {
         }
       }))
   };
-  // console.log(result1['props']);
-  console.log(result2);
-  return res.status(200).json(result2);
-  // const listings = result.map(obj => {...obj});
-  // for (let i = 0; i < Math.min(result1['props'].length, 3); i++) {
-  //   listings[i] = await fetch(`https://zillow-com1.p.rapidapi.com/property?zpid=${result1['props'][i].zpid}`, { method: 'GET', headers: headers });
-  //   listings[i] = await listings[i].json();
-        
-  // }
+  return res.status(200).json(result);
 });
 
 //listen on 3000
 app.listen(3000, () => {
   console.log('Server listening on 3000');
-}); 
+});
