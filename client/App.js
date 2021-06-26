@@ -1,5 +1,4 @@
 import React from 'react';
-import { Container, Jumbotron, Navbar } from 'react-bootstrap';
 import SignIn from './components/Signin';
 import MainContainer from './components/MainContainer';
 import Register from './components/Register';
