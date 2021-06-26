@@ -5,6 +5,9 @@ const path = require('path');
 const mongoose = require('mongoose');
 require('dotenv').config();
 
+//direct controller imports
+const sessionController = require('./controllers/sessionController')
+
 //route imports
 const signupRouter = require('./routes/signupRoute')
 const signinRouter = require('./routes/signinRoute')

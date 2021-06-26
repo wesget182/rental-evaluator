@@ -49,11 +49,11 @@ userController.verifyLogin = (req, res, next) => {
         if (error) res.status(500).json(error)
         //login success
         else if (match) {
-          res.status(203).send('Login Success')
+          //res.status(203).send('Login Success')
           next()
         }
         //login fail (incorrect pw)
-        else res.status(403).send('incorrect password')
+        else return res.status(403).send('incorrect password')
         //what happens here???
       })
     }
@@ -61,6 +61,17 @@ userController.verifyLogin = (req, res, next) => {
   .catch(error => {
     res.status(500).json(error)
   })
+}
+
+userController.setSSIDCookie = (req, res, next) => {
+  User.findOne({email: req.body.email})
+  .then((data) => {
+    const id = data.id;
+    res.locals.cookie = id;
+    console.log('res 1,', res.locals.cookie)
+    res.cookie("ssid", id, {httpOnly: true});
+  })
+  .then(() => next())
 }
 
 
