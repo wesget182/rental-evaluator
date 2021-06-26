@@ -17,9 +17,16 @@ const App = () => {
   return (
     <>
       <div>rental evaluator</div>
-      <button onClick={ () => alert('hello')}>
+      <button onClick={ async () => {
+        const res = await fetch('/clickMe');
+        const res1 = await res.json();
+        console.log(JSON.stringify(res1));
+        const node = document.getElementById('listings');
+        node.innerHTML = JSON.stringify(res1);
+      } }>
         Click me
       </button>
+      <div id='listings'></div>
     </>
   );
 };
