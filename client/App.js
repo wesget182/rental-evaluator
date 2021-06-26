@@ -6,12 +6,6 @@ import Register from './components/Register';
 
 import { Switch, Route, Redirect } from 'react-router-dom';
 
-{
-  /* <div>rental evaluator</div>
-<button onClick={ () => alert('hello')}>
-  Click me
-</button> */
-}
 const App = () => {
   return (
     <div className="router">
