@@ -70,7 +70,6 @@ module.exports = {
 
     //setup proxy to access BE server
     proxy: {
-      //'/': 'http://localhost:3000'
       '/api': {
         target: 'http://localhost:3000/',
         pathRewrite: { '^/api': '' },
