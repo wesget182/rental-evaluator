@@ -3,13 +3,6 @@ const userController = {};
 const bcrypt = require('bcrypt');
 const salt_rounds = 10;
 
-/*
-AUTHENTICATION PROTOCOL
-1 - User submits login/pw
-2 - Check login/pw against mongo.
-3 - Upon success - create JWT and send to front end
-4 - 
-*/
 
 //USER CREATION - STANDARD (no OAuth)
 

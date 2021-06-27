@@ -40,11 +40,6 @@ app.get('/', (req, res) => {
     .status(201)
     .sendFile(path.join(__dirname, '.././index.html'))
 });
-//app.use('/', express.static(path.resolve(__dirname, '.././index.html')));
-
-// app.get('/clickme', (req, res) => {
-//   return res.status(200).json('Clicked!');
-// });
 
 app.get('/clickMe', async (req, res) => {
   const url = new URL('https://zillow-com1.p.rapidapi.com/propertyExtendedSearch');
