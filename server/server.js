@@ -2,8 +2,11 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const mongoose = require('mongoose');
-const fetch = require('node-fetch');
-const { URL, URLSearchParams } = require('url');
+// const fetch = require('node-fetch');
+// const { URL, URLSearchParams } = require('url');
+
+// Import express routers
+const properties = require('./routes/properties');
 
 //do we need this?  i forget
 app.use(express.json());
@@ -16,51 +19,18 @@ app.get('/', (req, res) => {
 });
 //app.use('/', express.static(path.resolve(__dirname, '.././index.html')));
 
-// app.get('/clickme', (req, res) => {
-//   return res.status(200).json('Clicked!');
-// });
+app.use('/properties', properties);
 
-app.get('/clickMe', async (req, res) => {
-  const url = new URL('https://zillow-com1.p.rapidapi.com/propertyExtendedSearch');
-  const params = {
-    'location': 'mountain view, ca',
-    'status_type': 'ForRent',
-    // 'home_type': 'Houses',
-    'bathsMin': '2',
-    'bathsMax': '2',
-    'bedsMin': '2',
-    'bedsMax': '2'
+// Global error handler
+app.use((err, req, res, next) => {
+  const defaultErr = {
+    log: 'Express error handler caught unknown middleware error.',
+    status: 400,
+    message: { err: 'An unknown error occurred.'}
   };
-  const headers = {
-    'x-rapidapi-key': 'e6dd16a9e5msh39232bd8e06c20ap181d30jsn4e86e05be870',
-    'x-rapidapi-host': 'zillow-com1.p.rapidapi.com',
-    'useQueryString': true
-  };
-  url.search = new URLSearchParams(params).toString();
-  console.log(url);
-  let result = await fetch(url, { method: 'GET', headers: headers });
-  result = await result.json();
-  // console.log(result);
-  result = { features: 
-    result['props']
-      .filter(x => ! isNaN(Number(x.zpid)))
-      .map(({ zpid, latitude, longitude, address, price, propertyType, livingArea, bedrooms, bathrooms }) => ({
-        type: 'Feature',
-        properties: {
-          Address: address,
-          'Monthly rent': `$${price}`,
-          Type: propertyType,
-          Size: `${livingArea} sqft`,
-          '# bedrooms': bedrooms,
-          '# bathrooms': bathrooms
-        },
-        geometry: {
-          coordinates: [longitude, latitude],
-          type: 'Point'
-        }
-      }))
-  };
-  return res.status(200).json(result);
+  Object.assign(defaultErr, err);
+  console.log(defaultErr.log);
+  return res.status(defaultErr.status).json(defaultErr.message);
 });
 
 //listen on 3000

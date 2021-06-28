@@ -5,16 +5,23 @@ const MainContainer = () => {
     <div>
       <p>main display</p>
       <div>rental evaluator</div>
+      {/* <label htmlFor='location'>Search:</label> */}
+      <input id='location' type='text' className="form-control" />
       <button onClick={ async () => {
-        let res = await fetch('/api/clickMe');
-        res = await res.json();
-        console.log(JSON.stringify(res));
+        const params = {
+          location: document.getElementById('location').value
+        };
+        const qs = new URLSearchParams(params).toString();
+        console.log(`/api/properties?${qs}`);
+        const res = await fetch(`/api/properties?${qs}`)
+          .then(res => res.json());
+        console.log(JSON.stringify(res, null, 2));
         const node = document.getElementById('listings');
-        node.innerHTML = JSON.stringify(res);
+        node.innerHTML = JSON.stringify(res, null, 2);
       } }>
         Click me
       </button>
-      <div id='listings'></div>
+      <pre id='listings'></pre>
     </div>
   );
 };
