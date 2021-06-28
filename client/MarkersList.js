@@ -64,12 +64,12 @@ const MarkersList = (props) => {
       {showPopup && 
         <Popup
           longitude={selectedMarker.geometry.coordinates[0]}
-          latitude={36.23291459044428}
+          latitude={selectedMarker.geometry.coordinates[1]}
           closeButton={true}
           closeOnClick={true}
           onClose={ () => handleCloseClicked(false)}
         >
-          <h3>{'temp title'}</h3>
+          <h3>{selectedMarker.properties.title}</h3>
         </Popup>
       }
     </>
