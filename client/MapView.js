@@ -3,7 +3,7 @@
 import React, { useCallback, useRef, useState } from 'react';
 import ReactMapGL, { Marker, NavigationControl, Source, Layer } from 'react-map-gl';
 import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css';
-import Pin from './Pin';
+
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { dataLayer } from './map-styles';
 import Container from '@material-ui/core/Container';
@@ -11,6 +11,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import Geocoder from 'react-map-gl-geocoder';
+import MarkersList from './MarkersList';
 
 const mapboxApiKey = 'pk.eyJ1IjoiYXJhbWF5IiwiYSI6ImNrcWI2Z3JjOTAxazQydnBlbHIyNWprbXAifQ.HNWa9dA4WXSefOVnqhIVZA';
 
@@ -310,6 +311,20 @@ const test_data = {
         ],
         'type':'Point'
       }
+    },
+    {
+      'type':'Feature',
+      'properties':{
+        'title':'1005 Boranda Ave, Mountain View, CA 94040',
+        'description':'1005 Boranda Ave, Mountain View, CA 94040'
+      },
+      'geometry':{
+        'coordinates':[
+          -121.27096757069442,
+          36.23291459044428
+        ],
+        'type':'Point'
+      }
     }
   ]
 };
@@ -359,6 +374,7 @@ const MapView = () => {
   });
 
   const handleViewportChange = useCallback( (newViewport) => {
+    console.log('handleViewportChange called ###');
     setViewport(newViewport);
   },[]);
 
@@ -388,20 +404,7 @@ const MapView = () => {
             // onViewportChange={ (viewport ) => setViewport(viewport)}
             onViewportChange={ handleViewportChange }
           >
-            {test_data.features.map( (marker, idx) => {
-              return (
-                <Marker 
-                  key={idx}
-                  longitude = {marker.geometry.coordinates[0]}
-                  latitude = {marker.geometry.coordinates[1]}
-                  onClick={ () => console.log('marker clicked ')}
-                >
-                  <Pin size={20} />
-                </Marker>
-
-              );
-            })
-            }
+            <MarkersList props={test_data}/>
             
             <div style={navStyle}>
               <NavigationControl 
