@@ -15,6 +15,7 @@ function Pin(props) {
   return (
     <svg height={size} viewBox="0 0 24 24" style={pinStyle}>
       <path d={ICON} />
+      Sorry, your browser does not support inline SVG.
     </svg>
   );
 }
