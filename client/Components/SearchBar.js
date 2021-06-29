@@ -1,14 +1,15 @@
 import React, {useState, useEffect} from 'react';
 import ReactDOM from 'react-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import {Button, 
+import {
   TextField,
-  Box,
-  Popper} from '@material-ui/core/';
+  Box
+} from '@material-ui/core/';
 import Price from './SearchBarPoppers/Price';
 import BedBath from './SearchBarPoppers/BedBath';
 import HomeType from './SearchBarPoppers/HomeType';
 import SquareFt from './SearchBarPoppers/SquareFt';
+import axios from "axios";
 
 // text field for address search
 //price range (text field for both min and max) add range slider as option which modifies the field
@@ -34,17 +35,41 @@ const SearchBar = () => {
   }));
   const classes = useStyles();
 
-  // useEffect(() => {
-  //   document.title = `${minPrice, maxPrice, beds, baths, homeTypes, minSquareFT, maxSquareFT}`;
-  // });
+   
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    
+    const headers = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+    }
+    
+    const searchHome = await axios.post(
+      'http://localhost:3000/search',
+      null,
+       {
+         headers,
+         params:{
+          minPrice,
+          maxPrice, 
+          beds, 
+          baths,
+          homeTypes,
+          minSquareFT,
+          maxSquareFT
+        }});
+
+      console.log(searchHome) //placeholder for handling response from server
+
+  };
 
 
   return(
     <>
-       {/* <div>{minPrice, maxPrice, beds, baths, homeTypes, minSquareFT, maxSquareFT}</div>  */}
       <form className={classes.root} noValidate autoComplete="off">
         <Box display="flex" flexDirection="row">
-          <TextField id="outlined-basic" label="Address or ZIP" variant="outlined" />
+          <TextField id="outlined-basic" label="Address or ZIP" variant="outlined" onSubmit={onSubmit} />
         
           <Price 
             minPrice={minPrice}
@@ -75,7 +100,7 @@ const SearchBar = () => {
         </Box>
       </form> 
     </>
-  )
+  );
 };
 
 export default SearchBar;
