@@ -1,8 +1,20 @@
 import React from 'react';
+import NavBar from './NavBar';
+import Container from '@material-ui/core/Container';
+import Box from '@material-ui/core/Box';
+import Card from '@material-ui/core/Card';
 
 const MainContainer = () => {
   return (
     <div>
+<<<<<<< HEAD
+      <Container>
+        <Box>
+          <Card>search field</Card>
+        </Box>
+        <Box>map</Box>
+      </Container>
+=======
       <p>main display</p>
       <div>rental evaluator</div>
       <button onClick={ async () => {
@@ -15,6 +27,7 @@ const MainContainer = () => {
         Click me
       </button>
       <div id='listings'></div>
+>>>>>>> dev
     </div>
   );
 };
