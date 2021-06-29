@@ -1,9 +1,6 @@
-<<<<<<< HEAD
 import React, { useState, useEffect } from 'react';
 import { Container, Jumbotron, Navbar } from 'react-bootstrap';
-=======
 import React from 'react';
->>>>>>> dev
 import SignIn from './components/Signin';
 import MainContainer from './components/MainContainer';
 import Register from './components/Register';
@@ -13,15 +10,6 @@ import NavBar from './components/NavBar';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 
-<<<<<<< HEAD
-{
-  /* <div>rental evaluator</div>
-  <button onClick={ () => alert('hello')}>
-  Click me
-  </button> */
-}
-=======
->>>>>>> dev
 const App = () => {
   const [darkState, setDarkState] = useState(false);
   const palletType = darkState ? 'dark' : 'light';
