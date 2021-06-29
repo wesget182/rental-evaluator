@@ -1,25 +1,49 @@
+//basic imports
 const express = require('express');
 const app = express();
 const path = require('path');
 const mongoose = require('mongoose');
-// const fetch = require('node-fetch');
-// const { URL, URLSearchParams } = require('url');
+require('dotenv').config();
 
-// Import express routers
+//direct controller imports
+const sessionController = require('./controllers/sessionController');
+
+//route imports
+const signupRouter = require('./routes/signupRoute');
+const signinRouter = require('./routes/signinRoute');
 const properties = require('./routes/properties');
 
-//do we need this?  i forget
+//db connection
+//note - if this does not work for you, i may need to add your ip as verified to mongo - adam
+mongoose.connect(
+  process.env.DB_CONNECT_STRING)
+  .then(console.log('Connected to DB: ENV Test String: ', process.env.TEST_STRING))
+  .catch((err) => console.log('Mongo DB Connection Error:', err));
+const fetch = require('node-fetch');
+const { URL, URLSearchParams } = require('url');
+
 app.use(express.json());
+
+//server test route
+app.use('/testRoute', (req, res) => {
+  return res.status(299).send('test success')
+});
+
+//signup route
+app.use('/register', signupRouter);
+
+//signin route
+app.use('/signin', signinRouter);
+
+//properties route
+app.use('/properties', properties);
 
 //serve index.html
 app.get('/', (req, res) => {
   return res
-    .status(200)
+    .status(201)
     .sendFile(path.join(__dirname, '.././index.html'))
 });
-//app.use('/', express.static(path.resolve(__dirname, '.././index.html')));
-
-app.use('/properties', properties);
 
 // Global error handler
 app.use((err, req, res, next) => {

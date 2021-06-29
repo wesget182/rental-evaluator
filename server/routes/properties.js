@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const middlewares = require('../middlewares/properties');
+const middlewares = require('../controllers/properties');
 
 // handler for submitted form with a single address or area search
 router.get('/',
