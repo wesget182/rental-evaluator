@@ -1,12 +1,14 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import ReactDOM from 'react-dom';
+import { makeStyles } from '@material-ui/core/styles';
 import {Button, 
-        TextField,
-        Popper} from '@material-ui/core/';
-import Price from './SearchBarPoppers/Price'
-import BedBath from './SearchBarPoppers/BedBath'
-import HomeType from './SearchBarPoppers/HomeType'
-import SquareFt from './SearchBarPoppers/SquareFt'
+  TextField,
+  Box,
+  Popper} from '@material-ui/core/';
+import Price from './SearchBarPoppers/Price';
+import BedBath from './SearchBarPoppers/BedBath';
+import HomeType from './SearchBarPoppers/HomeType';
+import SquareFt from './SearchBarPoppers/SquareFt';
 
 // text field for address search
 //price range (text field for both min and max) add range slider as option which modifies the field
@@ -15,29 +17,65 @@ import SquareFt from './SearchBarPoppers/SquareFt'
 
 const SearchBar = () => {
 
-    const [anchorEl, setAnchorEl] = useState(null);
+  const [minPrice, setMinPrice] = useState(null);
+  const [maxPrice, setMaxPrice] = useState(null);
+  const [beds, setBeds] = useState(null);
+  const [baths, setBaths] = useState(null);
+  const [homeTypes, setHomeTypes] = useState({});
+  const [minSquareFT, setMinSquareFT] = useState(null);
+  const [maxSquareFT, setMaxSquareFT] = useState(null);
 
-    const handleClick = (e) => {
-        setAnchorEl(anchorEl ? null : e.currentTarget);
-      };
-    
-      const open = Boolean(anchorEl);
-      const id = open ? 'simple-popper' : undefined;
+  const useStyles = makeStyles((theme) => ({
+    paper: {
+      border: '1px solid',
+      padding: theme.spacing(1),
+      backgroundColor: theme.palette.background.paper,
+    },
+  }));
+  const classes = useStyles();
 
-    return(
-        <div>
+  // useEffect(() => {
+  //   document.title = `${minPrice, maxPrice, beds, baths, homeTypes, minSquareFT, maxSquareFT}`;
+  // });
+
+
+  return(
+    <>
+       {/* <div>{minPrice, maxPrice, beds, baths, homeTypes, minSquareFT, maxSquareFT}</div>  */}
+      <form className={classes.root} noValidate autoComplete="off">
+        <Box display="flex" flexDirection="row">
+          <TextField id="outlined-basic" label="Address or ZIP" variant="outlined" />
         
-    <form noValidate autoComplete="off">
-        <TextField id="outlined-basic" label="Address or ZIP" variant="outlined" />
-        
-      <Price/>
-      <BedBath/>
-      <HomeType/>
-      <SquareFt/>
-
-    </form> 
-        </div>
-    )
+          <Price 
+            minPrice={minPrice}
+            maxPrice={maxPrice}
+            setMaxPrice={setMaxPrice}
+            setMinPrice={setMinPrice}
+            classes={classes}
+          />
+          <BedBath
+            beds={beds}
+            baths={baths}
+            setBaths={setBaths}
+            setBeds={setBeds}
+            classes={classes}
+          />
+          <HomeType
+            homeTypes={homeTypes}
+            setHomeTypes={setHomeTypes}
+            classes={classes}
+          />
+          <SquareFt
+            minSquareFT={minSquareFT}
+            maxSquareFT={maxSquareFT}
+            setMaxSquareFT={setMaxSquareFT}
+            setMinSquareFT={setMinSquareFT}
+            classes={classes}
+          />
+        </Box>
+      </form> 
+    </>
+  )
 };
 
 export default SearchBar;
