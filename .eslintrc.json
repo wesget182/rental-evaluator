@@ -5,13 +5,14 @@
     "es2020": true,
     "node": true
   },
-  "plugins": ["import", "react", "jsx-a11y"],
+  "plugins": ["import", "react", "jsx-a11y", "babel"],
   "extends": [
     "eslint:recommended",
     "plugin:import/errors",
     "plugin:react/recommended",
     "plugin:jsx-a11y/recommended"
   ],
+  "parser": "babel-eslint",
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true

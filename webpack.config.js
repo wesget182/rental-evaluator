@@ -74,8 +74,8 @@ module.exports = {
         target: 'http://localhost:3000/',
         pathRewrite: { '^/api': '' },
         secure: false,
-        changeOrigin: true,
-      },
-    },
-  },
+        changeOrigin: true
+      }
+    }
+  }
 };
