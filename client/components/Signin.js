@@ -80,7 +80,25 @@ export default function SignIn() {
       //   loggedIn();
     });
   };
-
+//**********ADDING IN TEST FUNCTION - WHEN DOING PULL REQUEST, DELETE IT AND PUT THE RETURN ON LINE 84*******************
+const handleSubmit2 = (e) => {
+  e.preventDefault();
+  api({
+    method: 'post',
+    url: '/addFav',
+    data: {
+      email,
+      password,
+      favorite: {
+        address: "test2",
+        coords: "test",
+        price: "1000"
+      }
+    },
+  }).then((res) => {
+    console.log(res);
+  });
+};
   return (
     <Container component="main" maxWidth="xs">
       <Box mt={3}>
@@ -97,7 +115,7 @@ export default function SignIn() {
               <Typography component="h1" variant="h5">
                 Sign in
               </Typography>
-              <form className={classes.form} noValidate onSubmit={handleSubmit}>
+              <form className={classes.form} noValidate onSubmit={handleSubmit2}>
                 <TextField
                   variant="outlined"
                   margin="normal"

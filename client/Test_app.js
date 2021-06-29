@@ -26,6 +26,7 @@ class TestApp extends Component {
 
     this.addUser = this.addUser.bind(this);
     this.serverTest = this.serverTest.bind(this);
+    this.addFav = this.addFav.bind(this);
   };
 
   addUser = () => {
@@ -40,7 +41,7 @@ class TestApp extends Component {
     // fetch('/signup')
     // .then(res=>res.text())
     // .then(data => console.log(data))
-    fetch('/register', {
+    fetch('/api/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'Application/JSON'
@@ -57,6 +58,28 @@ class TestApp extends Component {
     .then(res => res.text())
     //.then(res => res.text()) //this should log 'test success' in chrome
     .then(data => console.log(data))  
+  }
+
+  //add fav test
+  addFav = () => {
+    const body = {
+      username: "test",
+      favorite: {
+        address: "test",
+        coords: "test",
+        price: "1000"
+      }
+    }
+    fetch('/api/addFav', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'Application/JSON'
+      },
+      body: JSON.stringify(body)
+    })
+    .then(res => console.log(res))
+    .then(data => console.log(data))
+    .catch(err => console.log('frontend err, ', err))
   }
 
   render() {
@@ -81,6 +104,7 @@ class TestApp extends Component {
         </form>
         <button onClick={() =>{this.addUser()}}>Submit User Info</button>
         <button onClick={() => {this.serverTest()}}>Ping Server</button>
+        <button onClick={() => {this.addFav()}}>Add Favorite Test</button>
       </div>
     )
   }

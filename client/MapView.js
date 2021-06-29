@@ -13,7 +13,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Geocoder from 'react-map-gl-geocoder';
 import MarkersList from './MarkersList';
 
-const mapboxApiKey = '';
+const mapboxApiKey = 'pk.eyJ1IjoiYXJhbWF5IiwiYSI6ImNrcWI2Z3JjOTAxazQydnBlbHIyNWprbXAifQ.HNWa9dA4WXSefOVnqhIVZA';
 
 const test_data = {
   'type': 'FeatureCollection',
