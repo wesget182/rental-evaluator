@@ -106,13 +106,13 @@ export default function SignIn() {
                   margin="normal"
                   required
                   fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                  value={email}
+                  id="name"
+                  label="name"
+                  name="name"
+                  autoComplete="name"
+                  value={name}
                   onChange={(e) => {
-                    setEmail(e.target.value);
+                    setName(e.target.value);
                   }}
                 />
                 <TextField
@@ -155,7 +155,7 @@ export default function SignIn() {
                   id="validatePassword"
                   value={validatePassword}
                   onChange={(e) => {
-                    setPassword(e.target.value);
+                    setValidatePassword(e.target.value);
                   }}
                 />
                 {/* <FormControlLabel

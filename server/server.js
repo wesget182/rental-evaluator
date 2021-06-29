@@ -1,24 +1,45 @@
+//basic imports
 const express = require('express');
 const app = express();
 const path = require('path');
 const mongoose = require('mongoose');
+require('dotenv').config();
+
+//direct controller imports
+const sessionController = require('./controllers/sessionController')
+
+//route imports
+const signupRouter = require('./routes/signupRoute')
+const signinRouter = require('./routes/signinRoute')
+
+//db connection
+//note - if this does not work for you, i may need to add your ip as verified to mongo - adam
+mongoose.connect(
+  process.env.DB_CONNECT_STRING)
+  .then(console.log('Connected to DB: ENV Test String: ', process.env.TEST_STRING))
+  .catch((err) => console.log('Mongo DB Connection Error:', err));
 const fetch = require('node-fetch');
 const { URL, URLSearchParams } = require('url');
 
-//do we need this?  i forget
 app.use(express.json());
+
+//server test route
+app.use('/testRoute', (req, res) => {
+  return res.status(299).send('test success')
+});
+
+//signup route
+app.use('/register', signupRouter);
+
+//signin route
+app.use('/signin', signinRouter);
 
 //serve index.html
 app.get('/', (req, res) => {
   return res
-    .status(200)
+    .status(201)
     .sendFile(path.join(__dirname, '.././index.html'))
 });
-//app.use('/', express.static(path.resolve(__dirname, '.././index.html')));
-
-// app.get('/clickme', (req, res) => {
-//   return res.status(200).json('Clicked!');
-// });
 
 app.get('/clickMe', async (req, res) => {
   const url = new URL('https://zillow-com1.p.rapidapi.com/propertyExtendedSearch');
