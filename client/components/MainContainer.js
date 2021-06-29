@@ -1,4 +1,5 @@
 import React from 'react';
+import SearchBar from './SearchBar';
 import NavBar from './NavBar';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
@@ -9,7 +10,7 @@ const MainContainer = () => {
     <div>
       <Container>
         <Box>
-          <Card>search field</Card>
+          <Card><SearchBar/></Card>
         </Box>
         <Box>map</Box>
       </Container>
@@ -31,6 +32,7 @@ const MainContainer = () => {
       } }>
         Click me
       </button>
+      
       <pre id='listings'></pre>
     </div>
   );
