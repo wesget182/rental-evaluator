@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
+<<<<<<< HEAD
 
+=======
+>>>>>>> dev
 import SignIn from './components/Signin';
 import MainContainer from './components/MainContainer';
 import Register from './components/Register';
@@ -7,6 +10,7 @@ import Favorites from './components/Favorites';
 import NavBar from './components/NavBar';
 
 import { Switch, Route, Redirect } from 'react-router-dom';
+import MapView from './MapView';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 
 const App = () => {
@@ -34,6 +38,7 @@ const App = () => {
             <Route exact path="/signin" component={SignIn} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/favs" component={Favorites} />
+            <Route exact path="/" component={MapView} />
           </Switch>
         </main>
       </div>
