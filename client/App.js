@@ -1,8 +1,4 @@
 import React, { useState, useEffect } from 'react';
-<<<<<<< HEAD
-
-=======
->>>>>>> dev
 import SignIn from './components/Signin';
 import MainContainer from './components/MainContainer';
 import Register from './components/Register';

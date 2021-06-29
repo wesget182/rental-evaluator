@@ -96,7 +96,7 @@ const useStyles = makeStyles((theme) => ({
   },
   gridList: {
     minWidth: 500,
-    width: 600,
+    width: 900,
     height: 'auto',
   },
   icon: {
@@ -127,6 +127,17 @@ const useStyles = makeStyles((theme) => ({
  */
 function TitlebarGridList() {
   const classes = useStyles();
+  const [favDetailsOpen, setFavDetailsOpen] = useState(false);
+  //open/close handlers for add record modal
+  const handleOpen = () => {
+    setFavDetailsOpen(true);
+    console.log('detail modal OPEN');
+  };
+
+  const handleClose = () => {
+    setFavDetailsOpen(false);
+    rerender();
+  };
   //get request to retrieve favorites
   //   api.get('/getFavs').then((res) => {
   //     //**************************************
@@ -137,7 +148,7 @@ function TitlebarGridList() {
   return (
     <div>
       <div className={classes.root}>
-        <GridList cellHeight={180} className={classes.gridList}>
+        <GridList cellHeight={300} className={classes.gridList}>
           <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
             <ListSubheader component="div" className={classes.header}>
               Favorites
@@ -149,11 +160,17 @@ function TitlebarGridList() {
 
               <GridListTileBar
                 title={tile.address}
-                subtitle={<span>Price: {tile.price}</span>}
+                subtitle={
+                  <span>
+                    Price: {tile.price}
+                    <br /> Viable Rental: {tile.rentalAsset}
+                  </span>
+                }
                 actionIcon={
                   <IconButton
                     aria-label={`info about ${tile.address}`}
                     className={classes.icon}
+                    onClick={handleOpen}
                   >
                     <InfoIcon />
                   </IconButton>
@@ -163,6 +180,7 @@ function TitlebarGridList() {
           ))}
         </GridList>
       </div>
+      <FavModal open={favDetailsOpen} handleClose={handleClose} />
     </div>
   );
 }
