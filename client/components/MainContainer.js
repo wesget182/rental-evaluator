@@ -7,27 +7,31 @@ import Card from '@material-ui/core/Card';
 const MainContainer = () => {
   return (
     <div>
-<<<<<<< HEAD
       <Container>
         <Box>
           <Card>search field</Card>
         </Box>
         <Box>map</Box>
       </Container>
-=======
       <p>main display</p>
       <div>rental evaluator</div>
+      {/* <label htmlFor='location'>Search:</label> */}
+      <input id='location' type='text' className="form-control" />
       <button onClick={ async () => {
-        let res = await fetch('/api/clickMe');
-        res = await res.json();
-        console.log(JSON.stringify(res));
+        const params = {
+          location: document.getElementById('location').value
+        };
+        const qs = new URLSearchParams(params).toString();
+        console.log(`/api/properties?${qs}`);
+        const res = await fetch(`/api/properties?${qs}`)
+          .then(res => res.json());
+        console.log(JSON.stringify(res, null, 2));
         const node = document.getElementById('listings');
-        node.innerHTML = JSON.stringify(res);
+        node.innerHTML = JSON.stringify(res, null, 2);
       } }>
         Click me
       </button>
-      <div id='listings'></div>
->>>>>>> dev
+      <pre id='listings'></pre>
     </div>
   );
 };
