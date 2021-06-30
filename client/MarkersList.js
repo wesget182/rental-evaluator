@@ -59,8 +59,8 @@ const MarkersList = (props) => {
       {markers}
 
       {console.log('showPopup ', showPopup)}
-      {console.log('togglePopup ', togglePopup)}
-      {console.log('selectedMarker ', selectedMarker)}
+      // {console.log('togglePopup ', togglePopup)}
+      // {console.log('selectedMarker ', selectedMarker)}
       {showPopup && 
         <Popup
           longitude={selectedMarker.geometry.coordinates[0]}

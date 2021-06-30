@@ -1,19 +1,19 @@
 // https://mariestarck.com/how-to-display-a-mapbox-map-and-geocoder-mapbox-react-tutorial-part-1/
 
 import React, { useCallback, useRef, useState } from 'react';
-import ReactMapGL, { Marker, NavigationControl, Source, Layer } from 'react-map-gl';
+import ReactMapGL, { NavigationControl } from 'react-map-gl';
 import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { dataLayer } from './map-styles';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import Geocoder from 'react-map-gl-geocoder';
 import MarkersList from './MarkersList';
+import { SearchBox } from './SearchBox';
 
-const mapboxApiKey = '';
+const mapboxApiKey = 'pk.eyJ1IjoiYXJhbWF5IiwiYSI6ImNrcWI2Z3JjOTAxazQydnBlbHIyNWprbXAifQ.HNWa9dA4WXSefOVnqhIVZA';
 
 const test_data = {
   'type': 'FeatureCollection',
@@ -361,21 +361,34 @@ const MapView = () => {
   };
 
   const [viewport, setViewport] = useState({
-    longitude: -121.27096757069442,
-    latitude: 36.23291459044428,
+    // default location - Mountain View, CA
+    longitude: -122.08200104737605,
+    latitude: 37.38560001105436,
     zoom: 12,
     bearing: 0,
     pitch: 0
   });
+
+  console.log('viewport ###', viewport);
 
   const [marker, setMarker] = useState({
     lng: viewport.longitude,
     lat: viewport.latitude
   });
 
+  const [addressCoordinates, setAddressCoordinates] = useState({
+    longitude: 0,
+    latitude: 0,
+    zoom: 0
+  })
+  
+  console.log('addressCoordinates #### ', addressCoordinates)
+
   const handleViewportChange = useCallback( (newViewport) => {
-    console.log('handleViewportChange called ###');
+    console.log('handleViewportChange called ###', newViewport);
     setViewport(newViewport);
+    // save coordinate to reverse lookup address by coordinates
+    setAddressCoordinates(newViewport)
   },[]);
 
   const handleGeocoderViewportChange = useCallback( (newViewport) => {
@@ -393,7 +406,7 @@ const MapView = () => {
           <Grid item xs={12}>
             
           </Grid>
-      
+          <SearchBox />
           <ReactMapGL
             ref={mapRef}
             mapboxApiAccessToken={mapboxApiKey}
