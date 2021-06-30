@@ -12,6 +12,8 @@ const sessionController = require('./controllers/sessionController');
 const signupRouter = require('./routes/signupRoute');
 const signinRouter = require('./routes/signinRoute');
 const properties = require('./routes/properties');
+const addFavsRouter = require('./routes/addFavsRoute')
+const getFavsRouter = require('./routes/getFavsRoute')
 
 //db connection
 //note - if this does not work for you, i may need to add your ip as verified to mongo - adam
@@ -37,6 +39,12 @@ app.use('/signin', signinRouter);
 
 //properties route
 app.use('/properties', properties);
+
+//add favorites route
+app.use('/addFav', addFavsRouter)
+
+//get favorites route
+app.use('/getFavs', getFavsRouter);
 
 //serve index.html
 app.get('/', (req, res) => {
