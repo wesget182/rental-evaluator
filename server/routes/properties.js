@@ -4,7 +4,7 @@ const router = express.Router();
 const middlewares = require('../controllers/properties');
 
 // handler for submitted form with a single address or area search
-router.get('/',
+router.post('/',
   middlewares.getPropertiesForSale,
   (req, res, next) => {
     if ('zpid' in res.locals) {

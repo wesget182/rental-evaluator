@@ -16,20 +16,27 @@ const calcMortgage = (price, int, down = 0.2, years = 30) => {
 };
 
 middlewares.getPropertiesForSale = async (req, res, next) => {
+  console.log(req.query);
   const url = new URL('https://zillow-com1.p.rapidapi.com/propertyExtendedSearch');
   const params = {
     location: req.query.location,
-    // location: '111 Balcaro Way UNIT 88, Sacramento, CA 95834',
-    // location: '2470 Peachtree Ln, San Jose, CA 95128',
-    // location: 'san jose, ca',
-    // location: 'mountain view, ca',
     status_type: 'ForSale',
-    // home_type: 'Houses',
-    bathsMin: '2',
-    bathsMax: '2',
-    bedsMin: '2',
-    bedsMax: '2'
   };
+  if (req.query.home_type !== '')  params.home_type = req.query.home_type;
+  if (typeof req.query.bedsMin === 'number') params.bedsMin = req.query.bedsMin;
+  if (typeof req.query.bathsMin === 'number') params.bathsMin = req.query.bathsMin;
+  // const params = {
+  //   location: '111 Balcaro Way UNIT 88, Sacramento, CA 95834',
+  //   // location: '2470 Peachtree Ln, San Jose, CA 95128',
+  //   // location: 'san jose, ca',
+  //   // location: 'mountain view, ca',
+  //   status_type: 'ForSale',
+  //   // home_type: 'Houses',
+  //   bathsMin: '2',
+  //   bathsMax: '2',
+  //   bedsMin: '2',
+  //   bedsMax: '2'
+  // };
   url.search = new URLSearchParams(params).toString();
   console.log(url);
   const result = await fetch(url, { method: 'GET', headers: headers })

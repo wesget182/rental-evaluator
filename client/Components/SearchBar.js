@@ -35,48 +35,59 @@ const SearchBar = () => {
   }));
   const classes = useStyles();
 
-  
-
-  const onSubmit = async (address) => {
-    
-    console.log(homeTypes)
+  const onSubmit = async (e) => {
+    if (e.keyCode !== 187) return;
+    console.log({
+      location: e.target.value,
+      minPrice,
+      maxPrice, 
+      beds, 
+      baths,
+      homeTypes,
+      minSquareFT,
+      maxSquareFT
+    });
+    const home_type = [];
+    for (const [key, value] of Object.entries(homeTypes)) {
+      if (value) home_type.push(key);
+    }
     const headers = {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
-    }
-    
-    const searchHome = await axios.post(
-      'http://localhost:3000/search',
+    };
+    const res = await axios.post(
+      '/api/properties',
       null,
-       {
-         headers,
-         params:{
+      {
+        headers,
+        params:{
+          location: e.target.value,
           minPrice,
           maxPrice, 
-          beds, 
-          baths,
-          homeTypes,
-          minSquareFT,
-          maxSquareFT,
-          address
-        }});
-
-      console.log(searchHome) //placeholder for handling response from server
-
+          bedsMin: beds, 
+          bathsMin: baths,
+          home_type: home_type.toString()
+          // minSquareFT,
+          // maxSquareFT
+        }
+      }
+    );
+    console.log(res.data);
   };
 
   const keyPress = (e) => {
-    if(e.keyCode == 13){
-       console.log('value', e.target.value);
-       onSubmit(e.target.value);
+    console.log('value', e.target.value);
+    if(e.keyCode == 187){ // '=' character
+      onSubmit();
+      //  onSubmit(e.target.value);
     }
- }
+  }
 
   return(
     <>
       <form className={classes.root} noValidate autoComplete="off">
         <Box display="flex" flexDirection="row">
-          <TextField id="outlined-basic" label="Address or ZIP" variant="outlined" onKeyDown={keyPress} />
+          <TextField id="outlined-basic" label="Address or ZIP" variant="outlined" onKeyDown={onSubmit} />
         
           <Price 
             minPrice={minPrice}
