@@ -28,7 +28,7 @@ const HomeType = ({
     
   const handleChange = (e) => {
     setCheckedState({ ...checkedState, [e.target.name]: e.target.checked });
-    setHomeTypes({checkedState});
+    setHomeTypes({ ...checkedState, [e.target.name]: e.target.checked });
   };
 
   const open = Boolean(anchorEl);
