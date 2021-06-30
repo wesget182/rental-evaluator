@@ -2,32 +2,17 @@ import React from 'react';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import Card from '@material-ui/core/Card';
-<<<<<<< HEAD
-import SearchBar from './SearchBar';
-import MapView from '../MapView';
-=======
 import MapView from '../MapView'
->>>>>>> dev
 
 const MainContainer = () => {
   return (
     <div>
       <Container>
         <Box>
-<<<<<<< HEAD
-          <Card>
-            <SearchBar />
-          </Card>
-        </Box>
-        <Box>
-          <MapView />
-        </Box>
-=======
           {/* <SearchBar/> */}
         </Box>
         <Box><MapView/></Box>
         
->>>>>>> dev
       </Container>
       {/* <p>main display</p>
       <div>rental evaluator</div>
