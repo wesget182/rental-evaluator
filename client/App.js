@@ -4,7 +4,7 @@ import MainContainer from './components/MainContainer';
 import Register from './components/Register';
 import Favorites from './components/Favorites';
 import NavBar from './components/NavBar';
-import Test from './components/Test'
+import Test from './components/Test';
 
 import { Switch, Route, Redirect } from 'react-router-dom';
 import MapView from './MapView';
@@ -35,13 +35,9 @@ const App = () => {
             <Route exact path="/signin" component={SignIn} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/favs" component={Favorites} />
-<<<<<<< HEAD
             {/* <Route exact path="/" component={MapView} /> */}
             <Route exact path="/" component={MainContainer} />
-=======
             <Route exact path="/test" component={Test} />
-            <Route exact path="/" component={MapView} />
->>>>>>> dev
           </Switch>
         </main>
       </div>
