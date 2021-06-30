@@ -35,11 +35,11 @@ const SearchBar = () => {
   }));
   const classes = useStyles();
 
-   
+  
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
+  const onSubmit = async (address) => {
     
+    console.log(homeTypes)
     const headers = {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -57,19 +57,26 @@ const SearchBar = () => {
           baths,
           homeTypes,
           minSquareFT,
-          maxSquareFT
+          maxSquareFT,
+          address
         }});
 
       console.log(searchHome) //placeholder for handling response from server
 
   };
 
+  const keyPress = (e) => {
+    if(e.keyCode == 13){
+       console.log('value', e.target.value);
+       onSubmit(e.target.value);
+    }
+ }
 
   return(
     <>
       <form className={classes.root} noValidate autoComplete="off">
         <Box display="flex" flexDirection="row">
-          <TextField id="outlined-basic" label="Address or ZIP" variant="outlined" onSubmit={onSubmit} />
+          <TextField id="outlined-basic" label="Address or ZIP" variant="outlined" onKeyDown={keyPress} />
         
           <Price 
             minPrice={minPrice}
