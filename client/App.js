@@ -16,7 +16,7 @@ const App = () => {
 
   const darkTheme = createMuiTheme({
     palette: {
-      type: 'dark',
+      type: 'light',
     },
   });
   // const handleThemeChange = () => {
@@ -35,8 +35,13 @@ const App = () => {
             <Route exact path="/signin" component={SignIn} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/favs" component={Favorites} />
+<<<<<<< HEAD
+            {/* <Route exact path="/" component={MapView} /> */}
+            <Route exact path="/" component={MainContainer} />
+=======
             <Route exact path="/test" component={Test} />
             <Route exact path="/" component={MapView} />
+>>>>>>> dev
           </Switch>
         </main>
       </div>
