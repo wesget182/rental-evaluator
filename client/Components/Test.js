@@ -80,6 +80,36 @@ export default function SignIn() {
       //   loggedIn();
     });
   };
+//**********ADDING IN TEST FUNCTIONS - WHEN DOING PULL REQUEST, DELETE IT AND PUT THE RETURN ON LINE 84*******************
+const handleSubmit2 = (e) => {
+  e.preventDefault();
+  api({
+    method: 'post',
+    url: '/addFav',
+    data: {
+      email,
+      password,
+      favorite: {
+        address: "test2",
+        coords: "test",
+        price: "1000"
+      }
+    },
+  }).then((res) => {
+    console.log(res);
+  });
+};
+
+const getFavs = () =>{
+  api({
+    method: 'post',
+    url: '/getFavs',
+    data: {
+      email
+    }
+  })
+  .then(res => console.log(res.data.favsArr))
+};
 
   return (
     <Container component="main" maxWidth="xs">
@@ -97,7 +127,7 @@ export default function SignIn() {
               <Typography component="h1" variant="h5">
                 Sign in
               </Typography>
-              <form className={classes.form} noValidate onSubmit={handleSubmit}>
+              <form className={classes.form} noValidate onSubmit={handleSubmit2}>
                 <TextField
                   variant="outlined"
                   margin="normal"
@@ -171,6 +201,15 @@ export default function SignIn() {
               >
                 {' '}
                 Sign In With Google
+              </Button>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+                onClick = {() => getFavs()}>
+                  Get Favs
               </Button>
             </div>
             <Box mt={8}>
