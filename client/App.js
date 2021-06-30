@@ -36,8 +36,8 @@ const App = () => {
             <Route exact path="/register" component={Register} />
             <Route exact path="/favs" component={Favorites} />
             {/* <Route exact path="/" component={MapView} /> */}
-            <Route exact path="/" component={MainContainer} />
             <Route exact path="/test" component={Test} />
+            <Route exact path="/" component={MainContainer} />
           </Switch>
         </main>
       </div>
