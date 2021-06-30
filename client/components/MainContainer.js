@@ -4,15 +4,17 @@ import NavBar from './NavBar';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import Card from '@material-ui/core/Card';
+import MapView from '../MapView'
 
 const MainContainer = () => {
   return (
     <div>
       <Container>
         <Box>
-          <Card><SearchBar/></Card>
+          {/* <SearchBar/> */}
         </Box>
-        <Box>map</Box>
+        <Box><MapView/></Box>
+        
       </Container>
       <p>main display</p>
       <div>rental evaluator</div>

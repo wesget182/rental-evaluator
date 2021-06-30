@@ -12,6 +12,7 @@ import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import Geocoder from 'react-map-gl-geocoder';
 import MarkersList from './MarkersList';
+import SearchBar from './Components/SearchBar';
 
 const mapboxApiKey = '';
 
@@ -411,13 +412,13 @@ const MapView = () => {
               />
             </div>
 
-           
-            <Geocoder 
-              mapRef={mapRef}
-              contianerRef={geocoderContainerRef}
-              mapboxApiAccessToken={mapboxApiKey}
-              onViewportChange={handleGeocoderViewportChange}
+            <SearchBar
+            mapRef={mapRef}
+            geocoderContainerRef={geocoderContainerRef}
+            mapboxApiKey={mapboxApiKey}
+            handleGeocoderViewportChange={handleGeocoderViewportChange}
             />
+            
           </ReactMapGL>
         </Grid>
       </div>

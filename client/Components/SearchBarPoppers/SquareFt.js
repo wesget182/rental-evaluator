@@ -15,7 +15,8 @@ const SquareFt = ({minSquareFT,
   maxSquareFT,
   setMaxSquareFT,
   setMinSquareFT,
-  classes}) => {
+  classes
+}) => {
 
   const [anchorEl, setAnchorEl] = useState(null);
 
