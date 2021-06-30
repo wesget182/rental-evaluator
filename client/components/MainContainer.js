@@ -4,7 +4,8 @@ import NavBar from './NavBar';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import Card from '@material-ui/core/Card';
-import MapView from '../MapView'
+import MapView from '../MapView';
+
 
 const MainContainer = () => {
   return (
@@ -13,8 +14,8 @@ const MainContainer = () => {
         <Box>
           {/* <SearchBar/> */}
         </Box>
-        <Box><MapView/></Box>
-        
+        <Box>map</Box>
+        < MapView />
       </Container>
       <p>main display</p>
       <div>rental evaluator</div>
@@ -25,6 +26,7 @@ const MainContainer = () => {
           location: document.getElementById('location').value
         };
         const qs = new URLSearchParams(params).toString();
+        console.log(qs);
         console.log(`/api/properties?${qs}`);
         const res = await fetch(`/api/properties?${qs}`)
           .then(res => res.json());
