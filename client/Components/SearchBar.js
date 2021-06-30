@@ -89,6 +89,7 @@ const SearchBar = ({
               mapboxApiAccessToken={mapboxApiKey}
               onViewportChange={handleGeocoderViewportChange}
             />
+
           <Price 
             minPrice={minPrice}
             maxPrice={maxPrice}
