@@ -10,13 +10,19 @@ import BedBath from './SearchBarPoppers/BedBath';
 import HomeType from './SearchBarPoppers/HomeType';
 import SquareFt from './SearchBarPoppers/SquareFt';
 import axios from "axios";
+import Geocoder from 'react-map-gl-geocoder';
 
 // text field for address search
 //price range (text field for both min and max) add range slider as option which modifies the field
 //number of bed and bath - add button groups for 0+ to 4+
 //select bars for min max sqft
 
-const SearchBar = () => {
+const SearchBar = ({
+  mapRef,
+  geocoderContainerRef,
+  mapboxApiKey,
+  handleGeocoderViewportChange
+}) => {
 
   const [minPrice, setMinPrice] = useState(null);
   const [maxPrice, setMaxPrice] = useState(null);
@@ -75,9 +81,15 @@ const SearchBar = () => {
   return(
     <>
       <form className={classes.root} noValidate autoComplete="off">
-        <Box display="flex" flexDirection="row">
-          <TextField id="outlined-basic" label="Address or ZIP" variant="outlined" onKeyDown={keyPress} />
-        
+        <Box display="flex" flexDirection="row" justifyContent="center">
+          {/* <TextField id="outlined-basic" label="Address or ZIP" variant="outlined" onKeyDown={keyPress} /> */}
+          <Geocoder 
+              mapRef={mapRef}
+              contianerRef={geocoderContainerRef}
+              mapboxApiAccessToken={mapboxApiKey}
+              onViewportChange={handleGeocoderViewportChange}
+            />
+
           <Price 
             minPrice={minPrice}
             maxPrice={maxPrice}
