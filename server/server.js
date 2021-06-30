@@ -4,6 +4,7 @@ const app = express();
 const path = require('path');
 const mongoose = require('mongoose');
 require('dotenv').config();
+const cors = require('cors');
 
 //direct controller imports
 const sessionController = require('./controllers/sessionController');
@@ -12,6 +13,8 @@ const sessionController = require('./controllers/sessionController');
 const signupRouter = require('./routes/signupRoute');
 const signinRouter = require('./routes/signinRoute');
 const properties = require('./routes/properties');
+const addFavsRouter = require('./routes/addFavsRoute')
+const getFavsRouter = require('./routes/getFavsRoute')
 
 //db connection
 //note - if this does not work for you, i may need to add your ip as verified to mongo - adam
@@ -22,6 +25,7 @@ mongoose.connect(
 const fetch = require('node-fetch');
 const { URL, URLSearchParams } = require('url');
 
+app.use(cors());
 app.use(express.json());
 
 //server test route
@@ -37,6 +41,12 @@ app.use('/signin', signinRouter);
 
 //properties route
 app.use('/properties', properties);
+
+//add favorites route
+app.use('/addFav', addFavsRouter)
+
+//get favorites route
+app.use('/getFavs', getFavsRouter);
 
 //serve index.html
 app.get('/', (req, res) => {

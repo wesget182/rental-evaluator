@@ -17,9 +17,9 @@ import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import Geocoder from 'react-map-gl-geocoder';
 import MarkersList from './MarkersList';
+import SearchBar from './Components/SearchBar';
 
-const mapboxApiKey =
-  'pk.eyJ1IjoiYXJhbWF5IiwiYSI6ImNrcWI2Z3JjOTAxazQydnBlbHIyNWprbXAifQ.HNWa9dA4WXSefOVnqhIVZA';
+const mapboxApiKey = '';
 
 const test_data = {
   type: 'FeatureCollection',
@@ -352,11 +352,11 @@ const MapView = () => {
               <NavigationControl />
             </div>
 
-            <Geocoder
+            <SearchBar
               mapRef={mapRef}
-              contianerRef={geocoderContainerRef}
-              mapboxApiAccessToken={mapboxApiKey}
-              onViewportChange={handleGeocoderViewportChange}
+              geocoderContainerRef={geocoderContainerRef}
+              mapboxApiKey={mapboxApiKey}
+              handleGeocoderViewportChange={handleGeocoderViewportChange}
             />
           </ReactMapGL>
         </Grid>
