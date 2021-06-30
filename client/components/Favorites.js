@@ -136,7 +136,6 @@ function TitlebarGridList() {
 
   const handleClose = () => {
     setFavDetailsOpen(false);
-    rerender();
   };
   //get request to retrieve favorites
   //   api.get('/getFavs').then((res) => {
