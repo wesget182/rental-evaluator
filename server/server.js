@@ -4,6 +4,7 @@ const app = express();
 const path = require('path');
 const mongoose = require('mongoose');
 require('dotenv').config();
+const cors = require('cors');
 
 //direct controller imports
 const sessionController = require('./controllers/sessionController');
@@ -24,6 +25,7 @@ mongoose.connect(
 const fetch = require('node-fetch');
 const { URL, URLSearchParams } = require('url');
 
+app.use(cors());
 app.use(express.json());
 
 //server test route
