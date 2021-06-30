@@ -175,17 +175,19 @@ middlewares.getPropertiesForRental = async (req, res, next) => {
             }
           }))
       };
-      const target = res.locals.targetForSale['features'][0]['properties'];
-      const rentArr = res.locals.propertiesForRental['features'].map(p => Number(p['properties']['Monthly rent'].slice(1))).sort((a, b) => a - b);
-      const rent = quantileSorted(rentArr, 0.5);
-      const ratio = Math.round(Number(target['Price'].slice(1)) / (rent * 12));
-      const rating = (ratio <= 15) ? 'Strong buy' : (ratio >= 21) ? 'Strong no buy' : 'No buy';
-      Object.assign(target, {
-        'Rent array': rentArr,
-        'Est. monthly rent': rent,
-        'Price-to-rent ratio': ratio,
-        'Rating': rating
-      });
+      if ('targetForSale' in res.locals) {
+        const target = res.locals.targetForSale['features'][0]['properties'];
+        const rentArr = res.locals.propertiesForRental['features'].map(p => Number(p['properties']['Monthly rent'].slice(1))).sort((a, b) => a - b);
+        const rent = quantileSorted(rentArr, 0.5);
+        const ratio = Math.round(Number(target['Price'].slice(1)) / (rent * 12));
+        const rating = (ratio <= 15) ? 'Strong buy' : (ratio >= 21) ? 'Strong no buy' : 'No buy';
+        Object.assign(target, {
+          'Rent array': rentArr,
+          'Est. monthly rent': rent,
+          'Price-to-rent ratio': ratio,
+          'Rating': rating
+        });
+      }
     }
   } else {
     return next({

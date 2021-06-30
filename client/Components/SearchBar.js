@@ -78,7 +78,7 @@ const SearchBar = ({
         }
       }
     );
-    console.log(res.data);
+    console.log(JSON.stringify(res.data, null, 2));
   };
 
   const keyPress = (e) => {
@@ -93,7 +93,7 @@ const SearchBar = ({
     <>
       <form className={classes.root} noValidate autoComplete="off">
         <Box display="flex" flexDirection="row" justifyContent="center">
-          {/* <TextField id="outlined-basic" label="Address or ZIP" variant="outlined" onKeyDown={keyPress} /> */}
+          <TextField id="outlined-basic" label="Address or ZIP" variant="outlined" onKeyDown={onSubmit} />
           <Geocoder 
               mapRef={mapRef}
               contianerRef={geocoderContainerRef}

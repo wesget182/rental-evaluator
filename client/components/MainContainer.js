@@ -49,7 +49,25 @@ const MainContainer = () => {
       >
         Click me
       </button>
-
+      <br></br>
+      <input id="location1" type="text" className="form-control" />
+      <button
+        onClick={async () => {
+          const params = {
+            location: document.getElementById('location1').value,
+          };
+          const qs = new URLSearchParams(params).toString();
+          console.log(`/api/properties/target?${qs}`);
+          const res = await fetch(`/api/properties/target?${qs}`).then((res) =>
+            res.json()
+          );
+          console.log(JSON.stringify(res, null, 2));
+          const node = document.getElementById('listings');
+          node.innerHTML = JSON.stringify(res, null, 2);
+        }}
+      >
+        Search target
+      </button>
       <pre id="listings"></pre>
     </div>
   );

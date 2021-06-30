@@ -38,7 +38,13 @@ router.post('/',
 
 // handler for a clicked address search on a property pinned on the map
 router.get('/target',
-  middlewares.getPropertiesForRental,
+  (req, res, next) => {
+    Object.assign(req.params, {
+      location: req.query.location,
+      status_type: 'ForRent',
+    });
+    middlewares.getPropertiesForRental(req, res, next);
+  },
   (req, res) => {
     return res.status(200).json(res.locals);
   }
