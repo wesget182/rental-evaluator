@@ -40,8 +40,9 @@ middlewares.getPropertiesForSale = async (req, res, next) => {
     res.locals.zpid = result.zpid;  
   } else if ('totalResultCount' in result) {
     if (result.totalResultCount > 0) {
-      res.locals.propertiesForSale = { features:
-        result['props']
+      res.locals.propertiesForSale = { 
+        type: 'FeatureCollection',
+        features: result['props']
           .filter(x => ! isNaN(Number(x.zpid)))
           .map(({ latitude, longitude, address, price, propertyType, livingArea, bedrooms, bathrooms, imgSrc, zpid }) => ({
             type: 'Feature',
@@ -85,34 +86,36 @@ middlewares.getTargetForSale = async (req, res, next) => {
 
   if ('zpid' in result) {
     const { latitude, longitude, address, price, mortgageRates, homeType, livingArea, bedrooms, bathrooms, imgSrc, zpid } = result;
-    res.locals.targetForSale = { features:
-      [{
-        type: 'Feature',
-        properties: {
-          'Street address': address.streetAddress,
-          City: address.city,
-          State: address.state,
-          'Zip code': address.zipcode,
-          Address: `${address.streetAddress}, ${address.city}, ${address.state} ${address.zipcode}`,
-          Price: `$${price}`,
-          'Interest rate': mortgageRates.thirtyYearFixedRate,
-          Type: homeType,
-          Size: `${livingArea} sqft`,
-          '# bedrooms': bedrooms,
-          '# bathrooms': bathrooms,
-          'Est. monthly mortgage': Math.round(calcMortgage(price, mortgageRates.thirtyYearFixedRate / 100)),
-          'Rent array': 'N/A',
-          'Est. monthly rent': 'N/A',
-          'Price-to-rent ratio': 'N/A',
-          Rating: 'N/A',
-          Image: imgSrc,
-          ZPID: zpid
-        },
-        geometry: {
-          coordinates: [longitude, latitude],
-          type: 'Point'
-        }
-      }]
+    res.locals.targetForSale = {
+      type: 'FeatureCollection',
+      features:
+        [{
+          type: 'Feature',
+          properties: {
+            'Street address': address.streetAddress,
+            City: address.city,
+            State: address.state,
+            'Zip code': address.zipcode,
+            Address: `${address.streetAddress}, ${address.city}, ${address.state} ${address.zipcode}`,
+            Price: `$${price}`,
+            'Interest rate': mortgageRates.thirtyYearFixedRate,
+            Type: homeType,
+            Size: `${livingArea} sqft`,
+            '# bedrooms': bedrooms,
+            '# bathrooms': bathrooms,
+            'Est. monthly mortgage': Math.round(calcMortgage(price, mortgageRates.thirtyYearFixedRate / 100)),
+            'Rent array': 'N/A',
+            'Est. monthly rent': 'N/A',
+            'Price-to-rent ratio': 'N/A',
+            Rating: 'N/A',
+            Image: imgSrc,
+            ZPID: zpid
+          },
+          geometry: {
+            coordinates: [longitude, latitude],
+            type: 'Point'
+          }
+        }]
     };
   } else {
     return next({
@@ -143,8 +146,9 @@ middlewares.getPropertiesForRental = async (req, res, next) => {
 
   if ('totalResultCount' in result) {
     if (result.totalResultCount > 0) {
-      res.locals.propertiesForRental = { features:
-        result['props']
+      res.locals.propertiesForRental = { 
+        type: 'FeatureCollection',
+        features: result['props']
           .filter(x => ! isNaN(Number(x.zpid)))
           .map(({ latitude, longitude, address, price, propertyType, livingArea, bedrooms, bathrooms, imgSrc, zpid }) => ({
             type: 'Feature',
