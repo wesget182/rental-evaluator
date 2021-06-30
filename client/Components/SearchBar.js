@@ -45,8 +45,7 @@ const SearchBar = ({
 
   const onSubmit = async (address) => {
     
-    console.log(homeTypes)
-    const headers = {
+     const headers = {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
     }
@@ -74,7 +73,7 @@ const SearchBar = ({
   const keyPress = (e) => {
     if(e.keyCode == 13){
        console.log('value', e.target.value);
-       onSubmit(e.target.value);
+      //  onSubmit(e.target.value);
     }
  }
 
@@ -82,12 +81,19 @@ const SearchBar = ({
     <>
       <form className={classes.root} noValidate autoComplete="off">
         <Box display="flex" flexDirection="row" justifyContent="center">
-          {/* <TextField id="outlined-basic" label="Address or ZIP" variant="outlined" onKeyDown={keyPress} /> */}
+         
           <Geocoder 
               mapRef={mapRef}
               contianerRef={geocoderContainerRef}
               mapboxApiAccessToken={mapboxApiKey}
               onViewportChange={handleGeocoderViewportChange}
+        
+              onResult={({ result })=>{
+                
+                console.log(result)  
+                const address = result.place_name
+                 onSubmit(address)
+                }}
             />
 
           <Price 

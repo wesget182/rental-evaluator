@@ -374,9 +374,18 @@ const MapView = () => {
     lat: viewport.latitude
   });
 
+  const [addressCoordinates, setAddressCoordinates] = useState({
+    longitude: 0,
+    latitude: 0,
+    zoom: 0
+  });
+  
+  
   const handleViewportChange = useCallback( (newViewport) => {
-    console.log('handleViewportChange called ###');
+  //  console.log('handleViewportChange called ###', newViewport);
     setViewport(newViewport);
+    // save coordinate to reverse lookup address by coordinates
+    setAddressCoordinates(newViewport)
   },[]);
 
   const handleGeocoderViewportChange = useCallback( (newViewport) => {
