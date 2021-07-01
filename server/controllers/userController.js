@@ -25,6 +25,7 @@ userController.createUser = (req, res, next) => {
     next()
   }
   else console.log('usercontroller.createuser error - no data recieved')
+  next()
 }
 
 //USER VERIFICATION - STANDARD (no OAuth)

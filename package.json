@@ -65,6 +65,7 @@
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "file-loader": "^6.2.0",
+    "get-routes": "^2.1.4",
     "html-webpack-plugin": "^5.3.1",
     "mongoose": "^5.12.14",
     "node-fetch": "^2.6.1",

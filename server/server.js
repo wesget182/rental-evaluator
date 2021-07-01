@@ -5,7 +5,9 @@ const path = require('path');
 const mongoose = require('mongoose');
 require('dotenv').config();
 const cors = require('cors');
-
+const fetch = require('node-fetch');
+const { URL, URLSearchParams } = require('url');
+const { getRoutes } = require('get-routes');
 //direct controller imports
 const sessionController = require('./controllers/sessionController');
 
@@ -18,12 +20,17 @@ const getFavsRouter = require('./routes/getFavsRoute')
 
 //db connection
 //note - if this does not work for you, i may need to add your ip as verified to mongo - adam
+
+const email = encodeURIComponent('abidramay@gmail.com')
+const passwd = encodeURIComponent('up$EmW97')
+console.log('email ', email)
+// const connectionString = `mongodb+srv://${email}:${passwd}@cluster0.tqcgi.mongodb.net/scratch_project?retryWrites=true&w=majority`
+const connectionString = 'mongodb+srv://admin:adam123@cluster0.tqcgi.mongodb.net/scratch_project?retryWrites=true'
+
 mongoose.connect(
-  process.env.DB_CONNECT_STRING)
-  .then(console.log('Connected to DB: ENV Test String: ', process.env.TEST_STRING))
+  connectionString, {useNewUrlParser: true, useUnifiedTopology: true})
+  .then(console.log('Connected to DB: ENV Test String: ', connectionString))
   .catch((err) => console.log('Mongo DB Connection Error:', err));
-const fetch = require('node-fetch');
-const { URL, URLSearchParams } = require('url');
 
 app.use(cors());
 app.use(express.json());
@@ -55,6 +62,11 @@ app.get('/', (req, res) => {
     .sendFile(path.join(__dirname, '.././index.html'))
 });
 
+// print all routes
+const routes = getRoutes(app);
+
+console.log('#### routes ##### ');
+console.log(routes);
 // Global error handler
 app.use((err, req, res, next) => {
   const defaultErr = {

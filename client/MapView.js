@@ -1,16 +1,12 @@
 // https://mariestarck.com/how-to-display-a-mapbox-map-and-geocoder-mapbox-react-tutorial-part-1/
 
-import React, { useCallback, useRef, useState } from 'react';
-<<<<<<< HEAD
-import ReactMapGL, { NavigationControl } from 'react-map-gl';
-=======
+import React, { useCallback, useRef, useState, useEffect } from 'react';
 import ReactMapGL, {
   Marker,
   NavigationControl,
   Source,
   Layer,
 } from 'react-map-gl';
->>>>>>> dev
 import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -288,6 +284,28 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const MapView = () => {
+  // set Markers state
+  const [marker, setMarker] = useState({
+    lng: 0,
+    lat: 0
+  });
+
+  // get Markers data - /api/properties?<address>
+  const getMarkers = ()  => {
+    console.log('getMarkers...')
+  }
+
+  useEffect( () => {
+    const fetchMarkers = async () => {
+
+      try {
+        const res = await fetch(`/api/properties/${3}`)
+      }catch(err) {
+        console.error(`fetchMarkers call failed ${err}`)
+      }
+    }
+  },[])
+
   const classes = useStyles('');
 
   const mapRef = useRef();
@@ -316,11 +334,7 @@ const MapView = () => {
 
   console.log('viewport ###', viewport);
 
-  const [marker, setMarker] = useState({
-    lng: viewport.longitude,
-    lat: viewport.latitude,
-  });
-
+  
   const [addressCoordinates, setAddressCoordinates] = useState({
     longitude: 0,
     latitude: 0,
