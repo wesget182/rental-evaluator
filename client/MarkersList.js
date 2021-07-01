@@ -1,11 +1,19 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import { Marker, Popup } from 'react-map-gl';
 import Pin from './Pin';
 import MapModal from './components/MapModal';
 import api from './axios/axios';
 
 const MarkersList = (props) => {
-  const data = props.props.features;
+  console.log('props', props)
+  let features = {}
+  const { status } = props
+  console.log('status ', status)
+
+  if (status === 'done') {
+    features = props.props.propertiesForSale.features
+  }
+  // console.log('features ', features)
 
   const [viewport, setViewport] = useState({
     longitude: -121.27096757069442,
