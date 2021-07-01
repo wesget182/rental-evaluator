@@ -3,6 +3,7 @@ import { Marker, Popup } from 'react-map-gl';
 import Pin from './Pin';
 import MapModal from './components/MapModal';
 import api from './axios/axios';
+import Spinner from './Components/Spinner';
 
 const MarkersList = (props) => {
   console.log('props', props)
@@ -76,7 +77,7 @@ const MarkersList = (props) => {
   let content;
 
   if (status === 'loading') {
-    content = <div className="loader">Loading...</div>
+    content = <Spinner />
   } else if (status === 'done') {
     content = features.map((marker, idx) => (
       <Marker
