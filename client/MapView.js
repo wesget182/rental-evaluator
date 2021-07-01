@@ -343,8 +343,20 @@ const MapView = () => {
   
   console.log('addressCoordinates #### ', addressCoordinates)
 
+<<<<<<< HEAD
   const handleViewportChange = useCallback( (newViewport) => {
     console.log('handleViewportChange called ###', newViewport);
+=======
+  const [addressCoordinates, setAddressCoordinates] = useState({
+    longitude: 0,
+    latitude: 0,
+    zoom: 0
+  });
+  
+  
+  const handleViewportChange = useCallback( (newViewport) => {
+  //  console.log('handleViewportChange called ###', newViewport);
+>>>>>>> dev
     setViewport(newViewport);
     // save coordinate to reverse lookup address by coordinates
     setAddressCoordinates(newViewport)

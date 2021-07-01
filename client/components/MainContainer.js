@@ -9,11 +9,9 @@ const MainContainer = () => {
   return (
     <div>
       <Container>
-        <Box>
-          {/* <SearchBar/> */}
-        </Box>
-        <Box>map</Box>
-        < MapView />
+        
+        <Box><MapView/></Box>
+        
       </Container>
       {/* <p>main display</p>
       <div>rental evaluator</div>
