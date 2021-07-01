@@ -12,11 +12,6 @@ import SquareFt from './SearchBarPoppers/SquareFt';
 import axios from "axios";
 import Geocoder from 'react-map-gl-geocoder';
 
-// text field for address search
-//price range (text field for both min and max) add range slider as option which modifies the field
-//number of bed and bath - add button groups for 0+ to 4+
-//select bars for min max sqft
-
 const SearchBar = ({
   mapRef,
   geocoderContainerRef,
@@ -41,7 +36,7 @@ const SearchBar = ({
   }));
   const classes = useStyles();
 
-  const onSubmit = async (e) => {
+  const onSubmit = async (address) => {
     if (e.keyCode !== 187) return;
     console.log({
       location: e.target.value,
@@ -51,8 +46,10 @@ const SearchBar = ({
       baths,
       homeTypes,
       minSquareFT,
-      maxSquareFT
+      maxSquareFT,
+      address
     });
+
     const home_type = [];
     for (const [key, value] of Object.entries(homeTypes)) {
       if (value) home_type.push(key);
@@ -67,7 +64,7 @@ const SearchBar = ({
       {
         headers,
         params:{
-          location: e.target.value,
+          location: address,
           minPrice,
           maxPrice, 
           bedsMin: beds, 
@@ -81,24 +78,30 @@ const SearchBar = ({
     console.log(JSON.stringify(res.data, null, 2));
   };
 
-  const keyPress = (e) => {
-    console.log('value', e.target.value);
-    if(e.keyCode == 187){ // '=' character
-      onSubmit();
-      //  onSubmit(e.target.value);
-    }
-  }
+  // const keyPress = (e) => {
+  //   if(e.keyCode == 13){
+  //      console.log('value', e.target.value);
+  //     //  onSubmit(e.target.value);
+  //   }
+  // }
 
   return(
     <>
       <form className={classes.root} noValidate autoComplete="off">
         <Box display="flex" flexDirection="row" justifyContent="center">
-          <TextField id="outlined-basic" label="Address or ZIP" variant="outlined" onKeyDown={onSubmit} />
+         
           <Geocoder 
               mapRef={mapRef}
               contianerRef={geocoderContainerRef}
               mapboxApiAccessToken={mapboxApiKey}
               onViewportChange={handleGeocoderViewportChange}
+        
+              onResult={({ result })=>{
+                
+                console.log(result)  
+                const address = result.place_name
+                 onSubmit(address)
+                }}
             />
 
           <Price 

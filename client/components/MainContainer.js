@@ -8,9 +8,7 @@ const MainContainer = () => {
   return (
     <div>
       <Container>
-        <Box>
-          {/* <SearchBar/> */}
-        </Box>
+        
         <Box><MapView/></Box>
         
       </Container>
