@@ -2,10 +2,7 @@
 
 import React, { useCallback, useRef, useState, useEffect } from 'react';
 import ReactMapGL, {
-  Marker,
   NavigationControl,
-  Source,
-  Layer,
 } from 'react-map-gl';
 import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css';
 
@@ -14,10 +11,8 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
-import Geocoder from 'react-map-gl-geocoder';
 import MarkersList from './MarkersList';
 import SearchBar from './Components/SearchBar';
-import { SearchBox } from './SearchBox';
 
 const mapboxApiKey = 'pk.eyJ1IjoiYXJhbWF5IiwiYSI6ImNrcWI2Z3JjOTAxazQydnBlbHIyNWprbXAifQ.HNWa9dA4WXSefOVnqhIVZA';
 
@@ -285,25 +280,76 @@ const useStyles = makeStyles((theme) => ({
 
 const MapView = () => {
   // set Markers state
-  const [marker, setMarker] = useState({
-    lng: 0,
-    lat: 0
-  });
+  // 190 E 72nd St APT 11B, New York, NY 10021
+  /** Marker data should look like this
+   * {
+    "properties": {
+      "Street address": "",
+      "City": "",
+      "State": "",
+      "Zip code": "",
+      "Address": "",
+      "Price": "",
+      "Interest rate": 0,
+      "Type": "",
+      "Size": "",
+      "# bedrooms": 0,
+      "# bathrooms": 0,
+      "Est. monthly mortgage": 0,
+      "Rent array": "",
+      "Est. monthly rent": "",
+      "Price-to-rent ratio": "",
+      "Rating": "",
+      "Image": "",
+      "ZPID": 0
+    },
+    "geometry": {
+      "coordinates": [
+        0,
+        0
+        
+      ],
+      "type": "Point"
+    }
+  }
+   */
+  const [status, setStatus] = useState(null)
 
+  const [markers, setMarkers] = useState({});
+
+  console.log('markers data ', markers)
   // get Markers data - /api/properties?<address>
   const getMarkers = ()  => {
     console.log('getMarkers...')
   }
 
   useEffect( () => {
+    const defaultLocation = 'Mountain View, CA'
     const fetchMarkers = async () => {
-
+      // update API call status
+      setStatus('loading')
       try {
-        const res = await fetch(`/api/properties/${3}`)
+        const res = await fetch(`/api/properties?location=${defaultLocation}`, {
+          method: 'POST',
+
+          headers: {
+            'Content-type': 'application/json'
+          }
+        })
+
+        const results = await res.json()
+        console.log('results ', results)
+        // update Markers state
+        setMarkers(results)
+        // update API call status
+        setStatus('done')
       }catch(err) {
         console.error(`fet chMarkers call failed ${err}`)
+        // update API call status
+        setStatus('error')
       }
     }
+    fetchMarkers()
   },[])
 
   const classes = useStyles('');
@@ -332,7 +378,7 @@ const MapView = () => {
     pitch: 0,
   });
 
-  console.log('viewport ###', viewport);
+  // console.log('viewport ###', viewport);
 
   
   const [addressCoordinates, setAddressCoordinates] = useState({
@@ -341,7 +387,7 @@ const MapView = () => {
     zoom: 0
   })
   
-  console.log('addressCoordinates #### ', addressCoordinates)
+  // console.log('addressCoordinates #### ', addressCoordinates)
   
   
   const handleViewportChange = useCallback( (newViewport) => {
@@ -378,7 +424,7 @@ const MapView = () => {
             // onViewportChange={ (viewport ) => setViewport(viewport)}
             onViewportChange={handleViewportChange}
           >
-            <MarkersList props={test_data} />
+            <MarkersList props={markers.propertiesForSale} />
 
             <div style={navStyle}>
               <NavigationControl />
@@ -389,6 +435,7 @@ const MapView = () => {
               geocoderContainerRef={geocoderContainerRef}
               mapboxApiKey={mapboxApiKey}
               handleGeocoderViewportChange={handleGeocoderViewportChange}
+              setMarkers={setMarkers}
             />
           </ReactMapGL>
         </Grid>
