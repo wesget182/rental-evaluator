@@ -5,7 +5,7 @@ const { quantileSorted } = require('d3');
 const middlewares = {};
 
 const headers = {
-  'x-rapidapi-key': '4715328601msha1ddf1310f1bd33p19543ajsn0f32a86b34bd',
+  'x-rapidapi-key': '',
   'x-rapidapi-host': 'zillow-com1.p.rapidapi.com',
   'useQueryString': true
 };
