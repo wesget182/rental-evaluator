@@ -12,11 +12,6 @@ import SquareFt from './SearchBarPoppers/SquareFt';
 import axios from "axios";
 import Geocoder from 'react-map-gl-geocoder';
 
-// text field for address search
-//price range (text field for both min and max) add range slider as option which modifies the field
-//number of bed and bath - add button groups for 0+ to 4+
-//select bars for min max sqft
-
 const SearchBar = ({
   mapRef,
   geocoderContainerRef,
@@ -41,41 +36,54 @@ const SearchBar = ({
   }));
   const classes = useStyles();
 
-  
-
   const onSubmit = async (address) => {
-    
-     const headers = {
+    if (e.keyCode !== 187) return;
+    console.log({
+      location: e.target.value,
+      minPrice,
+      maxPrice, 
+      beds, 
+      baths,
+      homeTypes,
+      minSquareFT,
+      maxSquareFT,
+      address
+    });
+
+    const home_type = [];
+    for (const [key, value] of Object.entries(homeTypes)) {
+      if (value) home_type.push(key);
+    }
+    const headers = {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
-    }
-    
-    const searchHome = await axios.post(
-      'http://localhost:3000/search',
+    };
+    const res = await axios.post(
+      '/api/properties',
       null,
-       {
-         headers,
-         params:{
+      {
+        headers,
+        params:{
+          location: address,
           minPrice,
           maxPrice, 
-          beds, 
-          baths,
-          homeTypes,
-          minSquareFT,
-          maxSquareFT,
-          address
-        }});
-
-      console.log(searchHome) //placeholder for handling response from server
-
+          bedsMin: beds, 
+          bathsMin: baths,
+          home_type: home_type.toString()
+          // minSquareFT,
+          // maxSquareFT
+        }
+      }
+    );
+    console.log(JSON.stringify(res.data, null, 2));
   };
 
-  const keyPress = (e) => {
-    if(e.keyCode == 13){
-       console.log('value', e.target.value);
-      //  onSubmit(e.target.value);
-    }
- }
+  // const keyPress = (e) => {
+  //   if(e.keyCode == 13){
+  //      console.log('value', e.target.value);
+  //     //  onSubmit(e.target.value);
+  //   }
+  // }
 
   return(
     <>
