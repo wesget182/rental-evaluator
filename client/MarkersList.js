@@ -17,11 +17,12 @@ const MarkersList = (props) => {
 
   const [propDetail, setPropDetail] = useState({});
   const getDetails = async (e) => {
+    console.log('DATA ', data);
     await api
-      .get('/target', {
+      .get('/properties', {
         params: {
-          location: '81 Surfside Plz, Staten Island, NY 10307',
-          // location: data[0].properties.title,
+          // location: '81 Surfside Plz, Staten Island, NY 10307',
+          location: data[0].properties.title,
           //initialQueryStateArray[e.target.id].properties.address
         },
       })

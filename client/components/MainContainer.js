@@ -11,9 +11,7 @@ const MainContainer = () => {
     <div>
       <Container>
         <Box>
-          <Card>
-            <SearchBar />
-          </Card>
+          <Card>{/* <SearchBar /> */}</Card>
         </Box>
         <Box>
           <MapView />

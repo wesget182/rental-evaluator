@@ -3,8 +3,9 @@ import Dialog from '@material-ui/core/Dialog';
 import { makeStyles } from '@material-ui/core';
 import CancelIcon from '@material-ui/icons/Cancel';
 import IconButton from '@material-ui/core/IconButton';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import { Typography, Grid, Card, Divider, Box } from '@material-ui/core';
-import api from '../axios/axios';
 
 const MapModal = ({ open, handleClose, propDetail }) => {
   //   const property = propDetail.targetForSale.features[0];
@@ -31,11 +32,28 @@ const MapModal = ({ open, handleClose, propDetail }) => {
     },
   }));
   const classes = useStyles();
+  const [clickedFav, setClickedFav] = useState(false);
+  const favIcon = clickedFav ? <FavoriteIcon /> : <FavoriteBorderIcon />;
+  const handleAddFavs = () => {
+    setClickedFav(!clickedFav);
+    // api({
+    //   method: 'post',
+    //   url: '/addFav',
+    //   data: {
+    //     property: 'property',
+    //   },
+    // })
+    //   .then((res) => {
+    //     console.log('ADD FAV RESPONSE ', res.data);
+    //   })
+    //   .catch((err) => console.log('ADD FAV ERROR', err));
+  };
   return (
     <Dialog open={open} onClose={handleClose}>
       <Box className={classes.card}>
         <Grid>
           <Grid container justify="flex-end">
+            <IconButton onClick={handleAddFavs}>{favIcon}</IconButton>
             <IconButton onClick={handleClose}>
               <CancelIcon />
             </IconButton>
