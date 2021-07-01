@@ -13,6 +13,7 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 const App = () => {
   const [darkState, setDarkState] = useState(false);
   const palletType = darkState ? 'dark' : 'light';
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const darkTheme = createMuiTheme({
     palette: {
@@ -31,12 +32,12 @@ const App = () => {
 
         <main>
           <Switch>
-            <Route exact path="/home" component={MainContainer} />
-            <Route exact path="/signin" component={SignIn} />
+            <Route exact path="/home" component={MainContainer} isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>
+            <Route exact path="/signin" component={SignIn} setIsLoggedIn={setIsLoggedIn} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/favs" component={Favorites} />
             <Route exact path="/test" component={Test} />
-            <Route exact path="/" component={MapView} />
+            <Route exact path="/" component={MapView} isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>
           </Switch>
         </main>
       </div>
