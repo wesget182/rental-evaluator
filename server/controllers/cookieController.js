@@ -3,13 +3,17 @@ const cookieController = {};
 
 /**
  * setCookie - set a cookie with a random number
+ * currently not used
  */
 cookieController.setCookie = (req, res, next) => {
-  res.cookie("secret", Math.floor(Math.random() * 99));
-  return next();
+  const num = Math.floor(Math.random() * 99);
+  res.locals.cookie = num;
+  res.cookie("secret", num, {httpOnly: true})
+  .then(()=>next())
 };
 
-//set ssid cookie - for login verification
+//finds user, sets ssid cookie
+
 cookieController.setSSIDCookie = (req, res, next) => {
   User.findOne({email: req.body.email})
   .then((data) => {

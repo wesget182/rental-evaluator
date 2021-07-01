@@ -4,12 +4,9 @@ const mongoose = require('mongoose');
 
 const sessionController = {};
 
-/*
-TODO:
-*/
+//creates cookie, stores SSID in mongo
 
 sessionController.startSession = (req, res, next) => {
-  console.log('res.locals.cookie: ', res.locals.cookie)
   const ssidCookie = res.locals.cookie;
   Session.create({
     cookieId: ssidCookie
@@ -17,16 +14,23 @@ sessionController.startSession = (req, res, next) => {
   next();
 };
 
+//finds cookie
+//on success - next()
+//on fail, sends obj with isloggedin: false
+
 sessionController.isLoggedIn = (req, res, next) => {
   const ssidCookie = req.cookies.ssid;
+  //find the cookie
   Session.findOne({
     cookieId: ssidCookie
   })
   .then((data) => {
+    //if not logged in, return false object (USE THIS FOR REDIRECT)
     if (!data) {
-      return res.status(500).send('ssid cookie not found')
-    } else {
-      console.log(data);
+      return res.status(500).send({isLoggedIn: false})
+    }
+    //else, you are logged in, go next
+    else {
       next();
     }
   })
