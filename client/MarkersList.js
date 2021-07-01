@@ -65,30 +65,30 @@ const MarkersList = (props) => {
     console.log('handleCloseClicked ', showPopup);
   };
 
-  const markers = useMemo(
-    () =>
-      data.map((marker, idx) => (
-        <Marker
-          key={idx}
-          id={idx}
-          longitude={marker.geometry.coordinates[0]}
-          latitude={marker.geometry.coordinates[1]}
-          // onClick={() => handleMarkerClick(marker)}
-          onClick={handleOpen}
-        >
-          <Pin size={20} />
-        </Marker>
-      )),
-    [data]
-  );
+  let content;
+
+  if (status === 'loading') {
+    content = <div className="loader">Loading...</div>
+  } else if (status === 'done') {
+    content = features.map((marker, idx) => (
+      <Marker
+        key={idx}
+        id={idx}
+        longitude={marker.geometry.coordinates[0]}
+        latitude={marker.geometry.coordinates[1]}
+        // onClick={() => handleMarkerClick(marker)}
+        onClick={handleOpen}
+      >
+        <Pin size={20} />
+      </Marker>
+    ))
+  } else if (status === 'error') {
+    content = <div>{status}</div>
+  }
 
   return (
     <div>
-      {markers}
-
-      {console.log('showPopup ', showPopup)}
-      {console.log('togglePopup ', togglePopup)}
-      {console.log('selectedMarker ', selectedMarker)}
+      {content}
       {showPopup && (
         <Popup
           longitude={selectedMarker.geometry.coordinates[0]}
