@@ -10,6 +10,7 @@ const { URL, URLSearchParams } = require('url');
 const { getRoutes } = require('get-routes');
 //direct controller imports
 const sessionController = require('./controllers/sessionController');
+const cookieController = require('./controllers/cookieController')
 
 //route imports
 const signupRouter = require('./routes/signupRoute');
@@ -19,14 +20,7 @@ const addFavsRouter = require('./routes/addFavsRoute')
 const getFavsRouter = require('./routes/getFavsRoute')
 
 //db connection
-//note - if this does not work for you, i may need to add your ip as verified to mongo - adam
-
-const email = encodeURIComponent('abidramay@gmail.com')
-const passwd = encodeURIComponent('up$EmW97')
-console.log('email ', email)
-// const connectionString = `mongodb+srv://${email}:${passwd}@cluster0.tqcgi.mongodb.net/scratch_project?retryWrites=true&w=majority`
-const connectionString = 'mongodb+srv://admin:adam123@cluster0.tqcgi.mongodb.net/scratch_project?retryWrites=true'
-
+//note - db connection issues?  check for console logs in terminal
 mongoose.connect(
   connectionString, {useNewUrlParser: true, useUnifiedTopology: true})
   .then(console.log('Connected to DB: ENV Test String: ', connectionString))
@@ -35,9 +29,9 @@ mongoose.connect(
 app.use(cors());
 app.use(express.json());
 
-//server test route
+// server test route
 app.use('/testRoute', (req, res) => {
-  return res.status(299).send('test success')
+  //test stuff here
 });
 
 //signup route
@@ -55,8 +49,13 @@ app.use('/addFav', addFavsRouter)
 //get favorites route
 app.use('/getFavs', getFavsRouter);
 
-//serve index.html
-app.get('/', (req, res) => {
+//check login route
+app.use('/checkLogin', sessionController.isLoggedIn, (req, res) => {
+  return res.status(299).send('user is logged in')
+})
+
+//serve index.html - NOTE - THIS ROUTE NEVER ACTUALLY HITS (react router serves up the page??)
+app.get('/', cookieController.setCookie, (req, res) => {
   return res
     .status(201)
     .sendFile(path.join(__dirname, '.././index.html'))

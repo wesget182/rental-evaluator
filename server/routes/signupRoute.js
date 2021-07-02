@@ -3,11 +3,20 @@ const userController = require('../controllers/userController')
 const router = express.Router();
 
 //note - signup is all lowercase
+
+/*
+FLOW:
+
+createUser - creates user in DB
+  if success - hits callback and sends 209 & res.data.success = true
+  if fail - means there is a duplicate - sends res.data.success = false
+
+*/
 router.post(
   '/',
   [userController.createUser],
   (req, res) => {
-    return res.status(209).send('signupRoute success');
+    return res.status(209).send({success: true});
   }
 );
 
