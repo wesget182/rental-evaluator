@@ -19,7 +19,9 @@ const getFavsRouter = require('./routes/getFavsRoute');
 //db connection
 //note - if this does not work for you, i may need to add your ip as verified to mongo - adam
 mongoose
-  .connect(process.env.DB_CONNECT_STRING)
+  .connect(
+    'mongodb+srv://admin:adam123@cluster0.tqcgi.mongodb.net/scratch_project?retryWrites=true&w=majority'
+  )
   .then(
     console.log('Connected to DB: ENV Test String: ', process.env.TEST_STRING)
   )

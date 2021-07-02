@@ -83,16 +83,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PrimarySearchAppBar({ setDarkState, darkState }) {
+export default function PrimarySearchAppBar({ handleThemeChange, darkState }) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-  const handleThemeChange = () => {
-    setDarkState(!darkState);
-  };
+  // const handleThemeChange = () => {
+  //   setDarkState(!darkState);
+  // };
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -187,7 +187,7 @@ export default function PrimarySearchAppBar({ setDarkState, darkState }) {
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             <Button onclick={handleThemeChange} />
-            <IconButton color="inherit" onclick={handleThemeChange}>
+            <IconButton color="inherit" onClick={handleThemeChange}>
               <Brightness7Icon />
             </IconButton>
             <IconButton aria-label="show 17 new notifications" color="inherit">

@@ -4,7 +4,7 @@ const router = express.Router();
 const middlewares = require('../controllers/properties');
 
 // handler for submitted form with a single address or area search
-router.get('/',
+router.post('/',
   middlewares.getPropertiesForSale,
   (req, res, next) => {
     if ('zpid' in res.locals) {
@@ -38,7 +38,13 @@ router.get('/',
 
 // handler for a clicked address search on a property pinned on the map
 router.get('/target',
-  middlewares.getPropertiesForRental,
+  (req, res, next) => {
+    Object.assign(req.params, {
+      location: req.query.location,
+      status_type: 'ForRent',
+    });
+    middlewares.getPropertiesForRental(req, res, next);
+  },
   (req, res) => {
     return res.status(200).json(res.locals);
   }

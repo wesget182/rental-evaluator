@@ -36,7 +36,7 @@ const MarkersList = (props) => {
   const [MapModalOpen, setMapModalOpen] = useState(false);
   //open/close handlers for add record modal
   const handleOpen = (e) => {
-    getDetails(e);
+    // getDetails(e);
     setMapModalOpen(true);
     console.log('map modal OPEN');
   };
@@ -87,9 +87,9 @@ const MarkersList = (props) => {
     <div>
       {markers}
 
-      {console.log('showPopup ', showPopup)}
+      {/* {console.log('showPopup ', showPopup)}
       {console.log('togglePopup ', togglePopup)}
-      {console.log('selectedMarker ', selectedMarker)}
+      {console.log('selectedMarker ', selectedMarker)} */}
       {showPopup && (
         <Popup
           longitude={selectedMarker.geometry.coordinates[0]}
@@ -101,11 +101,7 @@ const MarkersList = (props) => {
           <h3>{selectedMarker.properties.title}</h3>
         </Popup>
       )}
-      <MapModal
-        open={MapModalOpen}
-        handleClose={handleClose}
-        propDetail={propDetail}
-      />
+      <MapModal open={MapModalOpen} handleClose={handleClose} data={data} />
     </div>
   );
 };
