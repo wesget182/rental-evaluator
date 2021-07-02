@@ -37,17 +37,16 @@ const SearchBar = ({
   const classes = useStyles();
 
   const onSubmit = async (address) => {
-    //if (e.keyCode !== 187) return;
+    // if (e.keyCode !== 187) return;
     console.log({
-      //location: e.target.value,
+      location: address,
       minPrice,
       maxPrice, 
       beds, 
       baths,
       homeTypes,
       minSquareFT,
-      maxSquareFT,
-      address
+      maxSquareFT
     });
 
     const home_type = [];
