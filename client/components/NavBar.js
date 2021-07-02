@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Redirect } from 'react-router-dom';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -18,6 +19,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Brightness7Icon from '@material-ui/icons/Brightness7';
 import Brightness2Icon from '@material-ui/icons/Brightness2';
+
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -83,10 +85,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PrimarySearchAppBar({ setDarkState, darkState }) {
+export default function PrimarySearchAppBar({ setDarkState, darkState, isLoggedIn, setIsLoggedIn}) {
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+  const [goToSignOut, setGoToSignOut] = useState(false);
+  const [goToSignIn, setGoToSignIn] = useState(false);
+  const [favView, setFavView] = useState(false);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -111,6 +116,25 @@ export default function PrimarySearchAppBar({ setDarkState, darkState }) {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const showFavs = () => {
+    setFavView(true);
+  }
+  
+  const signInOut = isLoggedIn ? "Sign Out" : "Sign In";
+  const handleSignInOut = () => {
+    console.log('triggered')
+    if(isLoggedIn){
+      setIsLoggedIn(false);
+      setGoToSignOut(true);
+    } else {setGoToSignIn(true)}
+
+  };
+  
+  if(goToSignOut) return <Redirect to="/signin" />;
+  if(goToSignIn) return <Redirect to="/signin" />;
+  if(favView) return <Redirect to="/favs" />;
+ 
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -124,6 +148,7 @@ export default function PrimarySearchAppBar({ setDarkState, darkState }) {
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleSignInOut}>{signInOut}</MenuItem>
     </Menu>
   );
 
@@ -192,7 +217,7 @@ export default function PrimarySearchAppBar({ setDarkState, darkState }) {
             </IconButton>
             <IconButton aria-label="show 17 new notifications" color="inherit">
               <Badge badgeContent={17} color="secondary">
-                <FavoriteIcon />
+                <FavoriteIcon onClick={showFavs} />
               </Badge>
             </IconButton>
             <IconButton

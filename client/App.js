@@ -13,6 +13,7 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 const App = () => {
   const [darkState, setDarkState] = useState(false);
   const palletType = darkState ? 'dark' : 'light';
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const darkTheme = createMuiTheme({
     palette: {
@@ -26,17 +27,53 @@ const App = () => {
     <ThemeProvider theme={darkTheme}>
       <div className="router">
         {console.log('DARKSTATE IN APP', darkState)}
-        <NavBar setDarkState={setDarkState} darkState={darkState} />
+        
         {/* <NavBar handleThemeChange={handleThemeChange} darkState={darkState} /> */}
 
         <main>
           <Switch>
+          
+            <Route exact path="/">
+              <NavBar 
+                isLoggedIn={isLoggedIn}
+                setIsLoggedIn={setIsLoggedIn}
+                setDarkState={setDarkState} 
+                darkState={darkState} 
+              />
+              <MainContainer
+                isLoggedIn={isLoggedIn}
+                setIsLoggedIn={setIsLoggedIn}
+            />
             
-            <Route exact path="/signin" component={SignIn} />
-            <Route exact path="/register" component={Register} />
-            <Route exact path="/favs" component={Favorites} />
+            </Route>
+            <Route exact path="/signin">
+              <SignIn
+                isLoggedIn={isLoggedIn} 
+                setIsLoggedIn={setIsLoggedIn} 
+              />
+            </Route>
+            
+            <Route exact path="/register" >
+              <Register
+                isLoggedIn={isLoggedIn} 
+                setIsLoggedIn={setIsLoggedIn}
+            /> 
+            </Route>
+            <Route exact path="/favs">
+              <NavBar 
+                  isLoggedIn={isLoggedIn}
+                  setIsLoggedIn={setIsLoggedIn}
+                  setDarkState={setDarkState} 
+                  darkState={darkState} 
+                />
+              <Favorites
+                isLoggedIn={isLoggedIn} 
+                setIsLoggedIn={setIsLoggedIn}
+              />
+            </Route>
             <Route exact path="/test" component={Test} />
-            <Route exact path="/" component={MainContainer} />
+            
+            
           </Switch>
         </main>
       </div>

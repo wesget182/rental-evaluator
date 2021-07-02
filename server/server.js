@@ -20,7 +20,7 @@ const getFavsRouter = require('./routes/getFavsRoute')
 //db connection
 //note - db connection issues?  check for console logs in terminal
 mongoose.connect(
-  process.env.DB_CONNECT_STRING)
+  '')
   .then(console.log('Connected to DB: ENV Test String: ', process.env.TEST_STRING))
   .catch((err) => console.log('Mongo DB Connection Error:', err));
 const fetch = require('node-fetch');
