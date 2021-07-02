@@ -27,17 +27,53 @@ const App = () => {
     <ThemeProvider theme={darkTheme}>
       <div className="router">
         {console.log('DARKSTATE IN APP', darkState)}
-        <NavBar setDarkState={setDarkState} darkState={darkState} />
+        
         {/* <NavBar handleThemeChange={handleThemeChange} darkState={darkState} /> */}
 
         <main>
           <Switch>
-            <Route exact path="/home" component={MainContainer} isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>
-            <Route exact path="/signin" component={SignIn} setIsLoggedIn={setIsLoggedIn} />
-            <Route exact path="/register" component={Register} />
-            <Route exact path="/favs" component={Favorites} />
+          
+            <Route exact path="/">
+              <NavBar 
+                isLoggedIn={isLoggedIn}
+                setIsLoggedIn={setIsLoggedIn}
+                setDarkState={setDarkState} 
+                darkState={darkState} 
+              />
+              <MainContainer
+                isLoggedIn={isLoggedIn}
+                setIsLoggedIn={setIsLoggedIn}
+            />
+            
+            </Route>
+            <Route exact path="/signin">
+              <SignIn
+                isLoggedIn={isLoggedIn} 
+                setIsLoggedIn={setIsLoggedIn} 
+              />
+            </Route>
+            
+            <Route exact path="/register" >
+              <Register
+                isLoggedIn={isLoggedIn} 
+                setIsLoggedIn={setIsLoggedIn}
+            /> 
+            </Route>
+            <Route exact path="/favs">
+              <NavBar 
+                  isLoggedIn={isLoggedIn}
+                  setIsLoggedIn={setIsLoggedIn}
+                  setDarkState={setDarkState} 
+                  darkState={darkState} 
+                />
+              <Favorites
+                isLoggedIn={isLoggedIn} 
+                setIsLoggedIn={setIsLoggedIn}
+              />
+            </Route>
             <Route exact path="/test" component={Test} />
-            <Route exact path="/" component={MapView} isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>
+            
+            
           </Switch>
         </main>
       </div>

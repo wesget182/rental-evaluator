@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Redirect } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
@@ -74,13 +75,13 @@ export default function SignIn({isLoggedIn, setIsLoggedIn}) {
         password,
       },
     }).then((res) => {
-      console.log(res);
+      console.log(res.data.isLoggedIn);
       setIsLoggedIn(res.data.isLoggedIn)
-      //handle redirect on backend?
-      // if (res.status === 200) {
-      //   loggedIn();
+      
     });
   };
+
+  if(isLoggedIn) return <Redirect to="/"/>;
 
   return (
     <Container component="main" maxWidth="xs">

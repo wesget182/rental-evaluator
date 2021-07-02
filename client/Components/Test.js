@@ -17,6 +17,8 @@ import Container from '@material-ui/core/Container';
 import GoogleIcon from './GoogleIcon';
 import api from '../axios/axios';
 
+const fetch = require('node-fetch')
+
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -75,6 +77,7 @@ export default function SignIn() {
       },
     }).then((res) => {
       console.log(res);
+      console.log(res.locals.cookie);
       //handle redirect on backend?
       // if (res.status === 200) {
       //   loggedIn();
@@ -95,6 +98,17 @@ const handleSubmit2 = (e) => {
         price: "1000"
       }
     },
+  }).then((res) => {
+    console.log(res);
+    console.log('cookie', res.cookie)
+  });
+};
+
+const handleSubmit3 = (e) => {
+  e.preventDefault();
+  api({
+    method: 'get',
+    url: '/testRoute',
   }).then((res) => {
     console.log(res);
   });
@@ -127,7 +141,7 @@ const getFavs = () =>{
               <Typography component="h1" variant="h5">
                 Sign in
               </Typography>
-              <form className={classes.form} noValidate onSubmit={handleSubmit2}>
+              <form className={classes.form} noValidate onSubmit={handleSubmit3}>
                 <TextField
                   variant="outlined"
                   margin="normal"

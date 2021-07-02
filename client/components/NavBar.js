@@ -87,10 +87,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function PrimarySearchAppBar({ setDarkState, darkState, isLoggedIn, setIsLoggedIn}) {
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const [goToSignOut, setGoToSignOut] = React.useState(false);
-  const [goToSignIn, setGoToSignIn] = React.useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+  const [goToSignOut, setGoToSignOut] = useState(false);
+  const [goToSignIn, setGoToSignIn] = useState(false);
+  const [favView, setFavView] = useState(false);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -115,16 +116,23 @@ export default function PrimarySearchAppBar({ setDarkState, darkState, isLoggedI
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const showFavs = () => {
+    setFavView(true);
+  }
   
   const signInOut = isLoggedIn ? "Sign Out" : "Sign In";
   const handleSignInOut = () => {
     console.log('triggered')
-    setGoToSignOut(true)
+    if(isLoggedIn){
+      setIsLoggedIn(false);
+      setGoToSignOut(true);
+    } else {setGoToSignIn(true)}
+
   };
   
   if(goToSignOut) return <Redirect to="/signin" />;
   if(goToSignIn) return <Redirect to="/signin" />;
-
+  if(favView) return <Redirect to="/favs" />;
  
 
   const menuId = 'primary-search-account-menu';
@@ -209,7 +217,7 @@ export default function PrimarySearchAppBar({ setDarkState, darkState, isLoggedI
             </IconButton>
             <IconButton aria-label="show 17 new notifications" color="inherit">
               <Badge badgeContent={17} color="secondary">
-                <FavoriteIcon />
+                <FavoriteIcon onClick={showFavs} />
               </Badge>
             </IconButton>
             <IconButton
