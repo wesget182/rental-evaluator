@@ -8,6 +8,7 @@ const cors = require('cors');
 
 //direct controller imports
 const sessionController = require('./controllers/sessionController');
+const cookieController = require('./controllers/cookieController')
 
 //route imports
 const signupRouter = require('./routes/signupRoute');
@@ -17,7 +18,7 @@ const addFavsRouter = require('./routes/addFavsRoute')
 const getFavsRouter = require('./routes/getFavsRoute')
 
 //db connection
-//note - if this does not work for you, i may need to add your ip as verified to mongo - adam
+//note - db connection issues?  check for console logs in terminal
 mongoose.connect(
   process.env.DB_CONNECT_STRING)
   .then(console.log('Connected to DB: ENV Test String: ', process.env.TEST_STRING))
@@ -28,9 +29,9 @@ const { URL, URLSearchParams } = require('url');
 app.use(cors());
 app.use(express.json());
 
-//server test route
+// server test route
 app.use('/testRoute', (req, res) => {
-  return res.status(299).send('test success')
+  //test stuff here
 });
 
 //signup route
@@ -48,8 +49,13 @@ app.use('/addFav', addFavsRouter)
 //get favorites route
 app.use('/getFavs', getFavsRouter);
 
-//serve index.html
-app.get('/', (req, res) => {
+//check login route
+app.use('/checkLogin', sessionController.isLoggedIn, (req, res) => {
+  return res.status(299).send('user is logged in')
+})
+
+//serve index.html - NOTE - THIS ROUTE NEVER ACTUALLY HITS (react router serves up the page??)
+app.get('/', cookieController.setCookie, (req, res) => {
   return res
     .status(201)
     .sendFile(path.join(__dirname, '.././index.html'))
