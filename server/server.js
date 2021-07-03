@@ -21,6 +21,7 @@ const getFavsRouter = require('./routes/getFavsRoute')
 
 //db connection
 //note - db connection issues?  check for console logs in terminal
+const connectionString = 'mongodb+srv://admin:adam123@cluster0.tqcgi.mongodb.net/scratch_project?retryWrites=true&w=majority'
 mongoose.connect(
   connectionString, {useNewUrlParser: true, useUnifiedTopology: true})
   .then(console.log('Connected to DB: ENV Test String: ', connectionString))
@@ -62,10 +63,10 @@ app.get('/', cookieController.setCookie, (req, res) => {
 });
 
 // print all routes
-const routes = getRoutes(app);
+// const routes = getRoutes(app);
 
-console.log('#### routes ##### ');
-console.log(routes);
+// console.log('#### routes ##### ');
+// console.log(routes);
 // Global error handler
 app.use((err, req, res, next) => {
   const defaultErr = {

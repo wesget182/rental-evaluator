@@ -14,7 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import MarkersList from './MarkersList';
 import SearchBar from './Components/SearchBar';
 
-const mapboxApiKey = 'pk.eyJ1IjoiYXJhbWF5IiwiYSI6ImNrcWI2Z3JjOTAxazQydnBlbHIyNWprbXAifQ.HNWa9dA4WXSefOVnqhIVZA';
+const mapboxApiKey = '';
 
 
 const useStyles = makeStyles((theme) => ({
