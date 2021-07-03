@@ -84,8 +84,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
-export default function PrimarySearchAppBar({ setDarkState, darkState, isLoggedIn, setIsLoggedIn, handleThemeChange}) {
+export default function PrimarySearchAppBar({
+  setDarkState,
+  darkState,
+  isLoggedIn,
+  setIsLoggedIn,
+  handleThemeChange,
+}) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
@@ -95,9 +100,6 @@ export default function PrimarySearchAppBar({ setDarkState, darkState, isLoggedI
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-  // const handleThemeChange = () => {
-  //   setDarkState(!darkState);
-  // };
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -216,9 +218,9 @@ export default function PrimarySearchAppBar({ setDarkState, darkState, isLoggedI
               <Brightness7Icon />
             </IconButton>
             <IconButton aria-label="show 17 new notifications" color="inherit">
-              <Badge badgeContent={17} color="secondary">
-                <FavoriteIcon onClick={showFavs} />
-              </Badge>
+              {/* <Badge badgeContent={17} color="secondary"> */}
+              <FavoriteIcon onClick={showFavs} />
+              {/* </Badge> */}
             </IconButton>
             <IconButton
               edge="end"

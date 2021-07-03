@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
@@ -14,80 +14,6 @@ import FavModal from './FavsModal';
 
 //Favorite array state set by get request in component fxn
 
-// const tileData = [
-//   {
-//     img: 'https://photos.zillowstatic.com/fp/dc3b1651b95ca288bbb5e6d273186332-cc_ft_768.jpg',
-//     address: '45101 State Highway 82, Aspen, CO 81611',
-//     price: '$51,000,000',
-//     rentalAsset: 'Nah',
-//   },
-//   {
-//     img: 'https://photos.zillowstatic.com/fp/dc3b1651b95ca288bbb5e6d273186332-cc_ft_768.jpg',
-//     address: '45101 State Highway 82, Aspen, CO 81611',
-//     price: '$51,000,000',
-//     rentalAsset: 'Nah',
-//   },
-//   {
-//     img: 'https://photos.zillowstatic.com/fp/dc3b1651b95ca288bbb5e6d273186332-cc_ft_768.jpg',
-//     address: '45101 State Highway 82, Aspen, CO 81611',
-//     price: '$51,000,000',
-//     rentalAsset: 'Nah',
-//   },
-//   {
-//     img: 'https://photos.zillowstatic.com/fp/dc3b1651b95ca288bbb5e6d273186332-cc_ft_768.jpg',
-//     address: '45101 State Highway 82, Aspen, CO 81611',
-//     price: '$51,000,000',
-//     rentalAsset: 'Nah',
-//   },
-//   {
-//     img: 'https://photos.zillowstatic.com/fp/dc3b1651b95ca288bbb5e6d273186332-cc_ft_768.jpg',
-//     address: '45101 State Highway 82, Aspen, CO 81611',
-//     price: '$51,000,000',
-//     rentalAsset: 'Nah',
-//   },
-//   {
-//     img: 'https://photos.zillowstatic.com/fp/dc3b1651b95ca288bbb5e6d273186332-cc_ft_768.jpg',
-//     address: '45101 State Highway 82, Aspen, CO 81611',
-//     price: '$51,000,000',
-//     rentalAsset: 'Nah',
-//   },
-//   {
-//     img: 'https://photos.zillowstatic.com/fp/dc3b1651b95ca288bbb5e6d273186332-cc_ft_768.jpg',
-//     address: '45101 State Highway 82, Aspen, CO 81611',
-//     price: '$51,000,000',
-//     rentalAsset: 'Nah',
-//   },
-//   {
-//     img: 'https://photos.zillowstatic.com/fp/dc3b1651b95ca288bbb5e6d273186332-cc_ft_768.jpg',
-//     address: '45101 State Highway 82, Aspen, CO 81611',
-//     price: '$51,000,000',
-//     rentalAsset: 'Nah',
-//   },
-//   {
-//     img: 'https://photos.zillowstatic.com/fp/dc3b1651b95ca288bbb5e6d273186332-cc_ft_768.jpg',
-//     address: '45101 State Highway 82, Aspen, CO 81611',
-//     price: '$51,000,000',
-//     rentalAsset: 'Nah',
-//   },
-//   {
-//     img: 'https://photos.zillowstatic.com/fp/dc3b1651b95ca288bbb5e6d273186332-cc_ft_768.jpg',
-//     address: '45101 State Highway 82, Aspen, CO 81611',
-//     price: '$51,000,000',
-//     rentalAsset: 'Nah',
-//   },
-//   {
-//     img: 'https://photos.zillowstatic.com/fp/dc3b1651b95ca288bbb5e6d273186332-cc_ft_768.jpg',
-//     address: '45101 State Highway 82, Aspen, CO 81611',
-//     price: '$51,000,000',
-//     rentalAsset: 'Nah',
-//   },
-//   {
-//     img: 'https://photos.zillowstatic.com/fp/dc3b1651b95ca288bbb5e6d273186332-cc_ft_768.jpg',
-//     address: '45101 State Highway 82, Aspen, CO 81611',
-//     price: '$51,000,000',
-//     rentalAsset: 'Nah',
-//   },
-// ];
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -106,7 +32,6 @@ const useStyles = makeStyles((theme) => ({
   },
   header: {
     fontSize: '2em',
-    color: 'rgba(255, 255, 255, 0.54)',
   },
 }));
 
@@ -130,10 +55,17 @@ const useStyles = makeStyles((theme) => ({
 function TitlebarGridList() {
   const classes = useStyles();
   const [tileData, setTileData] = useState([]);
+  const [propDetail, setPropDetail] = useState({});
+  const [gotFavs, setGotFavs] = useState(false);
   const [favDetailsOpen, setFavDetailsOpen] = useState(false);
   //open/close handlers for add record modal
-  const handleOpen = () => {
+  const handleOpen = (e, idx) => {
+    e.preventDefault();
+    console.log('TILE DATA ', tileData[idx]);
+    setPropDetail(tileData[idx]);
+    console.log('PROPDETAIL ', propDetail);
     setFavDetailsOpen(true);
+    console.log('ID', idx);
     console.log('detail modal OPEN');
   };
 
@@ -141,12 +73,26 @@ function TitlebarGridList() {
     setFavDetailsOpen(false);
   };
   //get request to retrieve favorites
-  api.get('/getFavs').then((res) => {
-    //     //**************************************
-    //     //change set state var to whatever user schema favs name.
-    //     //********************************************/
-    setTileData(res.favsArr);
-  });
+
+  const getFavs = async () => {
+    await api({
+      method: 'post',
+      url: '/getFavs',
+    })
+      .then((res) => {
+        // console.log('RES IN GET FAVS', res);
+        console.log('RES FAV ARR', res.data.favsArr);
+        setTileData(res.data.favsArr);
+        setGotFavs(true);
+      })
+      .catch((err) => {
+        console.log('GET FAVS ERROR ', err.message);
+      });
+  };
+  useEffect(() => {
+    getFavs();
+  }, []);
+  // console.log('TILE DATA ', tileData);
   return (
     <div>
       <Box display="flex" flexDirection="row" justifyContent="center">
@@ -161,33 +107,43 @@ function TitlebarGridList() {
               Favorites
             </ListSubheader>
           </GridListTile>
-          {tileData.map((tile) => (
-            <GridListTile key={tile.img}>
-              <img src={tile.img} alt={tile.title} />
+          {gotFavs &&
+            tileData.map((tile, idx) => (
+              <GridListTile key={tile.Image} idx={idx}>
+                <img src={tile.Image} alt={tile.Address} />
 
-              <GridListTileBar
-                title={tile.address}
-                subtitle={
-                  <span>
-                    Price: {tile.price}
-                    <br /> Viable Rental: {tile.rentalAsset}
-                  </span>
-                }
-                actionIcon={
-                  <IconButton
-                    aria-label={`info about ${tile.address}`}
-                    className={classes.icon}
-                    onClick={handleOpen}
-                  >
-                    <InfoIcon />
-                  </IconButton>
-                }
-              />
-            </GridListTile>
-          ))}
+                <GridListTileBar
+                  title={tile.Address}
+                  idx={idx}
+                  subtitle={
+                    <span>
+                      Price: {tile.Price}
+                      <br /> Investment Rating: {tile.Rating}
+                    </span>
+                  }
+                  actionIcon={
+                    <IconButton
+                      idx={idx}
+                      aria-label={`info about ${tile.address}`}
+                      className={classes.icon}
+                      onClick={(e) => {
+                        console.log('ID IN ONCLICK ', idx);
+                        handleOpen(e, idx);
+                      }}
+                    >
+                      <InfoIcon />
+                    </IconButton>
+                  }
+                />
+              </GridListTile>
+            ))}
         </GridList>
       </div>
-      <FavModal open={favDetailsOpen} handleClose={handleClose} />
+      <FavModal
+        prop={propDetail}
+        open={favDetailsOpen}
+        handleClose={handleClose}
+      />
     </div>
   );
 }

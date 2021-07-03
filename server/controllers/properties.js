@@ -46,7 +46,7 @@ middlewares.getPropertiesForSale = async (req, res, next) => {
   const result = await fetch(url, { method: 'GET', headers: headers }).then(
     (res) => res.json()
   );
-  console.log(result);
+  // console.log(result);
 
   if ('zpid' in result) {
     res.locals.zpid = result.zpid;
