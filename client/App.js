@@ -29,18 +29,39 @@ const App = () => {
     <ThemeProvider theme={darkTheme}>
       <div className="router">
         {console.log('DARKSTATE IN APP', darkState)}
+<<<<<<< HEAD
+=======
+        <NavBar handleThemeChange={handleThemeChange} darkState={darkState} />
+>>>>>>> dev
 
         {/* <NavBar handleThemeChange={handleThemeChange} darkState={darkState} /> */}
 
         <main>
           <Switch>
+<<<<<<< HEAD
+=======
+            <Route exact path="/signin" component={SignIn} />
+            <Route exact path="/register" component={Register} />
+            <Route exact path="/favs" component={Favorites} />
+
+            <Route exact path="/signin" component={SignIn} />
+            <Route exact path="/register" component={Register} />
+            <Route exact path="/favs" component={Favorites} />
+>>>>>>> dev
             <Route exact path="/">
               <NavBar
                 handleThemeChange={handleThemeChange}
                 isLoggedIn={isLoggedIn}
                 setIsLoggedIn={setIsLoggedIn}
+<<<<<<< HEAD
                 setDarkState={setDarkState}
                 darkState={darkState}
+=======
+                setDarkState={setDarkState} 
+                darkState={darkState}
+                handleThemeChange={handleThemeChange}
+                darkState={darkState} 
+>>>>>>> dev
               />
               <MainContainer
                 isLoggedIn={isLoggedIn}
@@ -55,6 +76,7 @@ const App = () => {
               <Register isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
             </Route>
             <Route exact path="/favs">
+<<<<<<< HEAD
               <NavBar
                 handleThemeChange={handleThemeChange}
                 isLoggedIn={isLoggedIn}
@@ -62,6 +84,16 @@ const App = () => {
                 setDarkState={setDarkState}
                 darkState={darkState}
               />
+=======
+              <NavBar 
+                  isLoggedIn={isLoggedIn}
+                  setIsLoggedIn={setIsLoggedIn}
+                  setDarkState={setDarkState} 
+                  darkState={darkState} 
+
+                  handleThemeChange={handleThemeChange}
+                />
+>>>>>>> dev
               <Favorites
                 isLoggedIn={isLoggedIn}
                 setIsLoggedIn={setIsLoggedIn}
