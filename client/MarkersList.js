@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { Marker, Popup } from 'react-map-gl';
 import Pin from './Pin';
-import PinSingleLocation from './PinSingleLocation';
+// import PinSingleLocation from './PinSingleLocation';
 import MapModal from './components/MapModal';
 import api from './axios/axios';
 import Spinner from './Components/Spinner';
@@ -16,7 +16,7 @@ const MarkersList = (props) => {
 
 
 
-const MarkersList = (props) => {
+// const MarkersList = (props) => {
   // const data = props.props.features;
   const data = boiseList.propertiesForSale.features;
 
@@ -31,22 +31,22 @@ const MarkersList = (props) => {
     // 190 E 72nd St APT 11B, New York, NY 10021
     // console.log('features ', features)
     else if (props.props.targetForSale) {
-     singleLocation = props.props.targetForSale.features
-    //  features = props.props.propertiesForRental.features
-    features = singleLocation
-    //  setShowSingleLocation(true)
-   }
-   else if (props.props.propertiesForRental){
-    //  features.push(...props.props.propertiesForRental.features)
-     features = features.concat(props.props.propertiesForRental.features)
-   }
+      singleLocation = props.props.targetForSale.features
+      //  features = props.props.propertiesForRental.features
+      features = singleLocation
+      //  setShowSingleLocation(true)
+      if (props.props.propertiesForRental){
+      //  features.push(...props.props.propertiesForRental.features)
+        features = features.concat(props.props.propertiesForRental.features)
+      }
+    }
   }
   
   console.log('propertiesForRental ', props.props.propertiesForRental)
   console.log('singleLocation ', singleLocation)
   console.log('features ', features)
   // const data = props.props.features;
-  const data = boiseList.propertiesForSale.features;
+  // const data = boiseList.propertiesForSale.features;
 
   //state to hold list of properties from initial area query
   const [propList, setPropList] = useState(

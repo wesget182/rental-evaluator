@@ -15,7 +15,7 @@ import MarkersList from './MarkersList';
 import SearchBar from './Components/SearchBar';
 
 
-const mapboxApiKey = 'null';
+const mapboxApiKey = 'pk.eyJ1IjoiYXJhbWF5IiwiYSI6ImNrcWI2Z3JjOTAxazQydnBlbHIyNWprbXAifQ.HNWa9dA4WXSefOVnqhIVZA';
 
 const useStyles = makeStyles((theme) => ({
   root: {
