@@ -12,13 +12,16 @@ const MarkersList = (props) => {
   let singleLocation = {}
   const { status } = props
   console.log('status ', status)
+
+  // setup state to toggle Popupp
+  const [MapModalOpen, setMapModalOpen] = useState(false);
   
 
 
 
 // const MarkersList = (props) => {
   // const data = props.props.features;
-  const data = boiseList.propertiesForSale.features;
+  // const data = boiseList.propertiesForSale.features;
 
   const [showSingleLocation, setShowSingleLocation] = useState(false);
   // use case - when it's a general area search
@@ -58,35 +61,37 @@ const MarkersList = (props) => {
   const [propDetail, setPropDetail] = useState({});
 
   //second api call to get rent data and rating on specific address
-  const getDetails = async (e) => {
-    console.log('DATA ', data);
-    await api
-      .get('/properties/target', {
-        params: {
-          location: propList[4].properties.Address,
-          //give pins id of the array index they were created from
-          //to id the proper index onclick
-          // location: propList[e.target.id].Zip,
-          // Type: propList[e.target.id].Type
-          // beds: propList[e.target.id]['# bedrooms'],
-          // bathrooms: propList[e.target.id]['# bathrooms'],
-          // Price: propList[e.target.id].Price,
-          // ZPID: propList[e.target.id].ZPID
-        },
-      })
-      .then((res) => {
-        console.log('RES IN API TARGET', res);
-        setPropDetail(res);
-        console.log('PROP DETAIL', propDetail);
-      });
-  };
-  // setup state to toggle Popupp
-  const [MapModalOpen, setMapModalOpen] = useState(false);
-  //open/close handlers for add record modal
-  const handleOpen = (e) => {
-    e.preventDefault();
-    getDetails(e);
+  const getDetails = async (e, feature) => {
+    // console.log('DATA ', data);
+    console.log('clicked property');
+    console.log(feature);
+    // await api
+    //   .get('/properties/target', {
+    //     params: {
+    //       // location: propList[4].properties.Address,
+    //       //give pins id of the array index they were created from
+    //       //to id the proper index onclick
+    //       location: features[e.target.id]['Zip code'],
+    //       home_type: features[e.target.id].Type,
+    //       beds: features[e.target.id]['# bedrooms'],
+    //       baths: features[e.target.id]['# bathrooms'],
+    //       Price: features[e.target.id].Price,
+    //       ZPID: features[e.target.id].ZPID
+    //     },
+    //   })
+    //   .then((res) => {
+    //     console.log('RES IN API TARGET', res);
+    //     setPropDetail(res);
+    //     console.log('PROP DETAIL', propDetail);
+    //   });
+    setPropDetail(feature);
     setMapModalOpen(true);
+  };
+  //open/close handlers for add record modal
+  const handleOpen = (e, idx) => {
+    e.preventDefault();
+    getDetails(e, features[idx]);
+    // setMapModalOpen(true);
     console.log('map modal OPEN');
   };
 
@@ -110,9 +115,10 @@ const MarkersList = (props) => {
         longitude={marker.geometry.coordinates[0]}
         latitude={marker.geometry.coordinates[1]}
         // onClick={() => handleMarkerClick(marker)}
-        onClick={handleOpen}
+        onClick={(e) => handleOpen(e, idx)}
       >
-      <Pin size={idx === 0 ? 35 : 20} color={idx === 0 ? 'green' : 'red'} />
+      {/* <Pin size={idx === 0 ? 35 : 20} color={idx === 0 ? 'green' : 'red'} /> */}
+      <Pin color={(props.props.targetForSale && idx === 0) ? 'green' : 'red'} size={(props.props.targetForSale && idx === 0) ? 35 : 20}  />
       </Marker>
       )
     )
@@ -123,11 +129,12 @@ const MarkersList = (props) => {
   return (
     <div>
       {content}
-      <MapModal
+      {MapModalOpen && <MapModal
         open={MapModalOpen}
         handleClose={handleClose}
-        propList={propList}
-      />
+        // propList={features}
+        prop={propDetail}
+      />}
     </div>
   );
 };
