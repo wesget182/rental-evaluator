@@ -19,8 +19,7 @@ import Geocoder from 'react-map-gl-geocoder';
 import MarkersList from './MarkersList';
 import SearchBar from './Components/SearchBar';
 
-const mapboxApiKey =
-  'pk.eyJ1IjoiYXJhbWF5IiwiYSI6ImNrcWI2Z3JjOTAxazQydnBlbHIyNWprbXAifQ.HNWa9dA4WXSefOVnqhIVZA';
+const mapboxApiKey = 'null';
 
 const test_data = {
   type: 'FeatureCollection',
@@ -51,21 +50,28 @@ const test_data = {
     {
       type: 'Feature',
       properties: {
-        Address: '520 W 48th St APT 6N, New York, NY 10036',
-        Price: '$1275000',
+        Address: '18 Conference Ct #1',
+        City: 'Staten Island',
+        State: 'NY',
+        'Zip code': '10307',
+        Address: '18 Conference Ct Staten Island, NY 10307',
+        Price: '$2500',
+        'Interest rate': null,
         Type: 'APARTMENT',
-        Size: '646 sqft',
-        '# bedrooms': 1,
-        '# bathrooms': 1,
-        'Est. monthly mortage': '$8750',
-        'Est. monthly rent': '$2875',
-        Rating: 'sucks',
+        Size: 'null sqft',
+        '# bedrooms': 3,
+        '# bathrooms': 3,
+        'Est. monthly mortgage': null,
+        'Rent array': [2500],
+        'Est. monthly rent': 2500,
+        'Price-to-rent ratio': 0,
+        Rating: 'Strong buy',
         Image:
-          'https://photos.zillowstatic.com/fp/0a7d34c9947c23c3deac0bd85849b8d3-p_e.jpg',
-        ZPID: '2124791075',
+          'https://maps.googleapis.com/maps/api/streetview?location=18+Conference+Ct%2C+Staten+Island%2C+NY+10307&size=400x300&key=AIzaSyARFMLB1na-BBWf7_R3-5YOQQaHqEJf6RQ&source=outdoor&&signature=0eixvplaZULdCVjmEaaO1RpPKYU=',
+        ZPID: 2080158172,
       },
       geometry: {
-        coordinates: [-73.994099, 40.763772],
+        coordinates: [-74.250335693359, 40.513050079346],
         type: 'Point',
       },
     },

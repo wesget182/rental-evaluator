@@ -5,7 +5,7 @@ const { quantileSorted } = require('d3');
 const middlewares = {};
 
 const headers = {
-  'x-rapidapi-key': '4715328601msha1ddf1310f1bd33p19543ajsn0f32a86b34bd',
+  'x-rapidapi-key': 'null',
   'x-rapidapi-host': 'zillow-com1.p.rapidapi.com',
   useQueryString: true,
 };
@@ -21,7 +21,7 @@ middlewares.getPropertiesForSale = async (req, res, next) => {
     'https://zillow-com1.p.rapidapi.com/propertyExtendedSearch'
   );
   const params = {
-    location: req.query.location,
+    location: req.query.location.replace(/, United States$/, ''),
     status_type: 'ForSale',
   };
   if (req.query.home_type !== '') params.home_type = req.query.home_type;

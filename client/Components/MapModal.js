@@ -6,19 +6,12 @@ import IconButton from '@material-ui/core/IconButton';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import { Typography, Grid, Card, Divider, Box } from '@material-ui/core';
+import api from '../axios/axios';
 
-const MapModal = ({ open, handleClose, data }) => {
+const MapModal = ({ open, handleClose, propList }) => {
   //   const property = propDetail.targetForSale.features[0];
-  const property = data[0].properties;
+  const property = propList[4].properties;
 
-  // const [propDetail, setPropDetail] = useState({})
-  // const getDetails = (e) => {
-  //     api.get('/target', {params:{
-  //     address:
-  //     //initialQueryStateArray[e.target.id].properties.address
-
-  //     }})
-  // }
   const useStyles = makeStyles((theme) => ({
     container: {
       maxWidth: 800,
@@ -42,22 +35,30 @@ const MapModal = ({ open, handleClose, data }) => {
   const classes = useStyles();
   const [clickedFav, setClickedFav] = useState(false);
   const favIcon = clickedFav ? <FavoriteIcon /> : <FavoriteBorderIcon />;
-  const handleAddFavs = () => {
+  const handleAddFavs = (e) => {
+    e.preventDefault();
     setClickedFav(!clickedFav);
-    // api({
-    //   method: 'post',
-    //   url: '/addFav',
-    //   data: {
-    //     property: 'property',
-    //   },
-    // })
-    //   .then((res) => {
-    //     console.log('ADD FAV RESPONSE ', res.data);
-    //   })
-    //   .catch((err) => console.log('ADD FAV ERROR', err));
+    const favorite = property;
+    console.log('FAVORITE', favorite);
+    api({
+      method: 'post',
+      url: '/addFav',
+      data: {
+        favorite: favorite,
+      },
+    })
+      .then((res) => {
+        console.log('ADD FAV RESPONSE ', res.data);
+      })
+      .catch((err) => console.log('ADD FAV ERROR', err));
   };
   return (
-    <Dialog open={open} onClose={handleClose} className={classes.container}>
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      className={classes.container}
+      property={property}
+    >
       {console.log('PROPERTY ', property)}
       <Box className={classes.card}>
         <Grid>
@@ -69,10 +70,7 @@ const MapModal = ({ open, handleClose, data }) => {
           </Grid>
           <Grid container xs={12} justify="center">
             <Box className={classes.imgContainer}>
-              <img
-                src="https://photos.zillowstatic.com/fp/dfa968d816453bb57722dc00002676a4-p_e.jpg"
-                className={classes.image}
-              />
+              <img src={property.Image} className={classes.image} />
             </Box>
           </Grid>
           <Grid container>
