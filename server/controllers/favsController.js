@@ -33,13 +33,13 @@ favsController.addFavs = (req, res, next) => {
 
 favsController.getFavs = (req, res, next) => {
   //verify email is on the request
-  if (!req.body.email) {
+  if (!req.cookies.ssid) {
     return res
       .status(500)
       .send('favsController.getFavs error: no email property');
   } else {
     //let favsArr;
-    User.findOne({ email: req.body.email })
+    User.findById(req.cookies.ssid)
       .then((user) => {
         res.locals.favsArr = user.favorites;
       })

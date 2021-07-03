@@ -24,70 +24,50 @@ const App = () => {
       type: palletType,
     },
   });
-  // const handleThemeChange = () => {
-  //   setDarkState(!darkState);
-  // };
+
   return (
     <ThemeProvider theme={darkTheme}>
       <div className="router">
         {console.log('DARKSTATE IN APP', darkState)}
-<<<<<<< HEAD
-        <NavBar handleThemeChange={handleThemeChange} darkState={darkState} />
-=======
-        
->>>>>>> dev
+
         {/* <NavBar handleThemeChange={handleThemeChange} darkState={darkState} /> */}
 
         <main>
           <Switch>
-<<<<<<< HEAD
-            <Route exact path="/signin" component={SignIn} />
-            <Route exact path="/register" component={Register} />
-            <Route exact path="/favs" component={Favorites} />
-=======
-          
             <Route exact path="/">
-              <NavBar 
+              <NavBar
+                handleThemeChange={handleThemeChange}
                 isLoggedIn={isLoggedIn}
                 setIsLoggedIn={setIsLoggedIn}
-                setDarkState={setDarkState} 
-                darkState={darkState} 
+                setDarkState={setDarkState}
+                darkState={darkState}
               />
               <MainContainer
                 isLoggedIn={isLoggedIn}
                 setIsLoggedIn={setIsLoggedIn}
-            />
-            
+              />
             </Route>
             <Route exact path="/signin">
-              <SignIn
-                isLoggedIn={isLoggedIn} 
-                setIsLoggedIn={setIsLoggedIn} 
-              />
+              <SignIn isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
             </Route>
-            
-            <Route exact path="/register" >
-              <Register
-                isLoggedIn={isLoggedIn} 
-                setIsLoggedIn={setIsLoggedIn}
-            /> 
+
+            <Route exact path="/register">
+              <Register isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
             </Route>
             <Route exact path="/favs">
-              <NavBar 
-                  isLoggedIn={isLoggedIn}
-                  setIsLoggedIn={setIsLoggedIn}
-                  setDarkState={setDarkState} 
-                  darkState={darkState} 
-                />
+              <NavBar
+                handleThemeChange={handleThemeChange}
+                isLoggedIn={isLoggedIn}
+                setIsLoggedIn={setIsLoggedIn}
+                setDarkState={setDarkState}
+                darkState={darkState}
+              />
               <Favorites
-                isLoggedIn={isLoggedIn} 
+                isLoggedIn={isLoggedIn}
                 setIsLoggedIn={setIsLoggedIn}
               />
             </Route>
->>>>>>> dev
             <Route exact path="/test" component={Test} />
-            
-            
           </Switch>
         </main>
       </div>
