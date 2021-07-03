@@ -1,20 +1,44 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Marker, Popup } from 'react-map-gl';
 import Pin from './Pin';
+import PinSingleLocation from './PinSingleLocation';
 import MapModal from './components/MapModal';
 import api from './axios/axios';
 import Spinner from './Components/Spinner';
 
 const MarkersList = (props) => {
   console.log('props', props)
-  let features = {}
+  let features = []
+  let singleLocation = {}
   const { status } = props
   console.log('status ', status)
+  
 
+  const [showSingleLocation, setShowSingleLocation] = useState(false);
+  // use case - when it's a general area search
+  //e.g. Mountain View, CA
   if (status === 'done') {
-    features = props.props.propertiesForSale.features
+    if(props.props.propertiesForSale) {
+      features = props.props.propertiesForSale.features
+    }
+    // use case - when it's a speific location search
+    // 190 E 72nd St APT 11B, New York, NY 10021
+    // console.log('features ', features)
+    else if (props.props.targetForSale) {
+     singleLocation = props.props.targetForSale.features
+    //  features = props.props.propertiesForRental.features
+    features = singleLocation
+    //  setShowSingleLocation(true)
+   }
+   else if (props.props.propertiesForRental){
+    //  features.push(...props.props.propertiesForRental.features)
+     features = features.concat(props.props.propertiesForRental.features)
+   }
   }
-  // console.log('features ', features)
+  
+  console.log('propertiesForRental ', props.props.propertiesForRental)
+  console.log('singleLocation ', singleLocation)
+  console.log('features ', features)
 
   const [viewport, setViewport] = useState({
     longitude: -121.27096757069442,
@@ -79,6 +103,7 @@ const MarkersList = (props) => {
   if (status === 'loading') {
     content = <Spinner />
   } else if (status === 'done') {
+    
     content = features.map((marker, idx) => (
       <Marker
         key={idx}
@@ -88,9 +113,10 @@ const MarkersList = (props) => {
         // onClick={() => handleMarkerClick(marker)}
         onClick={handleOpen}
       >
-        <Pin size={20} />
+      <Pin size={idx === 0 ? 35 : 20} color={idx === 0 ? 'green' : 'red'} />
       </Marker>
-    ))
+      )
+    )
   } else if (status === 'error') {
     content = <div>{status}</div>
   }
@@ -98,16 +124,8 @@ const MarkersList = (props) => {
   return (
     <div>
       {content}
-      {showPopup && (
-        <Popup
-          longitude={selectedMarker.geometry.coordinates[0]}
-          latitude={selectedMarker.geometry.coordinates[1]}
-          closeButton={true}
-          closeOnClick={true}
-          onClose={() => handleCloseClicked(false)}
-        >
-          <h3>{selectedMarker.properties.title}</h3>
-        </Popup>
+      {showSingleLocation && (
+        <singleLocMarker />
       )}
       <MapModal
         open={MapModalOpen}
