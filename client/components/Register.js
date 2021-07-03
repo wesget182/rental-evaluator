@@ -16,6 +16,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import GoogleIcon from './GoogleIcon';
 import api from '../axios/axios';
+import { useHistory } from 'react-router-dom';
 
 function Copyright() {
   return (
@@ -65,6 +66,7 @@ export default function SignIn({isLoggedIn, setIsLoggedIn}) {
   const [password, setPassword] = useState('');
   const [validatePassword, setValidatePassword] = useState('');
 
+  console.log('history ', history)
   //submit fxn to make http call to BE
   const handleSubmit = (e) => {
     e.preventDefault();

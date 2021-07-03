@@ -5,7 +5,7 @@
     "es2020": true,
     "node": true
   },
-  "plugins": ["import", "react", "jsx-a11y", "babel"],
+  "plugins": ["import", "react", "jsx-a11y", "babel", "react-hooks"],
   "extends": [
     "eslint:recommended",
     "plugin:import/errors",
@@ -28,7 +28,9 @@
     "space-infix-ops": "warn",
     "react/prefer-stateless-function": "off",
     "react/prop-types": "off",
-    "react/jsx-key": "warn"
+    "react/jsx-key": "warn",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   },
   "settings": {
     "react": {

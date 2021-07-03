@@ -85,11 +85,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-<<<<<<< HEAD
-export default function PrimarySearchAppBar({ handleThemeChange, darkState }) {
-=======
-export default function PrimarySearchAppBar({ setDarkState, darkState, isLoggedIn, setIsLoggedIn}) {
->>>>>>> dev
+
+export default function PrimarySearchAppBar({ setDarkState, darkState, isLoggedIn, setIsLoggedIn, handleThemeChange}) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
