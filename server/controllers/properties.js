@@ -25,9 +25,10 @@ middlewares.getPropertiesForSale = async (req, res, next) => {
     status_type: 'ForSale',
   };
   if (req.query.home_type !== '') params.home_type = req.query.home_type;
-  if (typeof req.query.bedsMin === 'number') params.bedsMin = req.query.bedsMin;
-  if (typeof req.query.bathsMin === 'number')
-    params.bathsMin = req.query.bathsMin;
+  if (! isNaN(Number(req.query.bedsMin))) params.bedsMin = Number(req.query.bedsMin);
+  if (! isNaN(Number(req.query.bathsMin))) params.bathsMin = Number(req.query.bathsMin);
+  if (! isNaN(Number(req.query.minPrice))) params.minPrice = Number(req.query.minPrice);
+  if (! isNaN(Number(req.query.maxPrice))) params.maxPrice = Number(req.query.maxPrice);
   // const params = {
   //   location: '111 Balcaro Way UNIT 88, Sacramento, CA 95834',
   //   // location: '2470 Peachtree Ln, San Jose, CA 95128',

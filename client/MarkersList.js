@@ -65,27 +65,34 @@ const MarkersList = (props) => {
     // console.log('DATA ', data);
     console.log('clicked property');
     console.log(feature);
-    // await api
-    //   .get('/properties/target', {
-    //     params: {
-    //       // location: propList[4].properties.Address,
-    //       //give pins id of the array index they were created from
-    //       //to id the proper index onclick
-    //       location: features[e.target.id]['Zip code'],
-    //       home_type: features[e.target.id].Type,
-    //       beds: features[e.target.id]['# bedrooms'],
-    //       baths: features[e.target.id]['# bathrooms'],
-    //       Price: features[e.target.id].Price,
-    //       ZPID: features[e.target.id].ZPID
-    //     },
-    //   })
-    //   .then((res) => {
-    //     console.log('RES IN API TARGET', res);
-    //     setPropDetail(res);
-    //     console.log('PROP DETAIL', propDetail);
-    //   });
-    setPropDetail(feature);
-    setMapModalOpen(true);
+    if (props.props.propertiesForSale) {
+      const res = await api.post(
+        '/properties/target',
+        null,
+        {
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          params: {
+            location: feature['properties']['Address'],
+            home_type: feature['properties'].Type,
+            beds: feature['properties']['# bedrooms'],
+            baths: feature['properties']['# bathrooms'],
+            Price: feature['properties'].Price,
+            ZPID: feature['properties'].ZPID
+          },
+        }
+      );
+      console.log(JSON.stringify(res.data.targetForSale, null, 2));
+      console.log(Object.assign(feature.properties, res.data.targetForSale.features[0].properties));
+      setPropDetail(feature);
+      console.log('PROP DETAIL', propDetail);
+      setMapModalOpen(true);
+    } else {
+      setPropDetail(feature);
+      setMapModalOpen(true);
+    }
   };
   //open/close handlers for add record modal
   const handleOpen = (e, idx) => {

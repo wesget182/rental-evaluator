@@ -84,9 +84,12 @@ const MapModal = ({ open, handleClose, prop }) => {
             <Grid xs={12} className={classes.detail}>
               <Typography>Address: {property.Address}</Typography>
             </Grid>
-            <Grid xs={12}>
+            {'Price' in property && <Grid xs={12}>
               <Typography>Price: {property.Price}</Typography>
-            </Grid>
+            </Grid>}
+            {'Monthly rent' in property && <Grid xs={12}>
+              <Typography>Monthly Rent: {property['Monthly rent']}</Typography>
+            </Grid>}
             <Grid xs={12}>
               <Typography>Type: {property.Type}</Typography>
             </Grid>
@@ -99,24 +102,26 @@ const MapModal = ({ open, handleClose, prop }) => {
             <Grid xs={12}>
               <Typography>Bath Rooms: {property['# bathrooms']}</Typography>
             </Grid>
-            <Grid xs={12}>
+            {'Est. monthly mortgage' in property && <Grid xs={12}>
               <Typography>
-                Est. Montly Mortgage: {property['Est. monthly mortage']}
+                Est. Monthly Mortgage: {property['Est. monthly mortgage']}
               </Typography>
-            </Grid>
-            <Grid xs={12}>
-              <Typography>
-                Est/ Monthly Rent: {property['Est. monthly rent']}
-              </Typography>
-            </Grid>
-            <Grid xs={12}>
-              <Typography>
-                Price to Rent Ratio: {property['Price-to-rent ratio']}
-              </Typography>
-            </Grid>
-            <Grid xs={12}>
-              <Typography>Rating: {property.Rating}</Typography>
-            </Grid>
+            </Grid>}
+            {'Rating' in property && <>
+              <Grid xs={12}>
+                <Typography>
+                  Est. Monthly Rent: {property['Est. monthly rent']}
+                </Typography>
+              </Grid>
+              <Grid xs={12}>
+                <Typography>
+                  Price to Rent Ratio: {property['Price-to-rent ratio']}
+                </Typography>
+              </Grid>
+              <Grid xs={12}>
+                <Typography>Rating: {property.Rating}</Typography>
+              </Grid>
+            </>}
           </Grid>
         </Grid>
       </Box>
