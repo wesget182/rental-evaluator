@@ -6,7 +6,6 @@ import MapModal from './components/MapModal';
 import api from './axios/axios';
 import Spinner from './Components/Spinner';
 import boiseList from './PropertyTestData/boiseList';
-
 const MarkersList = (props) => {
   console.log('props', props)
   let features = []
@@ -14,6 +13,12 @@ const MarkersList = (props) => {
   const { status } = props
   console.log('status ', status)
   
+
+
+
+const MarkersList = (props) => {
+  // const data = props.props.features;
+  const data = boiseList.propertiesForSale.features;
 
   const [showSingleLocation, setShowSingleLocation] = useState(false);
   // use case - when it's a general area search
@@ -122,7 +127,6 @@ const MarkersList = (props) => {
   return (
     <div>
       {content}
-
       <MapModal
         open={MapModalOpen}
         handleClose={handleClose}

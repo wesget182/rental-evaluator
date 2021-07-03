@@ -31,7 +31,8 @@ const App = () => {
     <ThemeProvider theme={darkTheme}>
       <div className="router">
         {console.log('DARKSTATE IN APP', darkState)}
-        
+        <NavBar handleThemeChange={handleThemeChange} darkState={darkState} />
+
         {/* <NavBar handleThemeChange={handleThemeChange} darkState={darkState} /> */}
 
         <main>
@@ -39,7 +40,10 @@ const App = () => {
             <Route exact path="/signin" component={SignIn} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/favs" component={Favorites} />
-          
+
+            <Route exact path="/signin" component={SignIn} />
+            <Route exact path="/register" component={Register} />
+            <Route exact path="/favs" component={Favorites} />
             <Route exact path="/">
               <NavBar 
                 isLoggedIn={isLoggedIn}
@@ -47,6 +51,7 @@ const App = () => {
                 setDarkState={setDarkState} 
                 darkState={darkState}
                 handleThemeChange={handleThemeChange}
+                darkState={darkState} 
               />
               <MainContainer
                 isLoggedIn={isLoggedIn}
@@ -73,6 +78,7 @@ const App = () => {
                   setIsLoggedIn={setIsLoggedIn}
                   setDarkState={setDarkState} 
                   darkState={darkState} 
+
                   handleThemeChange={handleThemeChange}
                 />
               <Favorites
