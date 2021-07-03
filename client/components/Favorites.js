@@ -32,7 +32,6 @@ const useStyles = makeStyles((theme) => ({
   },
   header: {
     fontSize: '2em',
-    color: 'rgba(255, 255, 255, 0.54)',
   },
 }));
 
@@ -60,12 +59,13 @@ function TitlebarGridList() {
   const [gotFavs, setGotFavs] = useState(false);
   const [favDetailsOpen, setFavDetailsOpen] = useState(false);
   //open/close handlers for add record modal
-  const handleOpen = (e) => {
+  const handleOpen = (e, idx) => {
     e.preventDefault();
-    setFavDetailsOpen(true);
-    console.log('TARGET ID', e.target.id);
-    setPropDetail(tileData[e.target.id]);
+    console.log('TILE DATA ', tileData[idx]);
+    setPropDetail(tileData[idx]);
     console.log('PROPDETAIL ', propDetail);
+    setFavDetailsOpen(true);
+    console.log('ID', idx);
     console.log('detail modal OPEN');
   };
 
@@ -108,12 +108,13 @@ function TitlebarGridList() {
             </ListSubheader>
           </GridListTile>
           {gotFavs &&
-            tileData.map((tile, i) => (
-              <GridListTile key={tile.Image} id={i}>
+            tileData.map((tile, idx) => (
+              <GridListTile key={tile.Image} idx={idx}>
                 <img src={tile.Image} alt={tile.Address} />
 
                 <GridListTileBar
                   title={tile.Address}
+                  idx={idx}
                   subtitle={
                     <span>
                       Price: {tile.Price}
@@ -122,15 +123,15 @@ function TitlebarGridList() {
                   }
                   actionIcon={
                     <IconButton
+                      idx={idx}
                       aria-label={`info about ${tile.address}`}
                       className={classes.icon}
                       onClick={(e) => {
-                        console.log('E IN ONCLICK ', e.target.idx);
-                        handleOpen(e);
+                        console.log('ID IN ONCLICK ', idx);
+                        handleOpen(e, idx);
                       }}
-                      id={i}
                     >
-                      <InfoIcon id={i} />
+                      <InfoIcon />
                     </IconButton>
                   }
                 />
@@ -139,7 +140,7 @@ function TitlebarGridList() {
         </GridList>
       </div>
       <FavModal
-        propDetail={propDetail}
+        prop={propDetail}
         open={favDetailsOpen}
         handleClose={handleClose}
       />

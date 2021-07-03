@@ -1,21 +1,52 @@
-import React, { useState, useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Marker, Popup } from 'react-map-gl';
 import Pin from './Pin';
+// import PinSingleLocation from './PinSingleLocation';
 import MapModal from './components/MapModal';
 import api from './axios/axios';
+import Spinner from './Components/Spinner';
 import boiseList from './PropertyTestData/boiseList';
-
 const MarkersList = (props) => {
-  // const data = props.props.features;
-  const data = boiseList.propertiesForSale.features;
+  console.log('props', props);
+  let features = [];
+  let singleLocation = {};
+  const { status } = props;
+  console.log('status ', status);
 
-  const [viewport, setViewport] = useState({
-    longitude: -121.27096757069442,
-    latitude: 36.23291459044428,
-    zoom: 12,
-    bearing: 0,
-    pitch: 0,
-  });
+  // setup state to toggle Popupp
+  const [MapModalOpen, setMapModalOpen] = useState(false);
+
+  // const MarkersList = (props) => {
+  // const data = props.props.features;
+  // const data = boiseList.propertiesForSale.features;
+
+  const [showSingleLocation, setShowSingleLocation] = useState(false);
+  // use case - when it's a general area search
+  //e.g. Mountain View, CA
+  if (status === 'done') {
+    if (props.props.propertiesForSale) {
+      features = props.props.propertiesForSale.features;
+    }
+    // use case - when it's a speific location search
+    // 190 E 72nd St APT 11B, New York, NY 10021
+    // console.log('features ', features)
+    else if (props.props.targetForSale) {
+      singleLocation = props.props.targetForSale.features;
+      //  features = props.props.propertiesForRental.features
+      features = singleLocation;
+      //  setShowSingleLocation(true)
+      if (props.props.propertiesForRental) {
+        //  features.push(...props.props.propertiesForRental.features)
+        features = features.concat(props.props.propertiesForRental.features);
+      }
+    }
+  }
+
+  console.log('propertiesForRental ', props.props.propertiesForRental);
+  console.log('singleLocation ', singleLocation);
+  console.log('features ', features);
+  // const data = props.props.features;
+  // const data = boiseList.propertiesForSale.features;
 
   //state to hold list of properties from initial area query
   const [propList, setPropList] = useState(
@@ -27,37 +58,45 @@ const MarkersList = (props) => {
   const [propDetail, setPropDetail] = useState({});
 
   //second api call to get rent data and rating on specific address
-  const getDetails = async (e) => {
-    console.log('DATA ', data);
-    await api
-      .get('/properties/target', {
-        params: {
-          location: propList[4].properties.Address,
-          //give pins id of the array index they were created from
-          //to id the proper index onclick
-
-          // location: propList[e.target.id].Zip,
-          // Type: propList[e.target.id].Type,
-          // beds: propList[e.target.id]['# bedrooms'],
-          // bathrooms: propList[e.target.id]['# bathrooms'],
-          // Price: propList[e.target.id].Price,
-          // ZPID: propList[e.target.id].ZPID
+  const getDetails = async (e, feature) => {
+    // console.log('DATA ', data);
+    console.log('clicked property');
+    console.log(feature);
+    if (props.props.propertiesForSale) {
+      const res = await api.post('/properties/target', null, {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
         },
-      })
-      .then((res) => {
-        console.log('RES IN API TARGET', res);
-        setPropDetail(res);
-        console.log('PROP DETAIL', propDetail);
+        params: {
+          location: feature['properties']['Address'],
+          home_type: feature['properties'].Type,
+          beds: feature['properties']['# bedrooms'],
+          baths: feature['properties']['# bathrooms'],
+          Price: feature['properties'].Price,
+          ZPID: feature['properties'].ZPID,
+        },
       });
+      console.log(JSON.stringify(res.data.targetForSale, null, 2));
+      console.log(
+        Object.assign(
+          feature.properties,
+          res.data.targetForSale.features[0].properties
+        )
+      );
+      setPropDetail(feature);
+      console.log('PROP DETAIL', propDetail);
+      setMapModalOpen(true);
+    } else {
+      setPropDetail(feature);
+      setMapModalOpen(true);
+    }
   };
-  // setup state to toggle Popupp
-  const [showPopup, togglePopup] = useState(false);
-  const [MapModalOpen, setMapModalOpen] = useState(false);
   //open/close handlers for add record modal
-  const handleOpen = (e) => {
+  const handleOpen = (e, idx) => {
     e.preventDefault();
-    getDetails(e);
-    setMapModalOpen(true);
+    getDetails(e, features[idx]);
+    // setMapModalOpen(true);
     console.log('map modal OPEN');
   };
 
@@ -68,54 +107,42 @@ const MarkersList = (props) => {
   // setup clicked marker state
   const [selectedMarker, setSelectedMarker] = useState({});
 
-  // click handler - when user clicks a marker
-  const handleMarkerClick = (marker) => {
-    console.log('handle pop up', marker);
-    // save clicked marker
-    setSelectedMarker(marker);
-    console.log('selected marker', selectedMarker);
-    // toggle Popup flag to true
-    togglePopup(true);
-  };
+  let content;
 
-  // click handler - when user click close btn on Popup
-  const handleCloseClicked = (props) => {
-    console.log('handleCloseClicked ', props);
-    // toggle Popup flag to false
-    togglePopup(false);
-    console.log('handleCloseClicked ', showPopup);
-  };
-
-  const markers = useMemo(
-    () =>
-      data.map((marker, idx) => (
-        <Marker
-          key={idx}
-          id={idx}
-          longitude={marker.geometry.coordinates[0]}
-          latitude={marker.geometry.coordinates[1]}
-          // onClick={() => handleMarkerClick(marker)}
-          onClick={handleOpen}
-        >
-          <Pin size={20} />
-        </Marker>
-      )),
-    [data]
-  );
+  if (status === 'loading') {
+    content = <Spinner />;
+  } else if (status === 'done') {
+    content = features.map((marker, idx) => (
+      <Marker
+        key={idx}
+        id={idx}
+        longitude={marker.geometry.coordinates[0]}
+        latitude={marker.geometry.coordinates[1]}
+        // onClick={() => handleMarkerClick(marker)}
+        onClick={(e) => handleOpen(e, idx)}
+      >
+        {/* <Pin size={idx === 0 ? 35 : 20} color={idx === 0 ? 'green' : 'red'} /> */}
+        <Pin
+          color={props.props.targetForSale && idx === 0 ? 'green' : 'red'}
+          size={props.props.targetForSale && idx === 0 ? 35 : 20}
+        />
+      </Marker>
+    ));
+  } else if (status === 'error') {
+    content = <div>{status}</div>;
+  }
 
   return (
     <div>
-      {markers}
-
-      {/* {console.log('showPopup ', showPopup)}
-      {console.log('togglePopup ', togglePopup)}
-      {console.log('selectedMarker ', selectedMarker)} */}
-
-      <MapModal
-        open={MapModalOpen}
-        handleClose={handleClose}
-        propList={propList}
-      />
+      {content}
+      {MapModalOpen && (
+        <MapModal
+          open={MapModalOpen}
+          handleClose={handleClose}
+          // propList={features}
+          prop={propDetail}
+        />
+      )}
     </div>
   );
 };

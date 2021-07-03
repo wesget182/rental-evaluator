@@ -177,13 +177,13 @@ const MapView = () => {
           </ReactMapGL>
         </Grid>
       </div>
-      <div>
+      {/* <div>
         <Paper className={classes.paper}>
           xs=12 lat: {viewport.latitude} <br />
           lng: {viewport.longitude} <br />
           zoom: {viewport.zoom}
         </Paper>
-      </div>
+      </div> */}
     </Container>
   );
 };

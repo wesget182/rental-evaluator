@@ -17,7 +17,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import GoogleIcon from './GoogleIcon';
 import api from '../axios/axios';
-import { useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom';
 
 function Copyright() {
   return (
@@ -58,14 +58,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn({isLoggedIn, setIsLoggedIn}) {
+export default function SignIn({ isLoggedIn, setIsLoggedIn }) {
   const classes = useStyles();
   const history = useHistory();
   //state to store input field values
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  console.log('history ', history)
+  // console.log('history ', history)
   //submit fxn to make http call to BE
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -78,12 +78,11 @@ export default function SignIn({isLoggedIn, setIsLoggedIn}) {
       },
     }).then((res) => {
       console.log(res.data.isLoggedIn);
-      setIsLoggedIn(res.data.isLoggedIn)
-      
+      setIsLoggedIn(res.data.isLoggedIn);
     });
   };
 
-  if(isLoggedIn) return <Redirect to="/"/>;
+  if (isLoggedIn) return <Redirect to="/" />;
 
   return (
     <Container component="main" maxWidth="xs">

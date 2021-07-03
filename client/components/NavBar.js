@@ -218,9 +218,9 @@ export default function PrimarySearchAppBar({
               <Brightness7Icon />
             </IconButton>
             <IconButton aria-label="show 17 new notifications" color="inherit">
-              <Badge badgeContent={17} color="secondary">
-                <FavoriteIcon onClick={showFavs} />
-              </Badge>
+              {/* <Badge badgeContent={17} color="secondary"> */}
+              <FavoriteIcon onClick={showFavs} />
+              {/* </Badge> */}
             </IconButton>
             <IconButton
               edge="end"
