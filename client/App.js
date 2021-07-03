@@ -24,53 +24,40 @@ const App = () => {
       type: palletType,
     },
   });
-  // const handleThemeChange = () => {
-  //   setDarkState(!darkState);
-  // };
+
   return (
     <ThemeProvider theme={darkTheme}>
       <div className="router">
         {console.log('DARKSTATE IN APP', darkState)}
-        {/* <NavBar handleThemeChange={handleThemeChange} darkState={darkState} /> */}
 
         {/* <NavBar handleThemeChange={handleThemeChange} darkState={darkState} /> */}
 
         <main>
           <Switch>
-            <Route exact path="/signin" component={SignIn} />
-            <Route exact path="/register" component={Register} />
-            <Route exact path="/favs" component={Favorites} />
 
             <Route exact path="/signin" component={SignIn} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/favs" component={Favorites} />
             <Route exact path="/">
-              <NavBar 
+              <NavBar
+                handleThemeChange={handleThemeChange}
                 isLoggedIn={isLoggedIn}
                 setIsLoggedIn={setIsLoggedIn}
                 setDarkState={setDarkState} 
                 darkState={darkState}
                 handleThemeChange={handleThemeChange}
-                darkState={darkState} 
               />
               <MainContainer
                 isLoggedIn={isLoggedIn}
                 setIsLoggedIn={setIsLoggedIn}
-            />
-            
-            </Route>
-            <Route exact path="/signin">
-              <SignIn
-                isLoggedIn={isLoggedIn} 
-                setIsLoggedIn={setIsLoggedIn} 
               />
             </Route>
-            
-            <Route exact path="/register" >
-              <Register
-                isLoggedIn={isLoggedIn} 
-                setIsLoggedIn={setIsLoggedIn}
-            /> 
+            <Route exact path="/signin">
+              <SignIn isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+            </Route>
+
+            <Route exact path="/register">
+              <Register isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
             </Route>
             <Route exact path="/favs">
               <NavBar 
@@ -82,13 +69,11 @@ const App = () => {
                   handleThemeChange={handleThemeChange}
                 />
               <Favorites
-                isLoggedIn={isLoggedIn} 
+                isLoggedIn={isLoggedIn}
                 setIsLoggedIn={setIsLoggedIn}
               />
             </Route>
             <Route exact path="/test" component={Test} />
-            
-            
           </Switch>
         </main>
       </div>
