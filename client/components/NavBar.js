@@ -20,7 +20,6 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import Brightness7Icon from '@material-ui/icons/Brightness7';
 import Brightness2Icon from '@material-ui/icons/Brightness2';
 
-
 const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
@@ -85,8 +84,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+<<<<<<< HEAD
+export default function PrimarySearchAppBar({
+  setDarkState,
+  darkState,
+  isLoggedIn,
+  setIsLoggedIn,
+  handleThemeChange,
+}) {
+=======
 
 export default function PrimarySearchAppBar({ setDarkState, darkState, isLoggedIn, setIsLoggedIn, handleThemeChange}) {
+>>>>>>> dev
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
@@ -119,22 +128,22 @@ export default function PrimarySearchAppBar({ setDarkState, darkState, isLoggedI
 
   const showFavs = () => {
     setFavView(true);
-  }
-  
-  const signInOut = isLoggedIn ? "Sign Out" : "Sign In";
+  };
+
+  const signInOut = isLoggedIn ? 'Sign Out' : 'Sign In';
   const handleSignInOut = () => {
-    console.log('triggered')
-    if(isLoggedIn){
+    console.log('triggered');
+    if (isLoggedIn) {
       setIsLoggedIn(false);
       setGoToSignOut(true);
-    } else {setGoToSignIn(true)}
-
+    } else {
+      setGoToSignIn(true);
+    }
   };
-  
-  if(goToSignOut) return <Redirect to="/signin" />;
-  if(goToSignIn) return <Redirect to="/signin" />;
-  if(favView) return <Redirect to="/favs" />;
- 
+
+  if (goToSignOut) return <Redirect to="/signin" />;
+  if (goToSignIn) return <Redirect to="/signin" />;
+  if (favView) return <Redirect to="/favs" />;
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (

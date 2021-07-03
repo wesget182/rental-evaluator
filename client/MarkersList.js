@@ -66,16 +66,12 @@ const MarkersList = (props) => {
           location: propList[4].properties.Address,
           //give pins id of the array index they were created from
           //to id the proper index onclick
-          // location: propList[e.target.id].address,
-
-          //home_type: req.query.home_type,
-          // bedsMin: req.query.beds,
-          // bedsMax: req.query.beds,
-          // bathsMin: req.query.baths,
-          // bathsMax: req.query.baths
-          // Price: req.query.Price,
-          //       ZPID: req.query.ZPID
-          //initialQueryStateArray[e.target.id].properties.address
+          // location: propList[e.target.id].Zip,
+          // Type: propList[e.target.id].Type
+          // beds: propList[e.target.id]['# bedrooms'],
+          // bathrooms: propList[e.target.id]['# bathrooms'],
+          // Price: propList[e.target.id].Price,
+          // ZPID: propList[e.target.id].ZPID
         },
       })
       .then((res) => {

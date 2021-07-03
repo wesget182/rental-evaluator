@@ -13,81 +13,81 @@ import api from '../axios/axios';
 import FavModal from './FavsModal';
 
 //Favorite array state set by get request in component fxn
-// const [tileData, setTileData] = useState([]);
-const tileData = [
-  {
-    img: 'https://photos.zillowstatic.com/fp/dc3b1651b95ca288bbb5e6d273186332-cc_ft_768.jpg',
-    address: '45101 State Highway 82, Aspen, CO 81611',
-    price: '$51,000,000',
-    rentalAsset: 'Nah',
-  },
-  {
-    img: 'https://photos.zillowstatic.com/fp/dc3b1651b95ca288bbb5e6d273186332-cc_ft_768.jpg',
-    address: '45101 State Highway 82, Aspen, CO 81611',
-    price: '$51,000,000',
-    rentalAsset: 'Nah',
-  },
-  {
-    img: 'https://photos.zillowstatic.com/fp/dc3b1651b95ca288bbb5e6d273186332-cc_ft_768.jpg',
-    address: '45101 State Highway 82, Aspen, CO 81611',
-    price: '$51,000,000',
-    rentalAsset: 'Nah',
-  },
-  {
-    img: 'https://photos.zillowstatic.com/fp/dc3b1651b95ca288bbb5e6d273186332-cc_ft_768.jpg',
-    address: '45101 State Highway 82, Aspen, CO 81611',
-    price: '$51,000,000',
-    rentalAsset: 'Nah',
-  },
-  {
-    img: 'https://photos.zillowstatic.com/fp/dc3b1651b95ca288bbb5e6d273186332-cc_ft_768.jpg',
-    address: '45101 State Highway 82, Aspen, CO 81611',
-    price: '$51,000,000',
-    rentalAsset: 'Nah',
-  },
-  {
-    img: 'https://photos.zillowstatic.com/fp/dc3b1651b95ca288bbb5e6d273186332-cc_ft_768.jpg',
-    address: '45101 State Highway 82, Aspen, CO 81611',
-    price: '$51,000,000',
-    rentalAsset: 'Nah',
-  },
-  {
-    img: 'https://photos.zillowstatic.com/fp/dc3b1651b95ca288bbb5e6d273186332-cc_ft_768.jpg',
-    address: '45101 State Highway 82, Aspen, CO 81611',
-    price: '$51,000,000',
-    rentalAsset: 'Nah',
-  },
-  {
-    img: 'https://photos.zillowstatic.com/fp/dc3b1651b95ca288bbb5e6d273186332-cc_ft_768.jpg',
-    address: '45101 State Highway 82, Aspen, CO 81611',
-    price: '$51,000,000',
-    rentalAsset: 'Nah',
-  },
-  {
-    img: 'https://photos.zillowstatic.com/fp/dc3b1651b95ca288bbb5e6d273186332-cc_ft_768.jpg',
-    address: '45101 State Highway 82, Aspen, CO 81611',
-    price: '$51,000,000',
-    rentalAsset: 'Nah',
-  },
-  {
-    img: 'https://photos.zillowstatic.com/fp/dc3b1651b95ca288bbb5e6d273186332-cc_ft_768.jpg',
-    address: '45101 State Highway 82, Aspen, CO 81611',
-    price: '$51,000,000',
-    rentalAsset: 'Nah',
-  },
-  {
-    img: 'https://photos.zillowstatic.com/fp/dc3b1651b95ca288bbb5e6d273186332-cc_ft_768.jpg',
-    address: '45101 State Highway 82, Aspen, CO 81611',
-    price: '$51,000,000',
-    rentalAsset: 'Nah',
-  },
-  {
-    img: 'https://photos.zillowstatic.com/fp/dc3b1651b95ca288bbb5e6d273186332-cc_ft_768.jpg',
-    address: '45101 State Highway 82, Aspen, CO 81611',
-    price: '$51,000,000',
-    rentalAsset: 'Nah',
-  },
-];
+
+// const tileData = [
+//   {
+//     img: 'https://photos.zillowstatic.com/fp/dc3b1651b95ca288bbb5e6d273186332-cc_ft_768.jpg',
+//     address: '45101 State Highway 82, Aspen, CO 81611',
+//     price: '$51,000,000',
+//     rentalAsset: 'Nah',
+//   },
+//   {
+//     img: 'https://photos.zillowstatic.com/fp/dc3b1651b95ca288bbb5e6d273186332-cc_ft_768.jpg',
+//     address: '45101 State Highway 82, Aspen, CO 81611',
+//     price: '$51,000,000',
+//     rentalAsset: 'Nah',
+//   },
+//   {
+//     img: 'https://photos.zillowstatic.com/fp/dc3b1651b95ca288bbb5e6d273186332-cc_ft_768.jpg',
+//     address: '45101 State Highway 82, Aspen, CO 81611',
+//     price: '$51,000,000',
+//     rentalAsset: 'Nah',
+//   },
+//   {
+//     img: 'https://photos.zillowstatic.com/fp/dc3b1651b95ca288bbb5e6d273186332-cc_ft_768.jpg',
+//     address: '45101 State Highway 82, Aspen, CO 81611',
+//     price: '$51,000,000',
+//     rentalAsset: 'Nah',
+//   },
+//   {
+//     img: 'https://photos.zillowstatic.com/fp/dc3b1651b95ca288bbb5e6d273186332-cc_ft_768.jpg',
+//     address: '45101 State Highway 82, Aspen, CO 81611',
+//     price: '$51,000,000',
+//     rentalAsset: 'Nah',
+//   },
+//   {
+//     img: 'https://photos.zillowstatic.com/fp/dc3b1651b95ca288bbb5e6d273186332-cc_ft_768.jpg',
+//     address: '45101 State Highway 82, Aspen, CO 81611',
+//     price: '$51,000,000',
+//     rentalAsset: 'Nah',
+//   },
+//   {
+//     img: 'https://photos.zillowstatic.com/fp/dc3b1651b95ca288bbb5e6d273186332-cc_ft_768.jpg',
+//     address: '45101 State Highway 82, Aspen, CO 81611',
+//     price: '$51,000,000',
+//     rentalAsset: 'Nah',
+//   },
+//   {
+//     img: 'https://photos.zillowstatic.com/fp/dc3b1651b95ca288bbb5e6d273186332-cc_ft_768.jpg',
+//     address: '45101 State Highway 82, Aspen, CO 81611',
+//     price: '$51,000,000',
+//     rentalAsset: 'Nah',
+//   },
+//   {
+//     img: 'https://photos.zillowstatic.com/fp/dc3b1651b95ca288bbb5e6d273186332-cc_ft_768.jpg',
+//     address: '45101 State Highway 82, Aspen, CO 81611',
+//     price: '$51,000,000',
+//     rentalAsset: 'Nah',
+//   },
+//   {
+//     img: 'https://photos.zillowstatic.com/fp/dc3b1651b95ca288bbb5e6d273186332-cc_ft_768.jpg',
+//     address: '45101 State Highway 82, Aspen, CO 81611',
+//     price: '$51,000,000',
+//     rentalAsset: 'Nah',
+//   },
+//   {
+//     img: 'https://photos.zillowstatic.com/fp/dc3b1651b95ca288bbb5e6d273186332-cc_ft_768.jpg',
+//     address: '45101 State Highway 82, Aspen, CO 81611',
+//     price: '$51,000,000',
+//     rentalAsset: 'Nah',
+//   },
+//   {
+//     img: 'https://photos.zillowstatic.com/fp/dc3b1651b95ca288bbb5e6d273186332-cc_ft_768.jpg',
+//     address: '45101 State Highway 82, Aspen, CO 81611',
+//     price: '$51,000,000',
+//     rentalAsset: 'Nah',
+//   },
+// ];
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -129,6 +129,7 @@ const useStyles = makeStyles((theme) => ({
  */
 function TitlebarGridList() {
   const classes = useStyles();
+  const [tileData, setTileData] = useState([]);
   const [favDetailsOpen, setFavDetailsOpen] = useState(false);
   //open/close handlers for add record modal
   const handleOpen = () => {
@@ -140,16 +141,18 @@ function TitlebarGridList() {
     setFavDetailsOpen(false);
   };
   //get request to retrieve favorites
-  //   api.get('/getFavs').then((res) => {
-  //     //**************************************
-  //     //change set state var to whatever user schema favs name.
-  //     //********************************************/
-  //     setTileData(res.favorites);
-  //   });
+  api.get('/getFavs').then((res) => {
+    //     //**************************************
+    //     //change set state var to whatever user schema favs name.
+    //     //********************************************/
+    setTileData(res.favsArr);
+  });
   return (
     <div>
       <Box display="flex" flexDirection="row" justifyContent="center">
-        <Button variant="outlined" color="inherit" href="/">Map View</Button>
+        <Button variant="outlined" color="inherit" href="/">
+          Map View
+        </Button>
       </Box>
       <div className={classes.root}>
         <GridList cellHeight={300} className={classes.gridList}>
