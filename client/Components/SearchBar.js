@@ -1,15 +1,12 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import {
-  TextField,
-  Box
-} from '@material-ui/core/';
+import { TextField, Box } from '@material-ui/core/';
 import Price from './SearchBarPoppers/Price';
 import BedBath from './SearchBarPoppers/BedBath';
 import HomeType from './SearchBarPoppers/HomeType';
 import SquareFt from './SearchBarPoppers/SquareFt';
-import axios from "axios";
+import axios from 'axios';
 import Geocoder from 'react-map-gl-geocoder';
 
 const SearchBar = ({
@@ -17,9 +14,8 @@ const SearchBar = ({
   geocoderContainerRef,
   mapboxApiKey,
   handleGeocoderViewportChange,
-  setMarkers
+  setMarkers,
 }) => {
-
   const [minPrice, setMinPrice] = useState(null);
   const [maxPrice, setMaxPrice] = useState(null);
   const [beds, setBeds] = useState(null);
@@ -42,12 +38,12 @@ const SearchBar = ({
     console.log({
       location: address,
       minPrice,
-      maxPrice, 
-      beds, 
+      maxPrice,
+      beds,
       baths,
       homeTypes,
       minSquareFT,
-      maxSquareFT
+      maxSquareFT,
     });
 
     const home_type = [];
@@ -55,28 +51,24 @@ const SearchBar = ({
       if (value) home_type.push(key);
     }
     const headers = {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
     };
-    const res = await axios.post(
-      '/api/properties',
-      null,
-      {
-        headers,
-        params:{
-          location: address,
-          minPrice,
-          maxPrice, 
-          bedsMin: beds, 
-          bathsMin: baths,
-          home_type: home_type.toString()
-          // minSquareFT,
-          // maxSquareFT
-        }
-      }
-    );
+    const res = await axios.post('/api/properties', null, {
+      headers,
+      params: {
+        location: address,
+        minPrice,
+        maxPrice,
+        bedsMin: beds,
+        bathsMin: baths,
+        home_type: home_type.toString(),
+        // minSquareFT,
+        // maxSquareFT
+      },
+    });
     console.log(JSON.stringify(res.data, null, 2));
-    setMarkers(res.data)
+    setMarkers(res.data);
   };
 
   // const keyPress = (e) => {
@@ -86,26 +78,23 @@ const SearchBar = ({
   //   }
   // }
 
-  return(
+  return (
     <>
       <form className={classes.root} noValidate autoComplete="off">
         <Box display="flex" flexDirection="row" justifyContent="center">
-         
-          <Geocoder 
-              mapRef={mapRef}
-              contianerRef={geocoderContainerRef}
-              mapboxApiAccessToken={mapboxApiKey}
-              onViewportChange={handleGeocoderViewportChange}
-        
-              onResult={({ result })=>{
-                
-                console.log(result)  
-                const address = result.place_name
-                 onSubmit(address)
-                }}
-            />
+          <Geocoder
+            mapRef={mapRef}
+            contianerRef={geocoderContainerRef}
+            mapboxApiAccessToken={mapboxApiKey}
+            onViewportChange={handleGeocoderViewportChange}
+            onResult={({ result }) => {
+              console.log(result);
+              const address = result.place_name;
+              onSubmit(address);
+            }}
+          />
 
-          <Price 
+          <Price
             minPrice={minPrice}
             maxPrice={maxPrice}
             setMaxPrice={setMaxPrice}
@@ -124,15 +113,15 @@ const SearchBar = ({
             setHomeTypes={setHomeTypes}
             classes={classes}
           />
-          <SquareFt
+          {/* <SquareFt
             minSquareFT={minSquareFT}
             maxSquareFT={maxSquareFT}
             setMaxSquareFT={setMaxSquareFT}
             setMinSquareFT={setMinSquareFT}
             classes={classes}
-          />
+          /> */}
         </Box>
-      </form> 
+      </form>
     </>
   );
 };
