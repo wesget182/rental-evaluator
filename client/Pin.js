@@ -10,7 +10,8 @@ const pinStyle = {
 };
 
 function Pin(props) {
-  const {size = 20} = props;
+  const {size = 20, color} = props;
+  if (color) Object.assign(pinStyle, { fill: color });
 
   return (
     <svg height={size} viewBox="0 0 24 24" style={pinStyle}>

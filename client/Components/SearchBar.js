@@ -101,6 +101,7 @@ const SearchBar = ({
                 const address = result.place_name
                  onSubmit(address)
                 }}
+              countries='US'
             />
 
           <Price 

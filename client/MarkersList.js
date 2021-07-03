@@ -76,7 +76,8 @@ const MarkersList = (props) => {
           // onClick={() => handleMarkerClick(marker)}
           onClick={handleOpen}
         >
-          <Pin size={20} />
+          {/* <Pin size={idx === 0 ? 35 : 20} color={idx === 0 ? 'green' : 'red'} /> */}
+          <Pin size={props.props.propertiesForRental && idx === 0 ? 35 : 20} color={props.props.propertiesForRental && idx === 0 ? 'green' : 'red'} />
         </Marker>
       )),
     [data]
