@@ -16,6 +16,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import GoogleIcon from './GoogleIcon';
 import api from '../axios/axios';
+import { useHistory } from 'react-router-dom';
 
 function Copyright() {
   return (
@@ -65,6 +66,7 @@ export default function SignIn({isLoggedIn, setIsLoggedIn}) {
   const [password, setPassword] = useState('');
   const [validatePassword, setValidatePassword] = useState('');
 
+  console.log('history ', history)
   //submit fxn to make http call to BE
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -96,7 +98,7 @@ export default function SignIn({isLoggedIn, setIsLoggedIn}) {
                 <img src="https://i.imgur.com/q7xlJjy.png" />
               </div> */}
               <Typography component="h1" variant="h5">
-                Sign in
+                Register
               </Typography>
               <form className={classes.form} noValidate onSubmit={handleSubmit}>
                 <TextField
@@ -149,7 +151,7 @@ export default function SignIn({isLoggedIn, setIsLoggedIn}) {
                   fullWidth
                   name="validatePassword"
                   label="Re-Enter Password"
-                  type="validatePassword"
+                  type="password"
                   id="validatePassword"
                   value={validatePassword}
                   onChange={(e) => {

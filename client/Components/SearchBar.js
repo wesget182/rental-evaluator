@@ -16,7 +16,8 @@ const SearchBar = ({
   mapRef,
   geocoderContainerRef,
   mapboxApiKey,
-  handleGeocoderViewportChange
+  handleGeocoderViewportChange,
+  setMarkers
 }) => {
 
   const [minPrice, setMinPrice] = useState(null);
@@ -75,6 +76,7 @@ const SearchBar = ({
       }
     );
     console.log(JSON.stringify(res.data, null, 2));
+    setMarkers(res.data)
   };
 
   // const keyPress = (e) => {

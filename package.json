@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack --mode development",
     "dev1": "webpack serve --hot --open",
-    "dev": "concurrently \"cross-env NODE_ENV=development webpack server --open --hot --inline --progress --content-base ./\" \"nodemon ./server/server.js\" \"--history-api-fallback\"",
+    "dev": "concurrently \"cross-env NODE_ENV=development webpack server --open --hot --inline --content-base ./\" \"nodemon ./server/server.js\" \"--history-api-fallback\"",
     "build": "webpack --config webpack.config.js --mode production"
   },
   "repository": {
@@ -66,6 +66,7 @@
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "file-loader": "^6.2.0",
+    "get-routes": "^2.1.4",
     "html-webpack-plugin": "^5.3.1",
     "mongoose": "^5.12.14",
     "node-fetch": "^2.6.1",

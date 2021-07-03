@@ -6,14 +6,15 @@ const ICON = `M20.2,15.7L20.2,15.7c1.1-1.6,1.8-3.6,1.8-5.7c0-5.6-4.5-10-10-10S2,
 
 const pinStyle = {
   fill: '#d00',
-  stroke: 'none'
+  stroke: 'green'
 };
 
 function Pin(props) {
-  const {size = 20} = props;
+  const {size = 20, color} = props;
+  if (color) Object.assign(pinStyle, {fill : color})
 
   return (
-    <svg height={size} viewBox="0 0 24 24" style={pinStyle}>
+    <svg height={size} viewBox="0 0 24 24" style={pinStyle} >
       <path d={ICON} />
       Sorry, your browser does not support inline SVG.
     </svg>
