@@ -8,9 +8,10 @@ import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import { Typography, Grid, Card, Divider, Box } from '@material-ui/core';
 import api from '../axios/axios';
 
-const MapModal = ({ open, handleClose, propList }) => {
+const MapModal = ({ open, handleClose, prop }) => {
+  console.log(prop)
   //   const property = propDetail.targetForSale.features[0];
-  const property = propList[4].properties;
+  const property = prop.properties;
 
   const useStyles = makeStyles((theme) => ({
     container: {

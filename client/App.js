@@ -29,9 +29,6 @@ const App = () => {
     <ThemeProvider theme={darkTheme}>
       <div className="router">
         {console.log('DARKSTATE IN APP', darkState)}
-<<<<<<< HEAD
-=======
-        <NavBar handleThemeChange={handleThemeChange} darkState={darkState} />
 
         {/* <NavBar handleThemeChange={handleThemeChange} darkState={darkState} /> */}
 

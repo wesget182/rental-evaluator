@@ -21,7 +21,6 @@ const addFavsRouter = require('./routes/addFavsRoute');
 const getFavsRouter = require('./routes/getFavsRoute');
 
 //db connection
-<<<<<<< HEAD
 //note - db connection issues?  check for console logs in terminal
 mongoose
   .connect(
@@ -30,15 +29,6 @@ mongoose
   .then(
     console.log('Connected to DB: ENV Test String: ', process.env.TEST_STRING)
   )
-=======
-//note - if this does not work for you, i may need to add your ip as verified to mongo - adam
-//note - db connection issues?  check for console logs in terminal
-const connectionString = 'mongodb+srv://admin:adam123@cluster0.tqcgi.mongodb.net/scratch_project?retryWrites=true&w=majority'
-mongoose.connect(
-  connectionString, {useNewUrlParser: true, useUnifiedTopology: true})
-  .then(console.log('Connected to DB: ENV Test String: ', connectionString))
-  .then(console.log('Connected to DB: ENV Test String: ', process.env.TEST_STRING))
->>>>>>> dev
   .catch((err) => console.log('Mongo DB Connection Error:', err));
 
 app.use(cors());
