@@ -85,7 +85,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+<<<<<<< HEAD
+export default function PrimarySearchAppBar({ handleThemeChange, darkState }) {
+=======
 export default function PrimarySearchAppBar({ setDarkState, darkState, isLoggedIn, setIsLoggedIn}) {
+>>>>>>> dev
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
@@ -95,9 +99,9 @@ export default function PrimarySearchAppBar({ setDarkState, darkState, isLoggedI
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-  const handleThemeChange = () => {
-    setDarkState(!darkState);
-  };
+  // const handleThemeChange = () => {
+  //   setDarkState(!darkState);
+  // };
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -212,7 +216,7 @@ export default function PrimarySearchAppBar({ setDarkState, darkState, isLoggedI
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             <Button onclick={handleThemeChange} />
-            <IconButton color="inherit" onclick={handleThemeChange}>
+            <IconButton color="inherit" onClick={handleThemeChange}>
               <Brightness7Icon />
             </IconButton>
             <IconButton aria-label="show 17 new notifications" color="inherit">

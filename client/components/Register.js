@@ -96,7 +96,7 @@ export default function SignIn({isLoggedIn, setIsLoggedIn}) {
                 <img src="https://i.imgur.com/q7xlJjy.png" />
               </div> */}
               <Typography component="h1" variant="h5">
-                Sign in
+                Register
               </Typography>
               <form className={classes.form} noValidate onSubmit={handleSubmit}>
                 <TextField
@@ -149,7 +149,7 @@ export default function SignIn({isLoggedIn, setIsLoggedIn}) {
                   fullWidth
                   name="validatePassword"
                   label="Re-Enter Password"
-                  type="validatePassword"
+                  type="password"
                   id="validatePassword"
                   value={validatePassword}
                   onChange={(e) => {

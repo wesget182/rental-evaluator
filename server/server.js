@@ -3,31 +3,44 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const mongoose = require('mongoose');
+const cookieParser = require('cookie-parser');
 require('dotenv').config();
 const cors = require('cors');
 
 //direct controller imports
 const sessionController = require('./controllers/sessionController');
-const cookieController = require('./controllers/cookieController')
+const cookieController = require('./controllers/cookieController');
 
 //route imports
 const signupRouter = require('./routes/signupRoute');
 const signinRouter = require('./routes/signinRoute');
 const properties = require('./routes/properties');
-const addFavsRouter = require('./routes/addFavsRoute')
-const getFavsRouter = require('./routes/getFavsRoute')
+const addFavsRouter = require('./routes/addFavsRoute');
+const getFavsRouter = require('./routes/getFavsRoute');
 
 //db connection
+<<<<<<< HEAD
+//note - if this does not work for you, i may need to add your ip as verified to mongo - adam
+mongoose
+  .connect(
+    'mongodb+srv://admin:adam123@cluster0.tqcgi.mongodb.net/scratch_project?retryWrites=true&w=majority'
+  )
+  .then(
+    console.log('Connected to DB: ENV Test String: ', process.env.TEST_STRING)
+  )
+=======
 //note - db connection issues?  check for console logs in terminal
 mongoose.connect(
   '')
   .then(console.log('Connected to DB: ENV Test String: ', process.env.TEST_STRING))
+>>>>>>> dev
   .catch((err) => console.log('Mongo DB Connection Error:', err));
 const fetch = require('node-fetch');
 const { URL, URLSearchParams } = require('url');
 
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 
 // server test route
 app.use('/testRoute', (req, res) => {
@@ -44,21 +57,19 @@ app.use('/signin', signinRouter);
 app.use('/properties', properties);
 
 //add favorites route
-app.use('/addFav', addFavsRouter)
+app.use('/addFav', addFavsRouter);
 
 //get favorites route
 app.use('/getFavs', getFavsRouter);
 
 //check login route
 app.use('/checkLogin', sessionController.isLoggedIn, (req, res) => {
-  return res.status(299).send('user is logged in')
-})
+  return res.status(299).send('user is logged in');
+});
 
 //serve index.html - NOTE - THIS ROUTE NEVER ACTUALLY HITS (react router serves up the page??)
 app.get('/', cookieController.setCookie, (req, res) => {
-  return res
-    .status(201)
-    .sendFile(path.join(__dirname, '.././index.html'))
+  return res.status(201).sendFile(path.join(__dirname, '.././index.html'));
 });
 
 // Global error handler
@@ -66,7 +77,7 @@ app.use((err, req, res, next) => {
   const defaultErr = {
     log: 'Express error handler caught unknown middleware error.',
     status: 400,
-    message: { err: 'An unknown error occurred.'}
+    message: { err: 'An unknown error occurred.' },
   };
   Object.assign(defaultErr, err);
   console.log(defaultErr.log);

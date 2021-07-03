@@ -3,9 +3,11 @@ import { Marker, Popup } from 'react-map-gl';
 import Pin from './Pin';
 import MapModal from './components/MapModal';
 import api from './axios/axios';
+import boiseList from './PropertyTestData/boiseList';
 
 const MarkersList = (props) => {
-  const data = props.props.features;
+  // const data = props.props.features;
+  const data = boiseList.propertiesForSale.features;
 
   const [viewport, setViewport] = useState({
     longitude: -121.27096757069442,
@@ -15,19 +17,40 @@ const MarkersList = (props) => {
     pitch: 0,
   });
 
+  //state to hold list of properties from initial area query
+  const [propList, setPropList] = useState(
+    boiseList.propertiesForSale.features
+  );
+
+  //state to hold specific property details when map pin clicked
+  //will be displayed on modal and saved to mongodb if fav added
   const [propDetail, setPropDetail] = useState({});
+
+  //second api call to get rent data and rating on specific address
   const getDetails = async (e) => {
+    console.log('DATA ', data);
     await api
-      .get('/target', {
+      .get('/properties/target', {
         params: {
-          location: '81 Surfside Plz, Staten Island, NY 10307',
-          // location: data[0].properties.title,
+          location: propList[4].properties.Address,
+          //give pins id of the array index they were created from
+          //to id the proper index onclick
+          // location: propList[e.target.id].address,
+
+          //home_type: req.query.home_type,
+          // bedsMin: req.query.beds,
+          // bedsMax: req.query.beds,
+          // bathsMin: req.query.baths,
+          // bathsMax: req.query.baths
+          // Price: req.query.Price,
+          //       ZPID: req.query.ZPID
           //initialQueryStateArray[e.target.id].properties.address
         },
       })
       .then((res) => {
         console.log('RES IN API TARGET', res);
         setPropDetail(res);
+        console.log('PROP DETAIL', propDetail);
       });
   };
   // setup state to toggle Popupp
@@ -35,6 +58,7 @@ const MarkersList = (props) => {
   const [MapModalOpen, setMapModalOpen] = useState(false);
   //open/close handlers for add record modal
   const handleOpen = (e) => {
+    e.preventDefault();
     getDetails(e);
     setMapModalOpen(true);
     console.log('map modal OPEN');
@@ -86,24 +110,14 @@ const MarkersList = (props) => {
     <div>
       {markers}
 
-      {console.log('showPopup ', showPopup)}
+      {/* {console.log('showPopup ', showPopup)}
       {console.log('togglePopup ', togglePopup)}
-      {console.log('selectedMarker ', selectedMarker)}
-      {showPopup && (
-        <Popup
-          longitude={selectedMarker.geometry.coordinates[0]}
-          latitude={selectedMarker.geometry.coordinates[1]}
-          closeButton={true}
-          closeOnClick={true}
-          onClose={() => handleCloseClicked(false)}
-        >
-          <h3>{selectedMarker.properties.title}</h3>
-        </Popup>
-      )}
+      {console.log('selectedMarker ', selectedMarker)} */}
+
       <MapModal
         open={MapModalOpen}
         handleClose={handleClose}
-        propDetail={propDetail}
+        propList={propList}
       />
     </div>
   );

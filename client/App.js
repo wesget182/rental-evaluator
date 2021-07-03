@@ -4,7 +4,7 @@ import MainContainer from './components/MainContainer';
 import Register from './components/Register';
 import Favorites from './components/Favorites';
 import NavBar from './components/NavBar';
-import Test from './components/Test'
+import Test from './components/Test';
 
 import { Switch, Route, Redirect } from 'react-router-dom';
 import MapView from './MapView';
@@ -15,9 +15,13 @@ const App = () => {
   const palletType = darkState ? 'dark' : 'light';
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  const handleThemeChange = () => {
+    setDarkState(!darkState);
+  };
+
   const darkTheme = createMuiTheme({
     palette: {
-      type: 'light',
+      type: palletType,
     },
   });
   // const handleThemeChange = () => {
@@ -27,11 +31,20 @@ const App = () => {
     <ThemeProvider theme={darkTheme}>
       <div className="router">
         {console.log('DARKSTATE IN APP', darkState)}
+<<<<<<< HEAD
+        <NavBar handleThemeChange={handleThemeChange} darkState={darkState} />
+=======
         
+>>>>>>> dev
         {/* <NavBar handleThemeChange={handleThemeChange} darkState={darkState} /> */}
 
         <main>
           <Switch>
+<<<<<<< HEAD
+            <Route exact path="/signin" component={SignIn} />
+            <Route exact path="/register" component={Register} />
+            <Route exact path="/favs" component={Favorites} />
+=======
           
             <Route exact path="/">
               <NavBar 
@@ -71,6 +84,7 @@ const App = () => {
                 setIsLoggedIn={setIsLoggedIn}
               />
             </Route>
+>>>>>>> dev
             <Route exact path="/test" component={Test} />
             
             

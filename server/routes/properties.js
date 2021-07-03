@@ -4,7 +4,8 @@ const router = express.Router();
 const middlewares = require('../controllers/properties');
 
 // handler for submitted form with a single address or area search
-router.all('/',
+router.all(
+  '/',
   middlewares.getPropertiesForSale,
   (req, res, next) => {
     if ('zpid' in res.locals) {
@@ -18,13 +19,13 @@ router.all('/',
     if ('targetForSale' in res.locals) {
       const target = res.locals.targetForSale['features'][0]['properties'];
       Object.assign(req.params, {
-        location : target['Zip code'],
+        location: target['Zip code'],
         status_type: 'ForRent',
         home_type: target['Type'],
         bedsMin: target['# bedrooms'],
         bedsMax: target['# bedrooms'],
         bathsMin: target['# bathrooms'],
-        bathsMax: target['# bathrooms']
+        bathsMax: target['# bathrooms'],
       });
       middlewares.getPropertiesForRental(req, res, next);
     } else {
@@ -37,11 +38,12 @@ router.all('/',
 );
 
 // handler for a clicked address search on a property pinned on the map
-router.get('/target',
+router.get(
+  '/target',
   (req, res, next) => {
     Object.assign(req.params, {
       location: req.query.location,
-      status_type: 'ForRent',
+      // status_type: 'ForRent',
     });
     middlewares.getPropertiesForRental(req, res, next);
   },
