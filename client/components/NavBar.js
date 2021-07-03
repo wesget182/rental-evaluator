@@ -84,7 +84,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-<<<<<<< HEAD
 export default function PrimarySearchAppBar({
   setDarkState,
   darkState,
@@ -92,10 +91,6 @@ export default function PrimarySearchAppBar({
   setIsLoggedIn,
   handleThemeChange,
 }) {
-=======
-
-export default function PrimarySearchAppBar({ setDarkState, darkState, isLoggedIn, setIsLoggedIn, handleThemeChange}) {
->>>>>>> dev
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
@@ -105,9 +100,6 @@ export default function PrimarySearchAppBar({ setDarkState, darkState, isLoggedI
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-  // const handleThemeChange = () => {
-  //   setDarkState(!darkState);
-  // };
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
