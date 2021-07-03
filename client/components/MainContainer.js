@@ -2,33 +2,18 @@ import React from 'react';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import Card from '@material-ui/core/Card';
+import SearchBar from './SearchBar';
 import MapView from '../MapView';
-
 
 const MainContainer = () => {
   return (
-    <div>
+    <Container component="main">
       <Container>
-        
-        <Box><MapView/></Box>
-        
+        <Box>
+          <MapView />
+        </Box>
       </Container>
-      {/* <p>main display</p>
-      <div>rental evaluator</div>
-      <button
-        onClick={async () => {
-          let res = await fetch('/api/clickMe');
-          res = await res.json();
-          console.log(JSON.stringify(res));
-          const node = document.getElementById('listings');
-          node.innerHTML = JSON.stringify(res);
-        }}
-      >
-        Click me
-      </button>
-      <div id="listings"></div> */}
-      <p>main display</p>
-      <div>rental evaluator</div>
+
       {/* <label htmlFor='location'>Search:</label> */}
       <input id="location" type="text" className="form-control" />
       <button
@@ -68,7 +53,7 @@ const MainContainer = () => {
         Search target
       </button>
       <pre id="listings"></pre>
-    </div>
+    </Container>
   );
 };
 

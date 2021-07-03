@@ -14,7 +14,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import MarkersList from './MarkersList';
 import SearchBar from './Components/SearchBar';
 
-const mapboxApiKey = '';
+const mapboxApiKey = 'null';
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -128,16 +129,15 @@ const MapView = () => {
   const [addressCoordinates, setAddressCoordinates] = useState({
     longitude: 0,
     latitude: 0,
-    zoom: 0
-  })
-  
-  // console.log('addressCoordinates #### ', addressCoordinates)
-  const handleViewportChange = useCallback( (newViewport) => {
-  //  console.log('handleViewportChange called ###', newViewport);
+    zoom: 0,
+  });
+
+  const handleViewportChange = useCallback((newViewport) => {
+    //  console.log('handleViewportChange called ###', newViewport);
     setViewport(newViewport);
     // save coordinate to reverse lookup address by coordinates
-    setAddressCoordinates(newViewport)
-  },[]);
+    setAddressCoordinates(newViewport);
+  }, []);
 
   const handleGeocoderViewportChange = useCallback(
     (newViewport) => {

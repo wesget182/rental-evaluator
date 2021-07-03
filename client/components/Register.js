@@ -57,8 +57,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn() {
-  const history = useHistory();
+export default function SignIn({isLoggedIn, setIsLoggedIn}) {
   const classes = useStyles();
 
   //state to store input field values
@@ -81,10 +80,7 @@ export default function SignIn() {
       },
     }).then((res) => {
       console.log(res);
-      //handle redirect on backend?
-      // if (res.status === 200) {
-      //   loggedIn();
-      history.push('/home')
+      setIsLoggedIn(res.data.success)
     });
   };
 
@@ -102,7 +98,7 @@ export default function SignIn() {
                 <img src="https://i.imgur.com/q7xlJjy.png" />
               </div> */}
               <Typography component="h1" variant="h5">
-                Sign in
+                Register
               </Typography>
               <form className={classes.form} noValidate onSubmit={handleSubmit}>
                 <TextField
@@ -155,7 +151,7 @@ export default function SignIn() {
                   fullWidth
                   name="validatePassword"
                   label="Re-Enter Password"
-                  type="validatePassword"
+                  type="password"
                   id="validatePassword"
                   value={validatePassword}
                   onChange={(e) => {
