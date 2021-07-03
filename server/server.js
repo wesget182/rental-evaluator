@@ -26,8 +26,10 @@ mongoose.connect(
 const fetch = require('node-fetch');
 const { URL, URLSearchParams } = require('url');
 
+app.use(cookieParser())
 app.use(cors());
 app.use(express.json());
+
 
 // server test route
 app.use('/testRoute', (req, res) => {

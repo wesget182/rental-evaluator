@@ -3,12 +3,12 @@ const favsController = {};
 
 favsController.addFavs = (req, res, next) => {
   //verify favorite and email are on the request
-  if (!req.body.favorite || !req.body.email){
+  if (!req.body.favorite || !req.cookies.ssid){
     console.log('no favorites found');
     return res.status(500).send('favsController.addFavs error: nothing on body');
   } else {
     //find the user
-    User.findOne({email: req.body.email})
+    User.findById(req.cookies.ssid)
     .then(user => {
       //grab the existing favs array
       const favs = user.favorites;
@@ -26,11 +26,11 @@ favsController.addFavs = (req, res, next) => {
 
 favsController.getFavs = (req, res, next) => {
   //verify email is on the request
-  if(!req.body.email){
-    return res.status(500).send('favsController.getFavs error: no email property')
+  if(!req.cookies.ssid){
+    return res.status(500).send('favsController.getFavs error: no ssid cookie')
   } else {
     //let favsArr;
-    User.findOne({email: req.body.email})
+    User.findById(req.cookies.ssid)
     .then(user => {
       res.locals.favsArr = user.favorites;
     })
