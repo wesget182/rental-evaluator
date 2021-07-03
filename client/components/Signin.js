@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Redirect } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
@@ -56,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn() {
+export default function SignIn({isLoggedIn, setIsLoggedIn}) {
   const classes = useStyles();
 
   //state to store input field values
@@ -74,12 +75,13 @@ export default function SignIn() {
         password,
       },
     }).then((res) => {
-      console.log(res);
-      //handle redirect on backend?
-      // if (res.status === 200) {
-      //   loggedIn();
+      console.log(res.data.isLoggedIn);
+      setIsLoggedIn(res.data.isLoggedIn)
+      
     });
   };
+
+  if(isLoggedIn) return <Redirect to="/"/>;
 
   return (
     <Container component="main" maxWidth="xs">

@@ -19,7 +19,11 @@ import Geocoder from 'react-map-gl-geocoder';
 import MarkersList from './MarkersList';
 import SearchBar from './Components/SearchBar';
 
+<<<<<<< HEAD
 const mapboxApiKey = 'null';
+=======
+const mapboxApiKey = 'pk.eyJ1IjoiYXJhbWF5IiwiYSI6ImNrcWI2Z3JjOTAxazQydnBlbHIyNWprbXAifQ.HNWa9dA4WXSefOVnqhIVZA';
+>>>>>>> dev
 
 const test_data = {
   type: 'FeatureCollection',

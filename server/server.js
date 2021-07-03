@@ -19,6 +19,7 @@ const addFavsRouter = require('./routes/addFavsRoute');
 const getFavsRouter = require('./routes/getFavsRoute');
 
 //db connection
+<<<<<<< HEAD
 //note - if this does not work for you, i may need to add your ip as verified to mongo - adam
 mongoose
   .connect(
@@ -27,6 +28,12 @@ mongoose
   .then(
     console.log('Connected to DB: ENV Test String: ', process.env.TEST_STRING)
   )
+=======
+//note - db connection issues?  check for console logs in terminal
+mongoose.connect(
+  '')
+  .then(console.log('Connected to DB: ENV Test String: ', process.env.TEST_STRING))
+>>>>>>> dev
   .catch((err) => console.log('Mongo DB Connection Error:', err));
 const fetch = require('node-fetch');
 const { URL, URLSearchParams } = require('url');

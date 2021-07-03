@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn() {
+export default function SignIn({isLoggedIn, setIsLoggedIn}) {
   const classes = useStyles();
 
   //state to store input field values
@@ -78,9 +78,7 @@ export default function SignIn() {
       },
     }).then((res) => {
       console.log(res);
-      //handle redirect on backend?
-      // if (res.status === 200) {
-      //   loggedIn();
+      setIsLoggedIn(res.data.success)
     });
   };
 
