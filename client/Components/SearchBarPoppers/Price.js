@@ -1,55 +1,47 @@
-import React, {useState} from 'react';
-import ReactDOM from 'react-dom';
+import React, { useState } from 'react';
 
-import {Button, 
-  TextField,
+import {
+  Button,
   Popper,
   FormControl,
   InputLabel,
   OutlinedInput,
   InputAdornment,
-  ClickAwayListener
+  ClickAwayListener,
 } from '@material-ui/core/';
 
-
-const Price = ({
-  minPrice,
-  maxPrice,
-  setMaxPrice,
-  setMinPrice,
-  classes }) => {
-
+const Price = ({ minPrice, maxPrice, setMaxPrice, setMinPrice, classes }) => {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = (e) => {
     setAnchorEl(anchorEl ? null : e.currentTarget);
   };
-    
+
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popper' : undefined;
 
   const handleClickAway = () => {
     setAnchorEl(null);
   };
-  
+
   const handleChange = (prop) => (event) => {
-    if(prop === 'min') setMinPrice(event.target.value );
-    if(prop === 'max') setMaxPrice(event.target.value );
+    if (prop === 'min') setMinPrice(event.target.value);
+    if (prop === 'max') setMaxPrice(event.target.value);
   };
 
-  return(
+  return (
     <div className={classes.root}>
-        
-      
-      <Button variant="contained"  aria-describedby={id} type="button" onClick={handleClick}>
-            Price
+      <Button variant="contained" aria-describedby={id} type="button" onClick={handleClick}>
+        Price
       </Button>
-      
+
       <Popper id={id} open={open} anchorEl={anchorEl}>
-        <ClickAwayListener onClickAway={handleClickAway}>   
+        <ClickAwayListener onClickAway={handleClickAway}>
           <div className={classes.paper}>
             <FormControl fullWidth className={classes.margin} variant="filled">
-              <InputLabel htmlFor="filled-adornment-amount" size="small">MIN</InputLabel>
+              <InputLabel htmlFor="filled-adornment-amount" size="small">
+                MIN
+              </InputLabel>
               <OutlinedInput
                 id="min-price"
                 value={minPrice}
@@ -59,7 +51,6 @@ const Price = ({
                 size="small"
                 type="number"
               />
-          
             </FormControl>
             <FormControl fullWidth className={classes.margin} variant="filled">
               <InputLabel htmlFor="filled-adornment-amount">MAX</InputLabel>
@@ -75,10 +66,8 @@ const Price = ({
           </div>
         </ClickAwayListener>
       </Popper>
-      
-    
     </div>
-  )
+  );
 };
 
 export default Price;
