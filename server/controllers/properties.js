@@ -16,19 +16,16 @@ const calcMortgage = (price, int, down = 0.2, years = 30) => {
 };
 
 middlewares.getPropertiesForSale = async (req, res, next) => {
-  console.log(req.query);
-  const url = new URL(
-    'https://zillow-com1.p.rapidapi.com/propertyExtendedSearch'
-  );
+  const url = new URL('https://zillow-com1.p.rapidapi.com/propertyExtendedSearch');
   const params = {
     location: req.query.location.replace(/, United States$/, ''),
     status_type: 'ForSale',
   };
   if (req.query.home_type !== '') params.home_type = req.query.home_type;
-  if (! isNaN(Number(req.query.bedsMin))) params.bedsMin = Number(req.query.bedsMin);
-  if (! isNaN(Number(req.query.bathsMin))) params.bathsMin = Number(req.query.bathsMin);
-  if (! isNaN(Number(req.query.minPrice))) params.minPrice = Number(req.query.minPrice);
-  if (! isNaN(Number(req.query.maxPrice))) params.maxPrice = Number(req.query.maxPrice);
+  if (!isNaN(Number(req.query.bedsMin))) params.bedsMin = Number(req.query.bedsMin);
+  if (!isNaN(Number(req.query.bathsMin))) params.bathsMin = Number(req.query.bathsMin);
+  if (!isNaN(Number(req.query.minPrice))) params.minPrice = Number(req.query.minPrice);
+  if (!isNaN(Number(req.query.maxPrice))) params.maxPrice = Number(req.query.maxPrice);
   // const params = {
   //   location: '111 Balcaro Way UNIT 88, Sacramento, CA 95834',
   //   // location: '2470 Peachtree Ln, San Jose, CA 95128',
@@ -42,11 +39,8 @@ middlewares.getPropertiesForSale = async (req, res, next) => {
   //   bedsMax: '2'
   // };
   url.search = new URLSearchParams(params).toString();
-  console.log(url);
-  const result = await fetch(url, { method: 'GET', headers: headers }).then(
-    (res) => res.json()
-  );
-  // console.log(result);
+
+  const result = await fetch(url, { method: 'GET', headers: headers }).then((res) => res.json());
 
   if ('zpid' in result) {
     res.locals.zpid = result.zpid;
@@ -105,10 +99,7 @@ middlewares.getTargetForSale = async (req, res, next) => {
     zpid: req.params.zpid,
   };
   url.search = new URLSearchParams(params).toString();
-  console.log(url);
-  const result = await fetch(url, { method: 'GET', headers: headers }).then(
-    (res) => res.json()
-  );
+  const result = await fetch(url, { method: 'GET', headers: headers }).then((res) => res.json());
 
   if ('zpid' in result) {
     const {
@@ -172,9 +163,7 @@ middlewares.getTargetForSale = async (req, res, next) => {
 };
 
 middlewares.getPropertiesForRental = async (req, res, next) => {
-  const url = new URL(
-    'https://zillow-com1.p.rapidapi.com/propertyExtendedSearch'
-  );
+  const url = new URL('https://zillow-com1.p.rapidapi.com/propertyExtendedSearch');
   // const params = {
   //   'location': req.params.zip,
   //   'status_type': 'ForRent',
@@ -185,10 +174,7 @@ middlewares.getPropertiesForRental = async (req, res, next) => {
   //   'bedsMax': '2'
   // };
   url.search = new URLSearchParams(req.params).toString();
-  console.log(url);
-  const result = await fetch(url, { method: 'GET', headers: headers }).then(
-    (res) => res.json()
-  );
+  const result = await fetch(url, { method: 'GET', headers: headers }).then((res) => res.json());
 
   if ('totalResultCount' in result) {
     if (result.totalResultCount > 0) {
@@ -233,11 +219,8 @@ middlewares.getPropertiesForRental = async (req, res, next) => {
           .map((p) => Number(p['properties']['Monthly rent'].slice(1)))
           .sort((a, b) => a - b);
         const rent = quantileSorted(rentArr, 0.5);
-        const ratio = Math.round(
-          Number(target['Price'].slice(1)) / (rent * 12)
-        );
-        const rating =
-          ratio <= 15 ? 'Strong buy' : ratio >= 21 ? 'Strong no buy' : 'No buy';
+        const ratio = Math.round(Number(target['Price'].slice(1)) / (rent * 12));
+        const rating = ratio <= 15 ? 'Strong buy' : ratio >= 21 ? 'Strong no buy' : 'No buy';
         Object.assign(target, {
           'Rent array': rentArr,
           'Est. monthly rent': rent,
