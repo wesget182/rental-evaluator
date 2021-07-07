@@ -10,7 +10,6 @@ import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
 import api from '../axios/axios';
 import FavModal from './FavsModal';
-Î;
 
 //Favorite array state set by get request in component fxn
 const useStyles = makeStyles((theme) => ({

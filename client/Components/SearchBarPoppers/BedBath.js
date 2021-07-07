@@ -1,3 +1,4 @@
+import React, { useState } from 'react'
 import { Button, ButtonGroup, Popper, ClickAwayListener } from '@material-ui/core/';
 
 const BedBath = ({ setBaths, setBeds, classes }) => {
