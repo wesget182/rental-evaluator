@@ -21,8 +21,8 @@ const getFavsRouter = require('./routes/getFavsRoute');
 
 //db connection
 mongoose
-  .connect(process.env.DB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(console.log('Connected to DB: ENV Test String: ', process.env.TEST_STRING))
+  .connect(process.env.DB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
+  .then(console.log('Connected to DB'))
   .catch((err) => console.log('Mongo DB Connection Error:', err));
 
 app.use(cors());

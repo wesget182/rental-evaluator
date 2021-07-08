@@ -18,7 +18,7 @@ const calcMortgage = (price, int, down = 0.2, years = 30) => {
 middlewares.getPropertiesForSale = async (req, res, next) => {
   const url = new URL('https://zillow-com1.p.rapidapi.com/propertyExtendedSearch');
   const params = {
-    location: req.query.location.replace(/, United States$/, ''),
+    location: req.query.location.replace(/, United States$/, '').replace(/\d{5}/, ''),
     status_type: 'ForSale',
   };
   if (req.query.home_type !== '') params.home_type = req.query.home_type;
