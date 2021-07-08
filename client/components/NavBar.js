@@ -4,21 +4,16 @@ import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
 import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
-import Brightness7Icon from '@material-ui/icons/Brightness7';
-import Brightness2Icon from '@material-ui/icons/Brightness2';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -84,13 +79,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PrimarySearchAppBar({
-  setDarkState,
-  darkState,
-  isLoggedIn,
-  setIsLoggedIn,
-  handleThemeChange,
-}) {
+export default function PrimarySearchAppBar({ isLoggedIn, setIsLoggedIn }) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
@@ -124,7 +113,6 @@ export default function PrimarySearchAppBar({
 
   const signInOut = isLoggedIn ? 'Sign Out' : 'Sign In';
   const handleSignInOut = () => {
-    console.log('triggered');
     if (isLoggedIn) {
       setIsLoggedIn(false);
       setGoToSignOut(true);
@@ -148,8 +136,8 @@ export default function PrimarySearchAppBar({
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      {isLoggedIn && <MenuItem onClick={handleMenuClose}>Profile</MenuItem>}
+      {isLoggedIn && <MenuItem onClick={handleMenuClose}>My account</MenuItem>}
       <MenuItem onClick={handleSignInOut}>{signInOut}</MenuItem>
     </Menu>
   );
@@ -213,15 +201,11 @@ export default function PrimarySearchAppBar({
 
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <Button onclick={handleThemeChange} />
-            <IconButton color="inherit" onClick={handleThemeChange}>
-              <Brightness7Icon />
-            </IconButton>
-            <IconButton aria-label="show 17 new notifications" color="inherit">
-              {/* <Badge badgeContent={17} color="secondary"> */}
-              <FavoriteIcon onClick={showFavs} />
-              {/* </Badge> */}
-            </IconButton>
+            {isLoggedIn && (
+              <IconButton aria-label="favorite properties" color="inherit">
+                <FavoriteIcon onClick={showFavs} />
+              </IconButton>
+            )}
             <IconButton
               edge="end"
               aria-label="account of current user"
