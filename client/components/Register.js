@@ -107,7 +107,7 @@ export default function SignIn({ isLoggedIn, setIsLoggedIn }) {
                   required
                   fullWidth
                   id="name"
-                  label="name"
+                  label="Name"
                   name="name"
                   autoComplete="name"
                   value={name}
@@ -173,7 +173,7 @@ export default function SignIn({ isLoggedIn, setIsLoggedIn }) {
                 </Button>
                 <Grid container>
                   <Grid item xs>
-                    <Link href="#" variant="body2">
+                    <Link href="/signin" variant="body2">
                       Already Have An Account? Sign In
                     </Link>
                   </Grid>
