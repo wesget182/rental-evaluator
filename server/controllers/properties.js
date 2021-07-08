@@ -2,10 +2,12 @@ const fetch = require('node-fetch');
 const { URL, URLSearchParams } = require('url');
 const { quantileSorted } = require('d3');
 
+require('dotenv').config();
+
 const middlewares = {};
 
 const headers = {
-  'x-rapidapi-key': '4715328601msha1ddf1310f1bd33p19543ajsn0f32a86b34bd',
+  'x-rapidapi-key': process.env.ZILLOW_RAPID_API_KEY,
   'x-rapidapi-host': 'zillow-com1.p.rapidapi.com',
   useQueryString: true,
 };
@@ -26,18 +28,7 @@ middlewares.getPropertiesForSale = async (req, res, next) => {
   if (!isNaN(Number(req.query.bathsMin))) params.bathsMin = Number(req.query.bathsMin);
   if (!isNaN(Number(req.query.minPrice))) params.minPrice = Number(req.query.minPrice);
   if (!isNaN(Number(req.query.maxPrice))) params.maxPrice = Number(req.query.maxPrice);
-  // const params = {
-  //   location: '111 Balcaro Way UNIT 88, Sacramento, CA 95834',
-  //   // location: '2470 Peachtree Ln, San Jose, CA 95128',
-  //   // location: 'san jose, ca',
-  //   // location: 'mountain view, ca',
-  //   status_type: 'ForSale',
-  //   // home_type: 'Houses',
-  //   bathsMin: '2',
-  //   bathsMax: '2',
-  //   bedsMin: '2',
-  //   bedsMax: '2'
-  // };
+
   url.search = new URLSearchParams(params).toString();
 
   const result = await fetch(url, { method: 'GET', headers: headers }).then((res) => res.json());
