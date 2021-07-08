@@ -20,11 +20,7 @@ CALLBACK - sends 209 and obj {isLoggedIn: True}
 
 router.post(
   '/',
-  [
-    userController.verifyLogin,
-    cookieController.setSSIDCookie,
-    sessionController.startSession,
-  ],
+  [userController.verifyLogin, cookieController.setSSIDCookie, sessionController.startSession],
   (req, res) => {
     return res.status(209).send({ isLoggedIn: true });
     //res.redirect('/');

@@ -20,12 +20,8 @@ const addFavsRouter = require('./routes/addFavsRoute');
 const getFavsRouter = require('./routes/getFavsRoute');
 
 //db connection
-//note - db connection issues?  check for console logs in terminal
 mongoose
-  .connect(
-    'mongodb+srv://admin:adam123@cluster0.tqcgi.mongodb.net/scratch_project?retryWrites=true&w=majority',
-    { useNewUrlParser: true, useUnifiedTopology: true }
-  )
+  .connect(process.env.DB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(console.log('Connected to DB: ENV Test String: ', process.env.TEST_STRING))
   .catch((err) => console.log('Mongo DB Connection Error:', err));
 
@@ -33,19 +29,10 @@ app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
-//signup route
 app.use('/register', signupRouter);
-
-//signin route
 app.use('/signin', signinRouter);
-
-//properties route
 app.use('/properties', properties);
-
-//add favorites route
 app.use('/addFav', addFavsRouter);
-
-//get favorites route
 app.use('/getFavs', getFavsRouter);
 
 //check login route

@@ -35,9 +35,7 @@ favsController.getFavs = (req, res, next) => {
   //verify email is on the request
   // console.log('in get favs');
   if (!req.cookies.ssid) {
-    return res
-      .status(500)
-      .send('favsController.getFavs error: no email property');
+    return res.status(500).send('favsController.getFavs error: no email property');
   } else {
     //let favsArr;
     User.findById(req.cookies.ssid)

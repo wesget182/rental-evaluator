@@ -15,11 +15,7 @@ createUser - creates user in DB
 */
 router.post(
   '/',
-  [
-    userController.createUser,
-    cookieController.setSSIDCookie,
-    sessionController.startSession,
-  ],
+  [userController.createUser, cookieController.setSSIDCookie, sessionController.startSession],
   (req, res) => {
     return res.status(209).send({ success: true });
   }
