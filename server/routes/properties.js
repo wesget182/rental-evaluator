@@ -42,13 +42,14 @@ router.post(
   '/target',
   (req, res, next) => {
     res.locals.targetForSale = {
-      features:
-        [{
+      features: [
+        {
           properties: {
             Price: req.query.Price,
-            ZPID: req.query.ZPID
-          }
-        }]
+            ZPID: req.query.ZPID,
+          },
+        },
+      ],
     };
     Object.assign(req.params, {
       location: req.query.location.slice(-5),
@@ -57,12 +58,12 @@ router.post(
       bedsMin: req.query.beds,
       bedsMax: req.query.beds,
       bathsMin: req.query.baths,
-      bathsMax: req.query.baths
+      bathsMax: req.query.baths,
     });
     middlewares.getPropertiesForRental(req, res, next);
   },
   (req, res) => {
-    console.log('Response of target endpoint:')
+    console.log('Response of target endpoint:');
     console.log(JSON.stringify(res.locals, null, 2));
     return res.status(200).json(res.locals);
   }
