@@ -18,8 +18,11 @@ import Container from '@material-ui/core/Container';
 import GoogleIcon from './GoogleIcon';
 import api from '../axios/axios';
 import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux'
+import { emailReducer } from '../slices/userSlice'
 
 function Copyright() {
+
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
@@ -59,6 +62,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignIn({ isLoggedIn, setIsLoggedIn }) {
+  const dispatch = useDispatch();
   const classes = useStyles();
   const history = useHistory();
   //state to store input field values
@@ -77,7 +81,8 @@ export default function SignIn({ isLoggedIn, setIsLoggedIn }) {
         password,
       },
     }).then((res) => {
-      console.log(res.data.isLoggedIn);
+      console.log('signin.js>preventDefault', res.data.isLoggedIn);
+      dispatch(emailReducer(email))
       setIsLoggedIn(res.data.isLoggedIn);
     });
   };
