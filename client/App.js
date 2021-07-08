@@ -5,13 +5,13 @@ import Register from './components/Register';
 import Favorites from './components/Favorites';
 import NavBar from './components/NavBar';
 
-import { Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   return (
-    <div className="router">
+    <Router>
       <main>
         <Switch>
           <Route exact path="/">
@@ -30,7 +30,7 @@ const App = () => {
           </Route>
         </Switch>
       </main>
-    </div>
+    </Router>
   );
 };
 
