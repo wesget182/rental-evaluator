@@ -8,12 +8,10 @@ import GridListTileBar from '@material-ui/core/GridListTileBar';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
-import FavoriteIcon from '@material-ui/icons/Favorite';
 import api from '../axios/axios';
 import FavModal from './FavsModal';
 
 //Favorite array state set by get request in component fxn
-
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -52,36 +50,36 @@ const useStyles = makeStyles((theme) => ({
  *   },
  * ];
  */
+
 function TitlebarGridList() {
   const classes = useStyles();
   const [tileData, setTileData] = useState([]);
   const [propDetail, setPropDetail] = useState({});
   const [gotFavs, setGotFavs] = useState(false);
   const [favDetailsOpen, setFavDetailsOpen] = useState(false);
+
+  useEffect(() => {
+    getFavs();
+  }, []);
+
   //open/close handlers for add record modal
   const handleOpen = (e, idx) => {
     e.preventDefault();
-    console.log('TILE DATA ', tileData[idx]);
     setPropDetail(tileData[idx]);
-    console.log('PROPDETAIL ', propDetail);
     setFavDetailsOpen(true);
-    console.log('ID', idx);
-    console.log('detail modal OPEN');
   };
 
   const handleClose = () => {
     setFavDetailsOpen(false);
   };
-  //get request to retrieve favorites
 
+  //get request to retrieve favorites
   const getFavs = async () => {
     await api({
       method: 'post',
       url: '/getFavs',
     })
       .then((res) => {
-        // console.log('RES IN GET FAVS', res);
-        console.log('RES FAV ARR', res.data.favsArr);
         setTileData(res.data.favsArr);
         setGotFavs(true);
       })
@@ -89,10 +87,7 @@ function TitlebarGridList() {
         console.log('GET FAVS ERROR ', err.message);
       });
   };
-  useEffect(() => {
-    getFavs();
-  }, []);
-  // console.log('TILE DATA ', tileData);
+
   return (
     <div>
       <Box display="flex" flexDirection="row" justifyContent="center">
@@ -139,11 +134,7 @@ function TitlebarGridList() {
             ))}
         </GridList>
       </div>
-      <FavModal
-        prop={propDetail}
-        open={favDetailsOpen}
-        handleClose={handleClose}
-      />
+      <FavModal prop={propDetail} open={favDetailsOpen} handleClose={handleClose} />
     </div>
   );
 }
