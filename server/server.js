@@ -4,11 +4,10 @@ const app = express();
 const path = require('path');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
-require('dotenv').config();
 const cors = require('cors');
-const fetch = require('node-fetch');
-const { URL, URLSearchParams } = require('url');
-const { getRoutes } = require('get-routes');
+
+require('dotenv').config();
+
 //direct controller imports
 const sessionController = require('./controllers/sessionController');
 const cookieController = require('./controllers/cookieController');
@@ -21,38 +20,19 @@ const addFavsRouter = require('./routes/addFavsRoute');
 const getFavsRouter = require('./routes/getFavsRoute');
 
 //db connection
-//note - db connection issues?  check for console logs in terminal
 mongoose
-  .connect(
-    'mongodb+srv://admin:adam123@cluster0.tqcgi.mongodb.net/scratch_project?retryWrites=true&w=majority'
-  )
-  .then(
-    console.log('Connected to DB: ENV Test String: ', process.env.TEST_STRING)
-  )
+  .connect(process.env.DB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
+  .then(console.log('Connected to DB'))
   .catch((err) => console.log('Mongo DB Connection Error:', err));
 
 app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
-// server test route
-app.use('/testRoute', (req, res) => {
-  //test stuff here
-});
-
-//signup route
 app.use('/register', signupRouter);
-
-//signin route
 app.use('/signin', signinRouter);
-
-//properties route
 app.use('/properties', properties);
-
-//add favorites route
 app.use('/addFav', addFavsRouter);
-
-//get favorites route
 app.use('/getFavs', getFavsRouter);
 
 //check login route
@@ -65,12 +45,6 @@ app.get('/', cookieController.setCookie, (req, res) => {
   return res.status(201).sendFile(path.join(__dirname, '.././index.html'));
 });
 
-// print all routes
-// const routes = getRoutes(app);
-
-// console.log('#### routes ##### ');
-// console.log(routes);
-// Global error handler
 app.use((err, req, res, next) => {
   const defaultErr = {
     log: 'Express error handler caught unknown middleware error.',

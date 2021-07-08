@@ -1,31 +1,26 @@
-import React, {useState} from 'react';
-import ReactDOM from 'react-dom';
-import {Button, 
+import React, { useState } from 'react';
+import {
+  Button,
   FormControlLabel,
   FormGroup,
   Popper,
   Switch,
-  ClickAwayListener
+  ClickAwayListener,
 } from '@material-ui/core/';
- 
 
-const HomeType = ({
-  homeTypes,
-  setHomeTypes,
-  classes}) => {
-
+const HomeType = ({ setHomeTypes, classes }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [checkedState, setCheckedState] = useState({
-    house:false,
-    townhouse:false,
-    condo:false,
-    multi:false
+    house: false,
+    townhouse: false,
+    condo: false,
+    multi: false,
   });
 
   const handleClick = (e) => {
     setAnchorEl(anchorEl ? null : e.currentTarget);
   };
-    
+
   const handleChange = (e) => {
     setCheckedState({ ...checkedState, [e.target.name]: e.target.checked });
     setHomeTypes({ ...checkedState, [e.target.name]: e.target.checked });
@@ -38,14 +33,12 @@ const HomeType = ({
     setAnchorEl(null);
   };
 
-  return(
+  return (
     <div>
-        
-      
       <Button variant="contained" aria-describedby={id} type="button" onClick={handleClick}>
-            Home Type
+        Home Type
       </Button>
-      
+
       <Popper id={id} open={open} anchorEl={anchorEl}>
         <ClickAwayListener onClickAway={handleClickAway}>
           <div className={classes.paper}>
@@ -95,14 +88,11 @@ const HomeType = ({
                 label="Multi-family"
               />
             </FormGroup>
-          
           </div>
         </ClickAwayListener>
       </Popper>
-
-    
     </div>
-  )
+  );
 };
 
 export default HomeType;

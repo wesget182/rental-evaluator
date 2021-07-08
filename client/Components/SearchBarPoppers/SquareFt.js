@@ -1,29 +1,21 @@
-import React, {useState} from 'react';
-import ReactDOM from 'react-dom';
-import {Button, 
-  TextField,
+import React, { useState } from 'react';
+import {
+  Button,
   Popper,
   FormControl,
   InputLabel,
   OutlinedInput,
   InputAdornment,
-  ClickAwayListener
+  ClickAwayListener,
 } from '@material-ui/core/';
 
-
-const SquareFt = ({minSquareFT,
-  maxSquareFT,
-  setMaxSquareFT,
-  setMinSquareFT,
-  classes
-}) => {
-
+const SquareFt = ({ minSquareFT, maxSquareFT, setMaxSquareFT, setMinSquareFT, classes }) => {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = (e) => {
     setAnchorEl(anchorEl ? null : e.currentTarget);
   };
-    
+
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popper' : undefined;
 
@@ -32,23 +24,23 @@ const SquareFt = ({minSquareFT,
   };
 
   const handleChange = (prop) => (event) => {
-    if(prop === 'min') setMinSquareFT(event.target.value );
-    if(prop === 'max') setMaxSquareFT(event.target.value );
+    if (prop === 'min') setMinSquareFT(event.target.value);
+    if (prop === 'max') setMaxSquareFT(event.target.value);
   };
 
-  return(
+  return (
     <div>
-        
-      
       <Button variant="contained" aria-describedby={id} type="button" onClick={handleClick}>
-            Square Feet
+        Square Feet
       </Button>
-      
+
       <Popper id={id} open={open} anchorEl={anchorEl}>
-        <ClickAwayListener onClickAway={handleClickAway}>   
+        <ClickAwayListener onClickAway={handleClickAway}>
           <div className={classes.paper}>
             <FormControl fullWidth className={classes.margin} variant="filled">
-              <InputLabel htmlFor="filled-adornment-amount" size="small">MIN SQFT</InputLabel>
+              <InputLabel htmlFor="filled-adornment-amount" size="small">
+                MIN SQFT
+              </InputLabel>
               <OutlinedInput
                 id="min-sqft"
                 value={minSquareFT}
@@ -58,7 +50,6 @@ const SquareFt = ({minSquareFT,
                 size="small"
                 type="number"
               />
-          
             </FormControl>
             <FormControl fullWidth className={classes.margin} variant="filled">
               <InputLabel htmlFor="filled-adornment-amount">MAX SQFT</InputLabel>
@@ -74,8 +65,6 @@ const SquareFt = ({minSquareFT,
           </div>
         </ClickAwayListener>
       </Popper>
-
-    
     </div>
   );
 };
