@@ -5,12 +5,10 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import IconButton from '@material-ui/core/IconButton';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
-import { Typography, Grid, Card, Divider, Box } from '@material-ui/core';
+import { Typography, Grid, Divider, Box } from '@material-ui/core';
 import api from '../axios/axios';
 
 const MapModal = ({ open, handleClose, prop }) => {
-  console.log(prop)
-  //   const property = propDetail.targetForSale.features[0];
   const property = prop.properties;
 
   const useStyles = makeStyles((theme) => ({
@@ -33,6 +31,7 @@ const MapModal = ({ open, handleClose, prop }) => {
       padding: theme.spacing(3),
     },
   }));
+
   const classes = useStyles();
   const [clickedFav, setClickedFav] = useState(false);
   const favIcon = clickedFav ? <FavoriteIcon /> : <FavoriteBorderIcon />;
@@ -40,27 +39,16 @@ const MapModal = ({ open, handleClose, prop }) => {
     e.preventDefault();
     setClickedFav(!clickedFav);
     const favorite = property;
-    console.log('FAVORITE', favorite);
     api({
       method: 'post',
       url: '/addFav',
       data: {
         favorite: favorite,
       },
-    })
-      .then((res) => {
-        console.log('ADD FAV RESPONSE ', res.data);
-      })
-      .catch((err) => console.log('ADD FAV ERROR', err));
+    }).catch((err) => console.log('ADD FAV ERROR', err));
   };
   return (
-    <Dialog
-      open={open}
-      onClose={handleClose}
-      className={classes.container}
-      property={property}
-    >
-      {console.log('PROPERTY ', property)}
+    <Dialog open={open} onClose={handleClose} className={classes.container} property={property}>
       <Box className={classes.card}>
         <Grid>
           <Grid container justify="flex-end">
@@ -84,12 +72,16 @@ const MapModal = ({ open, handleClose, prop }) => {
             <Grid xs={12} className={classes.detail}>
               <Typography>Address: {property.Address}</Typography>
             </Grid>
-            {'Price' in property && <Grid xs={12}>
-              <Typography>Price: {property.Price}</Typography>
-            </Grid>}
-            {'Monthly rent' in property && <Grid xs={12}>
-              <Typography>Monthly Rent: {property['Monthly rent']}</Typography>
-            </Grid>}
+            {'Price' in property && (
+              <Grid xs={12}>
+                <Typography>Price: {property.Price}</Typography>
+              </Grid>
+            )}
+            {'Monthly rent' in property && (
+              <Grid xs={12}>
+                <Typography>Monthly Rent: {property['Monthly rent']}</Typography>
+              </Grid>
+            )}
             <Grid xs={12}>
               <Typography>Type: {property.Type}</Typography>
             </Grid>
@@ -102,26 +94,24 @@ const MapModal = ({ open, handleClose, prop }) => {
             <Grid xs={12}>
               <Typography>Bath Rooms: {property['# bathrooms']}</Typography>
             </Grid>
-            {'Est. monthly mortgage' in property && <Grid xs={12}>
-              <Typography>
-                Est. Monthly Mortgage: {property['Est. monthly mortgage']}
-              </Typography>
-            </Grid>}
-            {'Rating' in property && <>
+            {'Est. monthly mortgage' in property && (
               <Grid xs={12}>
-                <Typography>
-                  Est. Monthly Rent: {property['Est. monthly rent']}
-                </Typography>
+                <Typography>Est. Monthly Mortgage: {property['Est. monthly mortgage']}</Typography>
               </Grid>
-              <Grid xs={12}>
-                <Typography>
-                  Price to Rent Ratio: {property['Price-to-rent ratio']}
-                </Typography>
-              </Grid>
-              <Grid xs={12}>
-                <Typography>Rating: {property.Rating}</Typography>
-              </Grid>
-            </>}
+            )}
+            {'Rating' in property && (
+              <>
+                <Grid xs={12}>
+                  <Typography>Est. Monthly Rent: {property['Est. monthly rent']}</Typography>
+                </Grid>
+                <Grid xs={12}>
+                  <Typography>Price to Rent Ratio: {property['Price-to-rent ratio']}</Typography>
+                </Grid>
+                <Grid xs={12}>
+                  <Typography>Rating: {property.Rating}</Typography>
+                </Grid>
+              </>
+            )}
           </Grid>
         </Grid>
       </Box>
