@@ -5,7 +5,7 @@ import Register from './components/Register';
 import Favorites from './components/Favorites';
 import NavBar from './components/NavBar';
 import Test from './components/Test';
-
+import ListView from './Components/ListView'
 import { Switch, Route, Redirect } from 'react-router-dom';
 import MapView from './MapView';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
@@ -49,6 +49,7 @@ const App = () => {
                 isLoggedIn={isLoggedIn}
                 setIsLoggedIn={setIsLoggedIn}
               />
+              <ListView/>
             </Route>
             <Route exact path="/signin">
               <SignIn isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />

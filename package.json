@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/aramay/rental-evaluator#readme",
   "dependencies": {
-    "@material-ui/core": "^4.11.4",
+    "@material-ui/core": "^4.12.1",
     "@material-ui/icons": "^4.11.2",
     "@reduxjs/toolkit": "^1.6.0",
     "axios": "^0.21.1",
