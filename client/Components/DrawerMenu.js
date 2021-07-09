@@ -84,7 +84,10 @@ export default function DrawerMenu({ open, setOpen }) {
 
   const handleDrawerClose = () => setOpen(false);
 
-  const routeChange = (path) => history.push(path);
+  const routeChange = (path) => {
+    handleDrawerClose()
+    history.push(path);
+  }
 
   return (
     <Drawer
@@ -107,7 +110,7 @@ export default function DrawerMenu({ open, setOpen }) {
           <ListItemIcon>
             <HomeWorkIcon />
           </ListItemIcon>
-          <ListItemText primary={'My Properties'} onClick={() => routeChange('/favs')} />
+          <ListItemText primary={'My Properties'} onClick={() => routeChange('/properties')} />
         </ListItem>
         <ListItem button key={'My Favorites'}>
           <ListItemIcon>

@@ -12,6 +12,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import DrawerMenu from './DrawerMenu';
+import Link from '@material-ui/core/Link';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -148,7 +149,7 @@ export default function PrimarySearchAppBar({ isLoggedIn, setIsLoggedIn }) {
             <MenuIcon />
           </IconButton>
           <Typography className={classes.title} variant="h6" noWrap>
-            Rental Evaluator
+            <Link href="/" color="inherit">Rental Evaluator</Link>
           </Typography>
 
           <div className={classes.grow} />
