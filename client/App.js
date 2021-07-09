@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import SignIn from './components/Signin';
-import MainContainer from './components/MainContainer';
-import Register from './components/Register';
-import Favorites from './components/Favorites';
-import NavBar from './components/NavBar';
-
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import React, { useState } from "react";
+import SignIn from "./components/Signin";
+import MainContainer from "./components/MainContainer";
+import Register from "./components/Register";
+import Favorites from "./components/Favorites";
+import NavBar from "./components/NavBar";
+import ListView from "./components/ListView";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -15,18 +15,19 @@ const App = () => {
       <main>
         <Switch>
           <Route exact path="/">
-            <NavBar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
-            <MainContainer isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+            <NavBar />
+            <MainContainer />
+            <ListView />
           </Route>
           <Route exact path="/signin">
-            <SignIn isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+            <SignIn />
           </Route>
           <Route exact path="/register">
-            <Register isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+            <Register />
           </Route>
           <Route exact path="/favs">
-            <NavBar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
-            <Favorites isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+            <NavBar />
+            <Favorites />
           </Route>
         </Switch>
       </main>
