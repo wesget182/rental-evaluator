@@ -1,35 +1,38 @@
-import React, { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import IconButton from '@material-ui/core/IconButton';
-import InfoIcon from '@material-ui/icons/Info';
-import api from '../axios/axios';
-import FavModal from './FavsModal';
+import React, { useState, useEffect } from "react";
+import {Redirect} from 'react-router-dom'
+import { useDispatch, useSelector } from "react-redux";
+import { makeStyles } from "@material-ui/core/styles";
+import Box from "@material-ui/core/Box";
+import Button from "@material-ui/core/Button";
+import GridList from "@material-ui/core/GridList";
+import GridListTile from "@material-ui/core/GridListTile";
+import GridListTileBar from "@material-ui/core/GridListTileBar";
+import ListSubheader from "@material-ui/core/ListSubheader";
+import IconButton from "@material-ui/core/IconButton";
+import InfoIcon from "@material-ui/icons/Info";
+import api from "../axios/axios";
+import FavModal from "./FavsModal";
+import { loginReducer } from "../Slices/userSlice";
 
 //Favorite array state set by get request in component fxn
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'space-around',
-    overflow: 'hidden',
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "space-around",
+    overflow: "hidden",
     backgroundColor: theme.palette.background.paper,
   },
   gridList: {
     minWidth: 500,
     width: 900,
-    height: 'auto',
+    height: "auto",
   },
   icon: {
-    color: 'rgba(255, 255, 255, 0.54)',
+    color: "rgba(255, 255, 255, 0.54)",
   },
   header: {
-    fontSize: '2em',
+    fontSize: "2em",
   },
 }));
 
@@ -76,15 +79,15 @@ function TitlebarGridList() {
   //get request to retrieve favorites
   const getFavs = async () => {
     await api({
-      method: 'post',
-      url: '/getFavs',
+      method: "post",
+      url: "/getFavs",
     })
       .then((res) => {
         setTileData(res.data.favsArr);
         setGotFavs(true);
       })
       .catch((err) => {
-        console.log('GET FAVS ERROR ', err.message);
+        console.log("GET FAVS ERROR ", err.message);
       });
   };
 
@@ -97,7 +100,7 @@ function TitlebarGridList() {
       </Box>
       <div className={classes.root}>
         <GridList cellHeight={300} className={classes.gridList}>
-          <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
+          <GridListTile key="Subheader" cols={2} style={{ height: "auto" }}>
             <ListSubheader component="div" className={classes.header}>
               Favorites
             </ListSubheader>
@@ -122,7 +125,7 @@ function TitlebarGridList() {
                       aria-label={`info about ${tile.address}`}
                       className={classes.icon}
                       onClick={(e) => {
-                        console.log('ID IN ONCLICK ', idx);
+                        console.log("ID IN ONCLICK ", idx);
                         handleOpen(e, idx);
                       }}
                     >
@@ -134,7 +137,11 @@ function TitlebarGridList() {
             ))}
         </GridList>
       </div>
-      <FavModal prop={propDetail} open={favDetailsOpen} handleClose={handleClose} />
+      <FavModal
+        prop={propDetail}
+        open={favDetailsOpen}
+        handleClose={handleClose}
+      />
     </div>
   );
 }
