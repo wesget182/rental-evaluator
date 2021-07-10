@@ -1,10 +1,12 @@
+/** @format */
+const { Mongoose } = require('mongoose');
 const fetch = require('node-fetch');
 const { URL, URLSearchParams } = require('url');
 const { quantileSorted } = require('d3');
-
+const models = require('../models/propertyModel');
 require('dotenv').config();
 
-const middlewares = {};
+const propertyController = {};
 
 const headers = {
   'x-rapidapi-key': process.env.ZILLOW_RAPID_API_KEY,
@@ -17,21 +19,31 @@ const calcMortgage = (price, int, down = 0.2, years = 30) => {
   return ((price * (1 - down)) / (1 - r) / (1 - (1 - r) ** (12 * years))) * r;
 };
 
-middlewares.getPropertiesForSale = async (req, res, next) => {
-  const url = new URL('https://zillow-com1.p.rapidapi.com/propertyExtendedSearch');
+propertyController.getPropertiesForSale = async (req, res, next) => {
+  const url = new URL(
+    'https://zillow-com1.p.rapidapi.com/propertyExtendedSearch'
+  );
   const params = {
-    location: req.query.location.replace(/, United States$/, '').replace(/\d{5}/, ''),
+    location: req.query.location
+      .replace(/, United States$/, '')
+      .replace(/\d{5}/, ''),
     status_type: 'ForSale',
   };
   if (req.query.home_type !== '') params.home_type = req.query.home_type;
-  if (!isNaN(Number(req.query.bedsMin))) params.bedsMin = Number(req.query.bedsMin);
-  if (!isNaN(Number(req.query.bathsMin))) params.bathsMin = Number(req.query.bathsMin);
-  if (!isNaN(Number(req.query.minPrice))) params.minPrice = Number(req.query.minPrice);
-  if (!isNaN(Number(req.query.maxPrice))) params.maxPrice = Number(req.query.maxPrice);
+  if (!isNaN(Number(req.query.bedsMin)))
+    params.bedsMin = Number(req.query.bedsMin);
+  if (!isNaN(Number(req.query.bathsMin)))
+    params.bathsMin = Number(req.query.bathsMin);
+  if (!isNaN(Number(req.query.minPrice)))
+    params.minPrice = Number(req.query.minPrice);
+  if (!isNaN(Number(req.query.maxPrice)))
+    params.maxPrice = Number(req.query.maxPrice);
 
   url.search = new URLSearchParams(params).toString();
 
-  const result = await fetch(url, { method: 'GET', headers: headers }).then((res) => res.json());
+  const result = await fetch(url, { method: 'GET', headers: headers }).then(
+    (res) => res.json()
+  );
 
   if ('zpid' in result) {
     res.locals.zpid = result.zpid;
@@ -84,13 +96,15 @@ middlewares.getPropertiesForSale = async (req, res, next) => {
   return next();
 };
 
-middlewares.getTargetForSale = async (req, res, next) => {
+propertyController.getTargetForSale = async (req, res, next) => {
   const url = new URL('https://zillow-com1.p.rapidapi.com/property');
   const params = {
     zpid: req.params.zpid,
   };
   url.search = new URLSearchParams(params).toString();
-  const result = await fetch(url, { method: 'GET', headers: headers }).then((res) => res.json());
+  const result = await fetch(url, { method: 'GET', headers: headers }).then(
+    (res) => res.json()
+  );
 
   if ('zpid' in result) {
     const {
@@ -153,8 +167,10 @@ middlewares.getTargetForSale = async (req, res, next) => {
   return next();
 };
 
-middlewares.getPropertiesForRental = async (req, res, next) => {
-  const url = new URL('https://zillow-com1.p.rapidapi.com/propertyExtendedSearch');
+propertyController.getPropertiesForRental = async (req, res, next) => {
+  const url = new URL(
+    'https://zillow-com1.p.rapidapi.com/propertyExtendedSearch'
+  );
   // const params = {
   //   'location': req.params.zip,
   //   'status_type': 'ForRent',
@@ -165,7 +181,9 @@ middlewares.getPropertiesForRental = async (req, res, next) => {
   //   'bedsMax': '2'
   // };
   url.search = new URLSearchParams(req.params).toString();
-  const result = await fetch(url, { method: 'GET', headers: headers }).then((res) => res.json());
+  const result = await fetch(url, { method: 'GET', headers: headers }).then(
+    (res) => res.json()
+  );
 
   if ('totalResultCount' in result) {
     if (result.totalResultCount > 0) {
@@ -210,8 +228,11 @@ middlewares.getPropertiesForRental = async (req, res, next) => {
           .map((p) => Number(p['properties']['Monthly rent'].slice(1)))
           .sort((a, b) => a - b);
         const rent = quantileSorted(rentArr, 0.5);
-        const ratio = Math.round(Number(target['Price'].slice(1)) / (rent * 12));
-        const rating = ratio <= 15 ? 'Strong buy' : ratio >= 21 ? 'Strong no buy' : 'No buy';
+        const ratio = Math.round(
+          Number(target['Price'].slice(1)) / (rent * 12)
+        );
+        const rating =
+          ratio <= 15 ? 'Strong buy' : ratio >= 21 ? 'Strong no buy' : 'No buy';
         Object.assign(target, {
           'Rent array': rentArr,
           'Est. monthly rent': rent,
@@ -231,4 +252,20 @@ middlewares.getPropertiesForRental = async (req, res, next) => {
   return next();
 };
 
-module.exports = middlewares;
+propertyController.addNewProperty = async (req, res, next) => {
+  const { params } = req.body;
+
+  const { address1, address2, city, state, zip } = params;
+  console.log('req.body in addNewProperty: ', params.body);
+  // const propertyInfo = params.body;
+  await models.NewProperty.create(params.body)
+    .then((data) => {
+      res.locals.property = data;
+      return next();
+    })
+    .catch((err) => console.log(err));
+
+  return next();
+};
+
+module.exports = propertyController;
