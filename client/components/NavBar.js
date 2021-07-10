@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /** @format */
 
 import React, { useState } from 'react';
@@ -15,6 +16,39 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import DrawerMenu from './DrawerMenu';
 import Link from '@material-ui/core/Link';
+=======
+import React, { useState, useRef } from "react";
+import { Redirect } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { userState } from "../Slices/userSlice";
+import { fade, makeStyles } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import IconButton from "@material-ui/core/IconButton";
+import Typography from "@material-ui/core/Typography";
+import Badge from "@material-ui/core/Badge";
+import MenuItem from "@material-ui/core/MenuItem";
+import Menu from "@material-ui/core/Menu";
+import MenuIcon from "@material-ui/icons/Menu";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import AccountCircle from "@material-ui/icons/AccountCircle";
+import MailIcon from "@material-ui/icons/Mail";
+import NotificationsIcon from "@material-ui/icons/Notifications";
+import MoreIcon from "@material-ui/icons/MoreVert";
+// import FavDrawer from '/client/Components/Drawers/FavDrawer.js'
+import {
+  Drawer,
+  DrawerBody,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  useDisclosure,
+  Button,
+} from "@chakra-ui/react";
+>>>>>>> fa3403b8f1c1703cc3838e087622083cfcd4550e
+
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -80,7 +114,47 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+<<<<<<< HEAD
 export default function PrimarySearchAppBar({ isLoggedIn, setIsLoggedIn }) {
+=======
+function FavDrawer() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const btnRef = React.useRef();
+
+  return (
+    <>
+      <Button ref={btnRef} colorScheme="teal" onClick={onOpen}>
+        Open
+      </Button>
+      <Drawer
+        isOpen={isOpen}
+        placement="right"
+        onClose={onClose}
+        finalFocusRef={btnRef}
+      >
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader>Create your account</DrawerHeader>
+
+          <DrawerBody>
+            <Input placeholder="Type here..." />
+          </DrawerBody>
+
+          <DrawerFooter>
+            <Button variant="outline" mr={3} onClick={onClose}>
+              Cancel
+            </Button>
+            <Button colorScheme="blue">Save</Button>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
+    </>
+  );
+}
+
+export default function PrimarySearchAppBar() {
+>>>>>>> fa3403b8f1c1703cc3838e087622083cfcd4550e
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [goToSignOut, setGoToSignOut] = useState(false);
@@ -161,8 +235,10 @@ export default function PrimarySearchAppBar({ isLoggedIn, setIsLoggedIn }) {
             {isLoggedIn && (
               <IconButton aria-label='favorite properties' color='inherit'>
                 <FavoriteIcon onClick={showFavs} />
+             
               </IconButton>
             )}
+             {/* <FavDrawer />  */}
             <IconButton
               edge='end'
               aria-label='account of current user'

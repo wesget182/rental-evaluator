@@ -22,7 +22,7 @@ const App = () => {
           <Route exact path='/'>
             <NavBar />
             <MainContainer />
-            <ListView />
+          
           </Route>
           <Route exact path='/properties'>
             <NavBar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
