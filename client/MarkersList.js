@@ -16,6 +16,9 @@ const MarkersList = (props) => {
   // setup state to toggle Popupp
   const [MapModalOpen, setMapModalOpen] = useState(false);
   const [ActiveMarker, makeActive] = useState(false)
+    // setup clicked marker state
+    const [selectedMarker, setSelectedMarker] = useState({});
+
   // const MarkersList = (props) => {
   // const data = props.props.features;
   // const data = boiseList.propertiesForSale.features;
@@ -99,12 +102,13 @@ const MarkersList = (props) => {
     e.preventDefault();
     getDetails(e, features[idx]);
     makeActive(true)
+    setSelectedMarker(idx)
   console.log('getelement',document.getElementById(idx))
     // setMapModalOpen(true);
     console.log("map modal OPEN");
-const colorChange = document.querySelector(`#entry-point > main > main > div > div > div > div > div > div:nth-child(2) > div > div.overlays > div:nth-child(1) > div:nth-child(${idx}) > svg`)
-console.log(document.querySelector(`#entry-point > main > main > div > div > div > div > div > div:nth-child(2) > div > div.overlays > div:nth-child(1) > div:nth-child(${idx}) > svg`))
-console.log(colorChange)
+// const colorChange = document.querySelector(`#entry-point > main > main > div > div > div > div > div > div:nth-child(2) > div > div.overlays > div:nth-child(1) > div:nth-child(${idx}) > svg`)
+// console.log(document.querySelector(`#entry-point > main > main > div > div > div > div > div > div:nth-child(2) > div > div.overlays > div:nth-child(1) > div:nth-child(${idx}) > svg`))
+// console.log(colorChange)
 // document.querySelector(`#entry-point > main > main > div > div > div > div > div > div:nth-child(2) > div > div.overlays > div:nth-child(1) > div:nth-child(${idx}) > svg`).style = {
 //   '{fill: green}'
 // }
@@ -116,8 +120,7 @@ console.log(colorChange)
   
   };
 
-  // setup clicked marker state
-  const [selectedMarker, setSelectedMarker] = useState({});
+
 
   let content;
 
@@ -136,8 +139,8 @@ console.log(colorChange)
         {/* <Pin size={idx === 0 ? 35 : 20} color={idx === 0 ? 'green' : 'red'} /> */}
         <Pin
         
-          color={props.props.targetForSale && idx === 0 ? "green" : "red"}
-          size={props.props.targetForSale && idx === 0 ? 35 : 20}
+          color={props.props.targetForSale && idx === selectedMarker ? "green" : "red"}
+          size={props.props.targetForSale && idx === selectedMarker ? 25 : 20}
           active ={ActiveMarker}
         />
       </Marker>
