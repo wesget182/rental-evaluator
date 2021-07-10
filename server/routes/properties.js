@@ -1,16 +1,18 @@
+/** @format */
+
 const express = require('express');
 const router = express.Router();
 
-const middlewares = require('../controllers/properties');
+const propertyController = require('../controllers/properties');
 
 // handler for submitted form with a single address or area search
 router.all(
   '/',
-  middlewares.getPropertiesForSale,
+  propertyController.getPropertiesForSale,
   (req, res, next) => {
     if ('zpid' in res.locals) {
       req.params.zpid = res.locals.zpid;
-      middlewares.getTargetForSale(req, res, next);
+      propertyController.getTargetForSale(req, res, next);
     } else {
       return next();
     }
@@ -27,7 +29,7 @@ router.all(
         bathsMin: target['# bathrooms'],
         bathsMax: target['# bathrooms'],
       });
-      middlewares.getPropertiesForRental(req, res, next);
+      propertyController.getPropertiesForRental(req, res, next);
     } else {
       return next();
     }
@@ -60,7 +62,7 @@ router.post(
       bathsMin: req.query.baths,
       bathsMax: req.query.baths,
     });
-    middlewares.getPropertiesForRental(req, res, next);
+    propertyController.getPropertiesForRental(req, res, next);
   },
   (req, res) => {
     console.log('Response of target endpoint:');
@@ -68,5 +70,10 @@ router.post(
     return res.status(200).json(res.locals);
   }
 );
+
+router.post('/newProperty', propertyController.addNewProperty, (req, res) => {
+  console.log('res.locals in newProperty route: ', res.locals);
+  res.status(200).send(res.locals);
+});
 
 module.exports = router;

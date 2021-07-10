@@ -10,7 +10,6 @@ import ListView from './components/ListView';
 import Properties from './components/Properties/Properties';
 import NewProperty from './components/Properties/NewProperty';
 import Property from './components/Properties/Property';
-
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 const App = () => {
