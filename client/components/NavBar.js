@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Redirect } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { userState } from "../Slices/userSlice";
@@ -16,6 +16,7 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
+// import FavDrawer from '/client/Components/Drawers/FavDrawer.js'
 import {
   Drawer,
   DrawerBody,
@@ -25,7 +26,9 @@ import {
   DrawerContent,
   DrawerCloseButton,
   useDisclosure,
+  Button,
 } from "@chakra-ui/react";
+
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -90,6 +93,42 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
+
+function FavDrawer() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const btnRef = React.useRef();
+
+  return (
+    <>
+      <Button ref={btnRef} colorScheme="teal" onClick={onOpen}>
+        Open
+      </Button>
+      <Drawer
+        isOpen={isOpen}
+        placement="right"
+        onClose={onClose}
+        finalFocusRef={btnRef}
+      >
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader>Create your account</DrawerHeader>
+
+          <DrawerBody>
+            <Input placeholder="Type here..." />
+          </DrawerBody>
+
+          <DrawerFooter>
+            <Button variant="outline" mr={3} onClick={onClose}>
+              Cancel
+            </Button>
+            <Button colorScheme="blue">Save</Button>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
+    </>
+  );
+}
 
 export default function PrimarySearchAppBar() {
   const classes = useStyles();
@@ -222,8 +261,10 @@ export default function PrimarySearchAppBar() {
             {state.user.isLoggedIn && (
               <IconButton aria-label="favorite properties" color="inherit">
                 <FavoriteIcon onClick={showFavs} />
+             
               </IconButton>
             )}
+             {/* <FavDrawer />  */}
             <IconButton
               edge="end"
               aria-label="account of current user"
