@@ -9,6 +9,7 @@ const MainContainer = () => {
       <Container>
         <Box>
           <MapView />
+          
         </Box>
       </Container>
     </Container>
