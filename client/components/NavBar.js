@@ -2,32 +2,19 @@
 
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { userState } from '../Slices/userSlice';
+import clsx from 'clsx';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import MenuIcon from '@material-ui/icons/Menu';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import MoreIcon from '@material-ui/icons/MoreVert';
-import {
-  Drawer,
-  DrawerBody,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
-  useDisclosure,
-} from '@chakra-ui/react';
+import DrawerMenu from './DrawerMenu';
+import Link from '@material-ui/core/Link';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -93,10 +80,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PrimarySearchAppBar() {
+export default function PrimarySearchAppBar({ isLoggedIn, setIsLoggedIn }) {
   const classes = useStyles();
-  const state = useSelector(userState);
-  const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState(null);
   const [goToSignOut, setGoToSignOut] = useState(false);
   const [goToSignIn, setGoToSignIn] = useState(false);
@@ -121,10 +106,10 @@ export default function PrimarySearchAppBar() {
     setFavView(true);
   };
 
-  const signInOut = state.user.isLoggedIn ? 'Sign Out' : 'Sign In';
+  const signInOut = isLoggedIn ? 'Sign Out' : 'Sign In';
   const handleSignInOut = () => {
-    if (state.user.isLoggedIn) {
-      useDispatch(loginReducer());
+    if (isLoggedIn) {
+      setIsLoggedIn(false);
       setGoToSignOut(true);
     } else {
       setGoToSignIn(true);
@@ -146,54 +131,9 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      {state.user.isLoggedIn && (
-        <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      )}
-      {state.user.isLoggedIn && (
-        <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-      )}
+      {isLoggedIn && <MenuItem onClick={handleMenuClose}>Profile</MenuItem>}
+      {isLoggedIn && <MenuItem onClick={handleMenuClose}>My account</MenuItem>}
       <MenuItem onClick={handleSignInOut}>{signInOut}</MenuItem>
-    </Menu>
-  );
-
-  const mobileMenuId = 'primary-search-account-menu-mobile';
-  const renderMobileMenu = (
-    <Menu
-      anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      id={mobileMenuId}
-      keepMounted
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-      open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
-    >
-      <MenuItem>
-        <IconButton aria-label='show 4 new mails' color='inherit'>
-          <Badge badgeContent={4} color='secondary'>
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton aria-label='show 11 new notifications' color='inherit'>
-          <Badge badgeContent={11} color='secondary'>
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          aria-label='account of current user'
-          aria-controls='primary-search-account-menu'
-          aria-haspopup='true'
-          color='inherit'
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
     </Menu>
   );
 
@@ -218,7 +158,7 @@ export default function PrimarySearchAppBar() {
 
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            {state.user.isLoggedIn && (
+            {isLoggedIn && (
               <IconButton aria-label='favorite properties' color='inherit'>
                 <FavoriteIcon onClick={showFavs} />
               </IconButton>

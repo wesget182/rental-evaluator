@@ -8,7 +8,7 @@ import Favorites from './components/Favorites';
 import NavBar from './components/NavBar';
 import ListView from './components/ListView';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-
+import Properties from './Components/Properties/Properties';
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
