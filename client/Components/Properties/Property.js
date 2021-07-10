@@ -10,7 +10,10 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import EditIcon from '@material-ui/icons/Edit';
 import FinancialsForm from './FinancialsForm';
-import TenantsForm from './TenantsForm';
+import TenantForm from './TenantForm';
+import TenantAvatar from './TenantAvatar';
+import Button from '@material-ui/core/Button';
+import AddressForm from './AddressForm';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -61,7 +64,6 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    marginLeft: '20px',
   },
   editIcon: {
     marginLeft: '10px',
@@ -102,6 +104,8 @@ export default function Property(props) {
   const [value, setValue] = useState(0);
   const [loading, setLoading] = useState(true);
   const [propertyData, setPropertyData] = useState({});
+  const [showNewTenant, setShowNewTenant] = useState(false);
+  const [showEditProperty, setShowEditProperty] = useState(false);
 
   useEffect(() => {
     // TODO: Fetch property information from db using the id from the url
@@ -118,6 +122,10 @@ export default function Property(props) {
     setValue(index);
   };
 
+  const handleCloseNewTenant = () => setShowNewTenant(false);
+
+  const handleCloseEditProperty = () => setShowEditProperty(false);
+
   if (loading) return <p>Loading....</p>;
 
   const addressString = () => {
@@ -129,7 +137,8 @@ export default function Property(props) {
     <div className={classes.root}>
       <div className={classes.address}>
         <h2>{addressString()}</h2>
-        <EditIcon className={classes.editIcon} />
+        <EditIcon className={classes.editIcon} onClick={() => setShowEditProperty(true)}/>
+        <AddressForm open={showEditProperty} handleClose={handleCloseEditProperty} newProperty={false} address={propertyData.address} />
       </div>
       <AppBar position="static" color="default">
         <Tabs
@@ -151,8 +160,14 @@ export default function Property(props) {
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
           {propertyData.tenants.map((tenant) => (
-            <TenantsForm tenants={tenant} />
+            <TenantAvatar tenant={tenant} />
           ))}
+          <TenantForm open={showNewTenant} handleClose={handleCloseNewTenant} />
+          {!showNewTenant && (
+            <Button variant="contained" color="primary" onClick={() => setShowNewTenant(true)}>
+              Add Tenant
+            </Button>
+          )}
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
           <FinancialsForm financials={propertyData.financials} />
