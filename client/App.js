@@ -7,8 +7,12 @@ import Register from './components/Register';
 import Favorites from './components/Favorites';
 import NavBar from './components/NavBar';
 import ListView from './components/ListView';
+import Properties from './components/Properties/Properties';
+import NewProperty from './components/Properties/NewProperty';
+import Property from './components/Properties/Property';
+
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Properties from './Components/Properties/Properties';
+
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -25,8 +29,16 @@ const App = () => {
             <NavBar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
             <Properties />
           </Route>
+          <Route path='/new-property'>
+            <NavBar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+            <NewProperty />
+          </Route>
+          <Route path='/property/:id'>
+            <NavBar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+            <Property />
+          </Route>
           <Route exact path='/signin'>
-            <SignIn />
+            <SignIn isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
           </Route>
           <Route exact path='/register'>
             <Register />
