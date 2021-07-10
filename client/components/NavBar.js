@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import clsx from 'clsx';
@@ -89,7 +91,7 @@ export default function PrimarySearchAppBar({ isLoggedIn, setIsLoggedIn }) {
   const handleDrawerOpen = () => {
     setOpen(true);
   };
-  
+
   const isMenuOpen = Boolean(anchorEl);
 
   const handleProfileMenuOpen = (event) => {
@@ -114,9 +116,9 @@ export default function PrimarySearchAppBar({ isLoggedIn, setIsLoggedIn }) {
     }
   };
 
-  if (goToSignOut) return <Redirect to="/signin" />;
-  if (goToSignIn) return <Redirect to="/signin" />;
-  if (favView) return <Redirect to="/favs" />;
+  if (goToSignOut) return <Redirect to='/signin' />;
+  if (goToSignIn) return <Redirect to='/signin' />;
+  if (favView) return <Redirect to='/favs' />;
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -137,35 +139,37 @@ export default function PrimarySearchAppBar({ isLoggedIn, setIsLoggedIn }) {
 
   return (
     <div className={classes.grow}>
-      <AppBar position="static">
+      <AppBar position='static'>
         <Toolbar>
           <IconButton
-            color="inherit"
-            aria-label="open drawer"
+            color='inherit'
+            aria-label='open drawer'
             onClick={handleDrawerOpen}
-            edge="start"
+            edge='start'
             className={clsx(classes.menuButton, open && classes.hide)}
           >
             <MenuIcon />
           </IconButton>
-          <Typography className={classes.title} variant="h6" noWrap>
-            <Link href="/" color="inherit">Rental Evaluator</Link>
+          <Typography className={classes.title} variant='h6' noWrap>
+            <Link href='/' color='inherit'>
+              Rental Evaluator
+            </Link>
           </Typography>
 
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             {isLoggedIn && (
-              <IconButton aria-label="favorite properties" color="inherit">
+              <IconButton aria-label='favorite properties' color='inherit'>
                 <FavoriteIcon onClick={showFavs} />
               </IconButton>
             )}
             <IconButton
-              edge="end"
-              aria-label="account of current user"
+              edge='end'
+              aria-label='account of current user'
               aria-controls={menuId}
-              aria-haspopup="true"
+              aria-haspopup='true'
               onClick={handleProfileMenuOpen}
-              color="inherit"
+              color='inherit'
             >
               <AccountCircle />
             </IconButton>

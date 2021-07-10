@@ -1,3 +1,5 @@
+/** @format */
+
 // https://mariestarck.com/how-to-display-a-mapbox-map-and-geocoder-mapbox-react-tutorial-part-1/
 
 import React, { useCallback, useRef, useState, useEffect } from 'react';
@@ -93,7 +95,7 @@ const MapView = () => {
         setStatus('error');
       }
     };
-    fetchMarkers();
+    // fetchMarkers();
   }, []);
 
   const classes = useStyles('');
@@ -156,7 +158,7 @@ const MapView = () => {
           <ReactMapGL
             ref={mapRef}
             mapboxApiAccessToken={mapboxApiKey}
-            mapStyle="mapbox://styles/mapbox/streets-v11"
+            mapStyle='mapbox://styles/mapbox/streets-v11'
             {...viewport}
             {...mapStyle}
             onViewportChange={handleViewportChange}
