@@ -407,7 +407,7 @@ const MapView = () => {
         setStatus("error");
       }
     };
-    // fetchMarkers();
+    fetchMarkers();
   }, []);
 
   const classes = useStyles("");
