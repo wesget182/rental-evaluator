@@ -53,12 +53,12 @@ export default function FinancialsForm({ financials = {} }) {
         onChange={handleInput}
       />
       <TextField
-        name="Interest Rate"
-        value={inputs.interestRate}
         label="Interest Rate"
+        value={inputs.interestRate}
+        name="interestRate"
         onInput={handleInput}
       />
-      <TextField name="Term" value={inputs.term} label="Term" onInput={handleInput} />
+      <TextField name="Term (Years)" value={inputs.term} label="Term" onInput={handleInput} />
       <CurrencyTextField
         label="Monthly Expenses"
         name="monthlyExpenses"

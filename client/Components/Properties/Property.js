@@ -8,9 +8,9 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
+import EditIcon from '@material-ui/icons/Edit';
 import FinancialsForm from './FinancialsForm';
+import TenantsForm from './TenantsForm';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -57,6 +57,15 @@ const useStyles = makeStyles((theme) => ({
       flexWrap: 'wrap',
     },
   },
+  address: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: '20px',
+  },
+  editIcon: {
+    marginLeft: '10px',
+  },
 }));
 
 const initialPropertyState = {
@@ -65,24 +74,41 @@ const initialPropertyState = {
     address2: null,
     city: 'Santa Barbara',
     state: 'CA',
-    zip: '91362'
-  }
-}
+    zip: '91362',
+  },
+  financials: {
+    purchasePrice: 1500000,
+    downPayment: 300000,
+    interestRate: 0.031,
+    monthlyExpenses: 5000,
+    purchaseDate: '03/05/2019',
+    term: 30,
+  },
+  tenants: [
+    {
+      id: 1,
+      fullName: 'Johnny Appleseed',
+      email: 'johnny@appleseed.com',
+      phoneNumber: '888-888-8888',
+      monthlyRent: 3000,
+    },
+  ],
+};
 
 export default function Property(props) {
   let { id } = useParams();
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = useState(0);
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
   const [propertyData, setPropertyData] = useState({});
-  
+
   useEffect(() => {
     // TODO: Fetch property information from db using the id from the url
-    const placeholderPropertyData = initialPropertyState // TODO: replace this with the property data from the db
-    setPropertyData(placeholderPropertyData)
-    setLoading(false)
-  }, [])
+    const placeholderPropertyData = initialPropertyState; // TODO: replace this with the property data from the db
+    setPropertyData(placeholderPropertyData);
+    setLoading(false);
+  }, []);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -92,16 +118,19 @@ export default function Property(props) {
     setValue(index);
   };
 
-  if (loading) return <p>Loading....</p>
+  if (loading) return <p>Loading....</p>;
 
   const addressString = () => {
-    const { address1, address2, city, state, zip } = propertyData.address
-    return `${address1},${address2 ? ' ' + address2 + ',' : ''} ${city}, ${state} ${zip}`
-  }
+    const { address1, address2, city, state, zip } = propertyData.address;
+    return `${address1},${address2 ? ' ' + address2 + ',' : ''} ${city}, ${state} ${zip}`;
+  };
 
   return (
     <div className={classes.root}>
-      <h2>{addressString()}</h2>
+      <div className={classes.address}>
+        <h2>{addressString()}</h2>
+        <EditIcon className={classes.editIcon} />
+      </div>
       <AppBar position="static" color="default">
         <Tabs
           value={value}
@@ -111,8 +140,8 @@ export default function Property(props) {
           variant="fullWidth"
           aria-label="full width tabs example"
         >
-          <Tab label="Financials" {...a11yProps(0)} />
-          <Tab label="Tenants" {...a11yProps(1)} />
+          <Tab label="Tenants" {...a11yProps(0)} />
+          <Tab label="Financials" {...a11yProps(1)} />
         </Tabs>
       </AppBar>
       <SwipeableViews
@@ -121,10 +150,12 @@ export default function Property(props) {
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-          <FinancialsForm financials={propertyData.financials} />
+          {propertyData.tenants.map((tenant) => (
+            <TenantsForm tenants={tenant} />
+          ))}
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          Tenants
+          <FinancialsForm financials={propertyData.financials} />
         </TabPanel>
       </SwipeableViews>
     </div>
