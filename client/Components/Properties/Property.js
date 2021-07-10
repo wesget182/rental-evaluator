@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -20,7 +22,7 @@ function TabPanel(props) {
 
   return (
     <div
-      role="tabpanel"
+      role='tabpanel'
       hidden={value !== index}
       id={`full-width-tabpanel-${index}`}
       aria-labelledby={`full-width-tab-${index}`}
@@ -130,7 +132,9 @@ export default function Property(props) {
 
   const addressString = () => {
     const { address1, address2, city, state, zip } = propertyData.address;
-    return `${address1},${address2 ? ' ' + address2 + ',' : ''} ${city}, ${state} ${zip}`;
+    return `${address1},${
+      address2 ? ' ' + address2 + ',' : ''
+    } ${city}, ${state} ${zip}`;
   };
 
   return (
@@ -140,17 +144,17 @@ export default function Property(props) {
         <EditIcon className={classes.editIcon} onClick={() => setShowEditProperty(true)}/>
         <AddressForm open={showEditProperty} handleClose={handleCloseEditProperty} newProperty={false} address={propertyData.address} />
       </div>
-      <AppBar position="static" color="default">
+      <AppBar position='static' color='default'>
         <Tabs
           value={value}
           onChange={handleChange}
-          indicatorColor="primary"
-          textColor="primary"
-          variant="fullWidth"
-          aria-label="full width tabs example"
+          indicatorColor='primary'
+          textColor='primary'
+          variant='fullWidth'
+          aria-label='full width tabs example'
         >
-          <Tab label="Tenants" {...a11yProps(0)} />
-          <Tab label="Financials" {...a11yProps(1)} />
+          <Tab label='Tenants' {...a11yProps(0)} />
+          <Tab label='Financials' {...a11yProps(1)} />
         </Tabs>
       </AppBar>
       <SwipeableViews
