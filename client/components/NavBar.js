@@ -162,10 +162,9 @@ export default function PrimarySearchAppBar({ isLoggedIn, setIsLoggedIn }) {
             {isLoggedIn && (
               <IconButton aria-label='favorite properties' color='inherit'>
                 <FavoriteIcon onClick={showFavs} />
-             
               </IconButton>
             )}
-             {/* <FavDrawer />  */}
+            {/* <FavDrawer />  */}
             <IconButton
               edge='end'
               aria-label='account of current user'
