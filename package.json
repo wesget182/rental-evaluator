@@ -45,6 +45,7 @@
     "nodemon": "^2.0.7",
     "pg": "^8.5.1",
     "react": "^16.3.2",
+    "react-currency-format": "^1.0.0",
     "react-dom": "^16.3.2",
     "react-map-gl": "^6.1.16",
     "react-map-gl-geocoder": "^2.1.6",
