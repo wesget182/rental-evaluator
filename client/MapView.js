@@ -466,7 +466,6 @@ const MapView = () => {
       <div className={classes.root}>
         <Grid container spacing={3}>
           <Grid item xs={12}></Grid>
-
           <ReactMapGL
             ref={mapRef}
             mapboxApiAccessToken={mapboxApiKey}
@@ -489,7 +488,7 @@ const MapView = () => {
               setMarkers={setMarkers}
             />
           </ReactMapGL>
-          <ListView props = {markers} />
+          {/* <ListView props = {markers} /> */}
         </Grid>
       </div>
       {/* <div>
