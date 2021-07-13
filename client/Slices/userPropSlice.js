@@ -10,17 +10,17 @@ export const userProp = createSlice({
     address2: '',
     city: '',
     state: '',
-    zip: '',
+    zip: 'd',
     userProperties: [],
   },
   reducers: {
     userPropReducer: (state, action) => {
       console.log('action.payload in userPropReducer', action.payload);
 
-      // const { address1, address2, city, state, zip } = action.payload
+      //   const { address1, address2, city, state, zip } = action.payload;
 
-      // state = { address1, address2, city, state, zip }
-      state = action.payload;
+      state = { ...action.payload };
+      //   state = action.payload;
     },
     userPropListReducer: (state, action) => {
       console.log('action.payload in userPropListReducer', action.payload);
