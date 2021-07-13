@@ -76,4 +76,13 @@ router.post('/newProperty', propertyController.addNewProperty, (req, res) => {
   res.status(200).send(res.locals);
 });
 
+router.post(
+  '/listProperties',
+  //
+  (req, res) => {
+    console.log('res.locals in getListProps route: ', res.locals);
+    res.status(200).send(res.locals);
+  }
+);
+
 module.exports = router;

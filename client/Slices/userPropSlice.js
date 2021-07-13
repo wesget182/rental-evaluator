@@ -10,7 +10,8 @@ export const userProp = createSlice({
     address2: '',
     city: '',
     state: '',
-    zip: 'd',
+    zip: '',
+    email,
     userProperties: [],
   },
   reducers: {
@@ -19,7 +20,7 @@ export const userProp = createSlice({
 
       //   const { address1, address2, city, state, zip } = action.payload;
 
-      state = { ...action.payload };
+      state = { ...state, userProperties: [] };
       //   state = action.payload;
     },
     userPropListReducer: (state, action) => {
