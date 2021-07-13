@@ -9,6 +9,7 @@ const propertySchema = new Schema({
   city: String,
   state: String,
   zip: String,
+  email: String,
 });
 
 const NewProperty = mongoose.model('newProperty', propertySchema);
