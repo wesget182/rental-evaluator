@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Properties = () => {
+  let ownedProperties;
   const state = useSelector(userState);
   const classes = useStyles();
   const [showNewProperty, setShowNewProperty] = useState(false);
@@ -35,7 +36,7 @@ const Properties = () => {
 
   const getProperties = () => {
     api
-      .post('/listProperties', {
+      .post('/properties/listProperties', {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
@@ -44,8 +45,11 @@ const Properties = () => {
           email: state.user.email,
         },
       })
-      .then((res) => res.json())
-      .then((data) => console.log(data))
+      .then((res) => {
+        console.log('res', res.data.ownedProps);
+        // need to dispatch res.data.ownedProps
+      })
+
       .catch((err) => console.log(err));
   };
 
@@ -61,6 +65,7 @@ const Properties = () => {
           Add Property
         </Button>
       </div>
+
       <PropertiesTable />
       <AddressForm
         open={showNewProperty}

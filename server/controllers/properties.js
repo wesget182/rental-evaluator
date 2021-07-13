@@ -272,9 +272,13 @@ propertyController.addNewProperty = async (req, res, next) => {
   return next();
 };
 
-propertyController.getOwnerProperties = async (req, res, next) => {
-  const { params } = req.body;
-  await models.NewProperty.findOne();
+propertyController.getOwnedProperties = async (req, res, next) => {
+  console.log('req.body in getOwnerProp', req.body);
+  await models.NewProperty.find({ email: req.body.body.email }).then((data) => {
+    res.locals.ownedProps = data;
+    console.log('owndedProps', res.locals.ownedProps);
+  });
+  return next();
 };
 
 module.exports = propertyController;

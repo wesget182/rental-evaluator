@@ -78,7 +78,7 @@ router.post('/newProperty', propertyController.addNewProperty, (req, res) => {
 
 router.post(
   '/listProperties',
-  //
+  propertyController.getOwnedProperties,
   (req, res) => {
     console.log('res.locals in getListProps route: ', res.locals);
     res.status(200).send(res.locals);
