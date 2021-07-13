@@ -64,7 +64,7 @@ const MarkersList = (props) => {
   const [showSingleLocation, setShowSingleLocation] = useState(false);
   // use case - when it's a general area search
   //e.g. Mountain View, CA
-  const dispatch = useDispatch()
+
   if (status === "done") {
     if (props.props.propertiesForSale) {
       features = props.props.propertiesForSale.features;
