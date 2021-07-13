@@ -11,7 +11,7 @@ export const userProp = createSlice({
     city: '',
     state: '',
     zip: '',
-    email,
+    email: '',
     userProperties: [],
   },
   reducers: {
