@@ -1,13 +1,14 @@
 /** @format */
 
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import AddressForm from './AddressForm';
 import PropertiesTable from './PropertiesTable';
 import api from '../../axios/axios';
 import { userState } from '../../Slices/userSlice';
+import { userPropReducer } from '../../Slices/userPropSlice';
 
 const useStyles = makeStyles((theme) => ({
   propertiesHeader: {
@@ -23,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Properties = () => {
+  const dispatch = useDispatch();
   let ownedProperties;
   const state = useSelector(userState);
   const classes = useStyles();
@@ -47,7 +49,10 @@ const Properties = () => {
       })
       .then((res) => {
         console.log('res', res.data.ownedProps);
-        // need to dispatch res.data.ownedProps
+        dispatch(userPropReducer(res.data.ownedProps));
+      })
+      .then(() => {
+        return;
       })
 
       .catch((err) => console.log(err));
