@@ -13,6 +13,7 @@ import InfoIcon from "@material-ui/icons/Info";
 import api from "../axios/axios";
 import FavModal from "./FavsModal";
 import { loginReducer } from "../Slices/userSlice";
+import { useHistory } from 'react-router-dom';
 
 //Favorite array state set by get request in component fxn
 const useStyles = makeStyles((theme) => ({
@@ -60,6 +61,7 @@ function TitlebarGridList() {
   const [propDetail, setPropDetail] = useState({});
   const [gotFavs, setGotFavs] = useState(false);
   const [favDetailsOpen, setFavDetailsOpen] = useState(false);
+  const history = useHistory();
 
   useEffect(() => {
     getFavs();
@@ -94,7 +96,7 @@ function TitlebarGridList() {
   return (
     <div>
       <Box display="flex" flexDirection="row" justifyContent="center">
-        <Button variant="outlined" color="inherit" href="/">
+        <Button variant="outlined" color="inherit" onClick={() => history.push(`/`)}>
           Map View
         </Button>
       </Box>

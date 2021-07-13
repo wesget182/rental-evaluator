@@ -16,7 +16,7 @@ export const financials = createSlice({
     // create reducers
     reducers: {
         financialReducer: (state, action) => {
-            console.log("action.payload in financialReducer")
+            console.log("action.payload in financialReducer", action.payload)
             state = action.payload
         }
     }

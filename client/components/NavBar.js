@@ -15,11 +15,15 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import DrawerMenu from './DrawerMenu';
 import Link from '@material-ui/core/Link';
-
+import { useSelector, useDispatch } from "react-redux";
+import { emailReducer, loginReducer } from "../Slices/userSlice";
+import { userState } from "../Slices/userSlice";
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
+    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -81,13 +85,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PrimarySearchAppBar({ isLoggedIn, setIsLoggedIn }) {
+export default function PrimarySearchAppBar() {
+  const dispatch = useDispatch();
   const classes = useStyles();
+  const history = useHistory();
   const [anchorEl, setAnchorEl] = useState(null);
   const [goToSignOut, setGoToSignOut] = useState(false);
   const [goToSignIn, setGoToSignIn] = useState(false);
   const [favView, setFavView] = useState(false);
   const [open, setOpen] = React.useState(false);
+  
+  const { user } = useSelector(userState)
+  const { isLoggedIn } = user
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -109,10 +118,12 @@ export default function PrimarySearchAppBar({ isLoggedIn, setIsLoggedIn }) {
 
   const signInOut = isLoggedIn ? 'Sign Out' : 'Sign In';
   const handleSignInOut = () => {
+    console.log('isLoggedIn', isLoggedIn)
     if (isLoggedIn) {
-      setIsLoggedIn(false);
+      dispatch(loginReducer());
       setGoToSignOut(true);
     } else {
+      dispatch(loginReducer())
       setGoToSignIn(true);
     }
   };
@@ -152,7 +163,7 @@ export default function PrimarySearchAppBar({ isLoggedIn, setIsLoggedIn }) {
             <MenuIcon />
           </IconButton>
           <Typography className={classes.title} variant='h6' noWrap>
-            <Link href='/' color='inherit'>
+            <Link color='inherit' style={{cursor: 'pointer'}} onClick={() => history.push(`/`)}>
               Rental Evaluator
             </Link>
           </Typography>
@@ -161,7 +172,7 @@ export default function PrimarySearchAppBar({ isLoggedIn, setIsLoggedIn }) {
           <div className={classes.sectionDesktop}>
             {isLoggedIn && (
               <IconButton aria-label='favorite properties' color='inherit'>
-                <FavoriteIcon onClick={showFavs} />
+                <FavoriteIcon onClick={() => history.push('/favs')} />
               </IconButton>
             )}
             {/* <FavDrawer />  */}

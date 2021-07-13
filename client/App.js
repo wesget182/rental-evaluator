@@ -21,30 +21,29 @@ const App = () => {
         <Switch>
           <Route exact path='/'>
             <NavBar />
-            <MainContainer />
-          
+            <MainContainer />          
           </Route>
           <Route exact path='/properties'>
-            <NavBar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+            <NavBar />
             <Properties />
           </Route>
           <Route path='/new-property'>
-            <NavBar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+            <NavBar />
             <NewProperty />
           </Route>
           <Route path='/property/:id'>
-            <NavBar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+            <NavBar />
             <Property />
+          </Route>
+          <Route exact path='/favs'>
+            <NavBar />
+            <Favorites />
           </Route>
           <Route exact path='/signin'>
             <SignIn isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
           </Route>
           <Route exact path='/register'>
             <Register />
-          </Route>
-          <Route exact path='/favs'>
-            <NavBar />
-            <Favorites />
           </Route>
         </Switch>
       </main>

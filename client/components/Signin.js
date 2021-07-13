@@ -85,7 +85,7 @@ export default function SignIn() {
       console.log("signin.js>preventDefault", res.data.isLoggedIn);
       dispatch(emailReducer(email));
       // setIsLoggedIn(res.data.isLoggedIn);
-      dispatch(loginReducer());
+      dispatch(loginReducer(res.data));
     });
     // .then(() => {
     //   if (state.isLoggedIn === true) return <Redirect to="/" />;
@@ -151,8 +151,9 @@ export default function SignIn() {
                   color="primary"
                   className={classes.submit}
                 >
-                  Sign In
+                 Sign In
                 </Button>
+                
                 <Grid container>
                   <Grid item xs>
                     <Link href="#" variant="body2">
