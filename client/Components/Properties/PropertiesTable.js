@@ -63,42 +63,40 @@ export default function BasicTable() {
   console.log('state in property table', state);
   return (
     <TableContainer component={Paper}>
-      <Table className={classes.table} aria-label='simple table'>
+      <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell>Address</TableCell>
-            <TableCell align='right'>Tenants</TableCell>
-            <TableCell align='right'>Monthly Expenses</TableCell>
-            <TableCell align='right'>Monthly Income</TableCell>
-            <TableCell align='right'>Monthly Profit (Loss)</TableCell>
+            <TableCell align="right">Tenants</TableCell>
+            <TableCell align="right">Monthly Expenses</TableCell>
+            <TableCell align="right">Monthly Income</TableCell>
+            <TableCell align="right">Monthly Profit (Loss)</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {properties.map((row) => {
             const expenses = row.financials.monthlyExpenses;
-            const income = row.tenants
-              .map((t) => t.monthlyRent)
-              .reduce((a, b) => a + b);
+            const income = row.tenants.map((t) => t.monthlyRent).reduce((a, b) => a + b);
             const profit = income - expenses;
             return (
               <TableRow key={row.id}>
-                <TableCell component='th' scope='row'>
+                <TableCell component="th" scope="row">
                   <Link onClick={() => history.push(`/property/${row.id}`)}>
                     {state.userProp.address1}
                   </Link>
                 </TableCell>
-                <TableCell align='right'>
+                <TableCell align="right">
                   <Link onClick={() => history.push(`/property/${row.id}`)}>
                     {row.tenants.length}
                   </Link>
                 </TableCell>
-                <TableCell align='right'>
+                <TableCell align="right">
                   <Currency number={expenses} />
                 </TableCell>
-                <TableCell align='right'>
+                <TableCell align="right">
                   <Currency number={income} />
                 </TableCell>
-                <TableCell align='right'>
+                <TableCell align="right">
                   <Currency number={profit} />
                 </TableCell>
               </TableRow>

@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 export default function TenantForm({ open, handleClose, tenant = {} }) {
   const classes = useStyles();
   const [inputs, setInputs] = useState(tenant);
-  const newTenant = !tenant.fullName
+  const newTenant = !tenant.fullName;
 
   const handleInput = (e) => setInputs({ ...inputs, [e.target.name]: e.target.value });
 

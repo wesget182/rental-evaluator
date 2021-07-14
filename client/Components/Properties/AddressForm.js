@@ -24,12 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AddressForm({
-  open,
-  handleClose,
-  newProperty = false,
-  address = {},
-}) {
+export default function AddressForm({ open, handleClose, newProperty = false, address = {} }) {
   const classes = useStyles();
   const history = useHistory();
   const [inputs, setInputs] = useState({});
@@ -59,62 +54,37 @@ export default function AddressForm({
     }
   };
 
-  const handleInput = (e) =>
-    setInputs({ ...inputs, [e.target.name]: e.target.value });
+  const handleInput = (e) => setInputs({ ...inputs, [e.target.name]: e.target.value });
 
   return (
-    <Dialog
-      open={open}
-      onClose={handleClose}
-      aria-labelledby='form-dialog-title'
-    >
-      <DialogTitle id='form-dialog-title'>
+    <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+      <DialogTitle id="form-dialog-title">
         {newProperty ? 'New Property' : 'Edit Property'}
       </DialogTitle>
       <DialogContent>
-        <form
-          className={classes.form}
-          noValidate
-          autoComplete='off'
-          onSubmit={handleSubmit}
-        >
+        <form className={classes.form} noValidate autoComplete="off" onSubmit={handleSubmit}>
           <TextField
-            name='address1'
+            name="address1"
             value={inputs.address1}
-            label='Address'
+            label="Address"
             onInput={handleInput}
           />
           <TextField
-            name='address2'
+            name="address2"
             value={inputs.address2}
-            label='Address 2'
+            label="Address 2"
             onInput={handleInput}
           />
-          <TextField
-            name='city'
-            value={inputs.city}
-            label='City'
-            onInput={handleInput}
-          />
-          <TextField
-            name='state'
-            value={inputs.state}
-            label='State'
-            onInput={handleInput}
-          />
-          <TextField
-            name='zip'
-            value={inputs.zip}
-            label='Zip Code'
-            onInput={handleInput}
-          />
+          <TextField name="city" value={inputs.city} label="City" onInput={handleInput} />
+          <TextField name="state" value={inputs.state} label="State" onInput={handleInput} />
+          <TextField name="zip" value={inputs.zip} label="Zip Code" onInput={handleInput} />
         </form>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose} color='primary'>
+        <Button onClick={handleClose} color="primary">
           Cancel
         </Button>
-        <Button variant='contained' color='primary' onClick={handleSubmit}>
+        <Button variant="contained" color="primary" onClick={handleSubmit}>
           Sumbit
         </Button>
       </DialogActions>
