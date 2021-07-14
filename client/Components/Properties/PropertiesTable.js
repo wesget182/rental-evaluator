@@ -16,16 +16,15 @@ import { useHistory } from 'react-router-dom';
 import Currency from '../../Utils/Currency';
 import { userPropState } from '../../Slices/userPropSlice';
 
+// Sample data
 const initialPropertiesState = [
   {
     id: 1,
-    address: {
-      address1: '123 Cherry Lane',
-      address2: null,
-      city: 'Santa Barbara',
-      state: 'CA',
-      zip: '91362',
-    },
+    address1: '123 Cherry Lane',
+    address2: null,
+    city: 'Santa Barbara',
+    state: 'CA',
+    zip: '91362',
     financials: {
       purchasePrice: 1500000,
       downPayment: 300000,
@@ -56,11 +55,12 @@ export default function BasicTable() {
   const state = useSelector(userPropState);
   const classes = useStyles();
   const history = useHistory();
-  const [properties, setProperties] = useState(initialPropertiesState);
-  // useEffect(() => {
-  //   console.log('state in property table', state);
-  // }, [state]);
-  console.log('state in property table', state);
+
+  const addressString = (row) => {
+    const { address1, address2, city, state, zip } = row;
+    return `${address1},${address2 ? ' ' + address2 + ',' : ''} ${city}, ${state} ${zip}`;
+  };
+
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="simple table">
@@ -74,20 +74,20 @@ export default function BasicTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {properties.map((row) => {
-            const expenses = row.financials.monthlyExpenses;
-            const income = row.tenants.map((t) => t.monthlyRent).reduce((a, b) => a + b);
-            const profit = income - expenses;
+          {state.userProp.userProperties.map((row) => {
+            const expenses = row?.financials?.monthlyExpenses || 0;
+            const income = row?.tenants?.map((t) => t.monthlyRent)?.reduce((a, b) => a + b, 0) || 0;
+            const profit = income - expenses || 0;
             return (
-              <TableRow key={row.id}>
+              <TableRow key={row._id}>
                 <TableCell component="th" scope="row">
-                  <Link onClick={() => history.push(`/property/${row.id}`)}>
-                    {state.userProp.address1}
+                  <Link onClick={() => history.push(`/property/${row._id}`)}>
+                    {addressString(row) || ''}
                   </Link>
                 </TableCell>
                 <TableCell align="right">
-                  <Link onClick={() => history.push(`/property/${row.id}`)}>
-                    {row.tenants.length}
+                  <Link onClick={() => history.push(`/property/${row._id}`)}>
+                    {row.tenants?.length || 0}
                   </Link>
                 </TableCell>
                 <TableCell align="right">

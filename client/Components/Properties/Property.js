@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import SwipeableViews from 'react-swipeable-views';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -16,6 +17,7 @@ import TenantForm from './TenantForm';
 import TenantAvatar from './TenantAvatar';
 import Button from '@material-ui/core/Button';
 import AddressForm from './AddressForm';
+import { userPropState } from '../../Slices/userPropSlice';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -103,18 +105,11 @@ export default function Property(props) {
   let { id } = useParams();
   const classes = useStyles();
   const theme = useTheme();
+  const fetchUserProperties = useSelector(userPropState);
+  const propertyData = fetchUserProperties.userProp.userProperties.find(el => el._id === id)
   const [value, setValue] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [propertyData, setPropertyData] = useState({});
   const [showNewTenant, setShowNewTenant] = useState(false);
   const [showEditProperty, setShowEditProperty] = useState(false);
-
-  useEffect(() => {
-    // TODO: Fetch property information from db using the id from the url
-    const placeholderPropertyData = initialPropertyState; // TODO: replace this with the property data from the db
-    setPropertyData(placeholderPropertyData);
-    setLoading(false);
-  }, []);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -128,10 +123,8 @@ export default function Property(props) {
 
   const handleCloseEditProperty = () => setShowEditProperty(false);
 
-  if (loading) return <p>Loading....</p>;
-
   const addressString = () => {
-    const { address1, address2, city, state, zip } = propertyData.address;
+    const { address1, address2, city, state, zip } = propertyData;
     return `${address1},${address2 ? ' ' + address2 + ',' : ''} ${city}, ${state} ${zip}`;
   };
 
@@ -144,7 +137,7 @@ export default function Property(props) {
           open={showEditProperty}
           handleClose={handleCloseEditProperty}
           newProperty={false}
-          address={propertyData.address}
+          address={propertyData}
         />
       </div>
       <AppBar position="static" color="default">
@@ -166,9 +159,9 @@ export default function Property(props) {
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-          {propertyData.tenants.map((tenant) => (
+          {propertyData?.tenants.map((tenant) => (
             <TenantAvatar tenant={tenant} />
-          ))}
+          )) || ``}
           <TenantForm open={showNewTenant} handleClose={handleCloseNewTenant} />
           {!showNewTenant && (
             <Button variant="contained" color="primary" onClick={() => setShowNewTenant(true)}>
