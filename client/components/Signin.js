@@ -84,8 +84,8 @@ export default function SignIn() {
     }).then((res) => {
       console.log("signin.js>preventDefault", res.data.isLoggedIn);
       dispatch(emailReducer(email));
-      // setIsLoggedIn(res.data.isLoggedIn);
       dispatch(loginReducer(res.data));
+      history.push('/')
     });
     // .then(() => {
     //   if (state.isLoggedIn === true) return <Redirect to="/" />;

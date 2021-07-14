@@ -57,8 +57,8 @@ userController.verifyLogin = (req, res, next) => {
           if (error) res.status(500).json(error);
           //login success
           else if (match) {
-            let { password, ...y } = user;
-            res.locals.user = y
+            const { _id, name, email, favorites } = user;
+            res.locals = { ...res.locals, _id, name, email, favorites };
             next();
           }
           //login fail (incorrect pw)
