@@ -31,14 +31,10 @@ export default function AddressForm({ open, handleClose, newProperty = false, ad
 
   const state = useSelector(userState);
 
-  console.log('userState', state.user.email);
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // TODO: add property to the user record in the db
-    const propertyId = 1; // this should be replaced with the property id generated when the record is created
-    // redirect to the property page
     try {
-      api.post('/properties/newProperty', {
+      const newPropertyId = await api.post('/properties/newProperty', {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
@@ -47,8 +43,8 @@ export default function AddressForm({ open, handleClose, newProperty = false, ad
           body: inputs,
           email: state.user.email,
         },
-      });
-      history.push(`/property/${propertyId}`);
+      }).then(data => data.data.property._id) 
+      history.push(`/property/${newPropertyId}`);
     } catch (err) {
       console.log(err);
     }
