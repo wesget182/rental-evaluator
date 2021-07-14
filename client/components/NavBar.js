@@ -123,10 +123,6 @@ export default function PrimarySearchAppBar() {
     dispatch(loginReducer())
   };
 
-  // if (goToSignOut) return <Redirect to='/signin' />;
-  // if (goToSignIn) return <Redirect to='/signin' />;
-  // if (favView) return <Redirect to='/favs' />;
-
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -170,11 +166,11 @@ export default function PrimarySearchAppBar() {
 
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            {isLoggedIn && (
+            {/* {isLoggedIn && (
               <IconButton aria-label='favorite properties' color='inherit'>
                 <FavoriteIcon onClick={() => history.push('/favs')} />
               </IconButton>
-            )}
+            )} */}
             {/* <FavDrawer />  */}
             <IconButton
               edge='end'
