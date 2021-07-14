@@ -29,12 +29,46 @@ ownedPropertiesController.addNewProperty = async (req, res, next) => {
   return next();
 };
 
+ownedPropertiesController.addTenantController = async (req, res, next) => {
+  const { params } = req.body;
+
+  const tenantInfo = params.body;
+  tenantInfo['_id'] = params._id;
+
+  await models.Tenants.create(tenantInfo)
+    .then((data) => {
+      res.locals.tenantInfo = data;
+      return next();
+    })
+    .catch((err) => next(err));
+};
+
+ownedPropertiesController.addFinancialInformaion = async (req, res, next) => {
+  const { params } = req.body;
+
+  const financialInfo = params.body;
+  financialInfo['_id'] = params._id;
+
+  await models.Financials.create(financialInfo)
+    .then((data) => {
+      res.locals.financialInfo = data;
+      return next();
+    })
+    .catch((err) => next(err));
+};
+
 ownedPropertiesController.getOwnedProperties = async (req, res, next) => {
   console.log('req.body in getOwnerProp', req.body);
   await models.NewProperty.find({ email: req.body.body.email }).then((data) => {
     res.locals.ownedProps = data;
-    console.log('owndedProps', res.locals.ownedProps);
   });
+
+  // await models.Tenants.find({ email: req.body.body._id }).then((data) => {
+  //   res.locals.tenantInfo = data;
+  // });
+  // await models.Financials.find({ email: req.body.body._id }).then((data) => {
+  //   res.locals.financialInfo = data;
+  // });
   return next();
 };
 
