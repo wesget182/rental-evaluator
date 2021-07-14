@@ -43,7 +43,7 @@ export default function AddressForm({
     const propertyId = 1; // this should be replaced with the property id generated when the record is created
     // redirect to the property page
     try {
-      api.post('/properties/newProperty', {
+      api.post('/ownedProperties/newProperty', {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',

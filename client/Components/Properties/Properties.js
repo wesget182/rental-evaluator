@@ -38,7 +38,7 @@ const Properties = () => {
 
   const getProperties = () => {
     api
-      .post('/properties/listProperties', {
+      .post('/ownedProperties/listProperties', {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
