@@ -8,7 +8,8 @@ import Spinner from "./Components/Spinner";
 import boiseList from "./PropertyTestData/boiseList";
 // import ListView from "./Components/ListView"
 //listview imports
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { propertyReducer } from "./Slices/propSlice";
 import { propState } from "./slices/propslice";
 import { makeStyles } from "@material-ui/core/styles";
 import ImageList from "@material-ui/core/ImageList";
@@ -16,6 +17,9 @@ import ImageListItem from "@material-ui/core/ImageListItem";
 import ImageListItemBar from "@material-ui/core/ImageListItemBar";
 import IconButton from "@material-ui/core/IconButton";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
+
+
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -51,8 +55,9 @@ const MarkersList = (props) => {
   // setup state to toggle Popupp
   const [MapModalOpen, setMapModalOpen] = useState(false);
   const [ActiveMarker, makeActive] = useState(false)
+  const [currentFeatures, setFeatures] = useState()
     // setup clicked marker state
-    const [selectedMarker, setSelectedMarker] = useState({});
+   
 
   // const MarkersList = (props) => {
   // const data = props.props.features;
@@ -61,9 +66,11 @@ const MarkersList = (props) => {
   const [showSingleLocation, setShowSingleLocation] = useState(false);
   // use case - when it's a general area search
   //e.g. Mountain View, CA
+
   if (status === "done") {
     if (props.props.propertiesForSale) {
       features = props.props.propertiesForSale.features;
+      
     }
     // use case - when it's a speific location search
     // 190 E 72nd St APT 11B, New York, NY 10021
@@ -78,6 +85,7 @@ const MarkersList = (props) => {
         features = features.concat(props.props.propertiesForRental.features);
       }
     }
+
   }
   
   console.log("propertiesForRental ", props.props.propertiesForRental);
@@ -117,12 +125,12 @@ const MarkersList = (props) => {
         },
       });
       console.log(JSON.stringify(res.data.targetForSale, null, 2));
-      console.log(
-        Object.assign(
-          feature.properties,
-          res.data.targetForSale.features[0].properties
-        )
-      );
+      // console.log(
+      //   Object.assign(
+      //     feature.properties,
+      //     res.data.targetForSale.features[0].properties
+      //   )
+      // );
       setPropDetail(feature);
       console.log("PROP DETAIL", propDetail);
       setMapModalOpen(true);
@@ -133,12 +141,14 @@ const MarkersList = (props) => {
     }
   };
   //open/close handlers for add record modal
+  const [selectedMarker, setSelectedMarker] = useState({});
   const handleOpen = (e, idx) => {
+    
     e.preventDefault();
     getDetails(e, features[idx]);
 
     setSelectedMarker(idx)
-
+console.log('selectedMarker', selectedMarker, e, idx)
     // setMapModalOpen(true);
     console.log("map modal OPEN");
 
@@ -150,31 +160,52 @@ const MarkersList = (props) => {
   
   };
 
+  const [clickedFav, setClickedFav] = useState(false);
+  const favIcon = clickedFav ? <IconButton /> : <StarBorderIcon />;
+
+ 
+
   function ListView(props) {
     const classes = useStyles();
     const state = useSelector(propState);
+    const property = props.properties
   console.log('LVprops', props)
-    // setTimeout(() => {
-    //   console.log(
-    //     "listviewstate",
-    //     state.prop.properties.propertiesForSale.features
-    //   );
-    //   console.log(
-    //     "listviewkeys",
-    //     typeof state.prop.properties.propertiesForSale.features
-    //   );
-    // }, 20);
-  // console.log('LV', props)
+
+    // let features = state.prop.properties[0]
   
-    // let features = boiseList.propertiesForSale.features
-    let features = state.prop.properties[0].propertiesForRental.features
+    console.log('state', state)
+    // let features = state.prop.properties.propertiesForSale.features
+    let features = props.props
+    let index 
+   
+    
     // if(props.props) features = props.props.propertiesForSale.features
-    console.log(features)
+    const handleAddFavs = (idx) => {
+      // e.preventDefault();
+   
+      setClickedFav(!clickedFav);
+      const favorite = features[idx].properties
+      console.log('handleAddFavs in LV', idx, favorite)
+      api({
+        method: 'post',
+        url: '/addFav',
+        data: {
+          favorite: favorite,
+        },
+      }).catch((err) => console.log('ADD FAV ERROR', err));
+    };
+    const setIndex = (idx) => {
+      console.log('setIndex', idx)
+       index = idx
+       handleAddFavs(idx)
+    }
+// prop.properties.propertiesForSale.features
     return (
       <div className={classes.root}>
         <ImageList rowHeight={160} className={classes.imageList} cols={3}>
           {features.map((item, idx) => (
-            <ImageListItem onClick= {(e) => handleOpen(e, idx+1)}key={'listViewKey '+idx} id={'LVId '+ idx} cols={item.cols || 1}>
+        
+            <ImageListItem onClick= {(e) => handleOpen(e, idx)}key={'listViewKey '+idx} id={idx} cols={item.cols || 1}>
               {item.properties.Address}
               <img src={item.properties.Image} alt={item.title} />
               <ImageListItemBar
@@ -185,7 +216,7 @@ const MarkersList = (props) => {
                 }}
                 actionIcon={
                   <IconButton aria-label={`star ${item.title}`}>
-                    <StarBorderIcon className={classes.title} />
+                    <StarBorderIcon className={classes.title} onClick = {() => {setIndex(idx)}}/>
                   </IconButton>
                 }
               />
@@ -205,8 +236,8 @@ const MarkersList = (props) => {
       <Marker
         key={idx}
         id={idx}
-        longitude={marker.geometry.coordinates[0]}
-        latitude={marker.geometry.coordinates[1]}
+        longitude={Number(marker.geometry.coordinates[0])}
+        latitude={Number(marker.geometry.coordinates[1])}
         // onClick={() => handleMarkerClick(marker)}
         onClick={(e) => handleOpen(e, idx)}
       >
@@ -215,14 +246,17 @@ const MarkersList = (props) => {
         
           color={props.props.targetForSale && idx === selectedMarker ? "green" : "red"}
           size={props.props.targetForSale && idx === selectedMarker ? 25 : 20}
-          active ={ActiveMarker}
+          
+          idx = {idx}
+          selectedMarker = {selectedMarker}
+         
         />
       </Marker>
     ));
   } else if (status === "error") {
     content = <div>{status}</div>;
   }
-  console.log(content)
+
 
   return (
    
@@ -237,7 +271,7 @@ const MarkersList = (props) => {
         />
         
       )}
-      <ListView props= {content}/>
+      <ListView props = {features}/>
     </div>
   );
 };
