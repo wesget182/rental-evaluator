@@ -85,4 +85,12 @@ router.post(
   }
 );
 
+router.post('/addTenantInfo', (req, res) => {
+  res.status(200).send(res.locals);
+});
+
+router.post('/addFinancialInformation', (req, res) => {
+  res.status(200).send(res.locals);
+});
+
 module.exports = router;
