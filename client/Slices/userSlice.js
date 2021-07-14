@@ -6,10 +6,13 @@ export const user = createSlice({
 
   // initial state reducers wil
   initialState: {
+    _id: "",
     userName: "",
     name: "",
     email: "",
+    cookie: "",
     isLoggedIn: false,
+    favorites: [],
   },
   reducers: {
     emailReducer: (state, action) => {
@@ -18,10 +21,11 @@ export const user = createSlice({
     },
     loginReducer: (state, action) => {
       console.log("action.payload in loginReducer", action.payload);
-      //Is state.isLoggedIn true? If so, change to false, if not change to true
-      state.isLoggedIn 
-      ? state.isLoggedIn = false 
-      : state.isLoggedIn = true;
+      state.cookie = action.payload.cookie
+      state.email = action.payload.email
+      state.favorites = action.payload.favorites
+      state._id = action.payload._id
+      state.isLoggedIn ? state.isLoggedIn = false : state.isLoggedIn = true;
     },
   },
 });
