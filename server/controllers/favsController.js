@@ -18,9 +18,26 @@ favsController.addFavs = (req, res, next) => {
     .then((user) => {
       console.log('INSIDE FIND', user);
       //grab the existing favs array
-      const favs = user.favorites;
-      //push new fav onto it
-      favs.push(req.body.favorite);
+      let favs = user.favorites;
+      let newFavs = []
+
+     
+
+      let dupZPID = 'nothing'
+
+     favs.forEach(el => {
+       if (el['ZPID'] === req.body.favorite['ZPID']) dupZPID = req.body.favorite['ZPID']
+     })
+ //push new fav onto it if there isn't a duplicate, otherwise push existing favs excluding the duplicate. Essentially removing the favortie.
+     if(dupZPID === 'nothing') favs.push(req.body.favorite);
+     else {
+     favs.forEach(el => {
+       console.log(el['ZPID'])
+       if(el['ZPID'] !== dupZPID) newFavs.push(el)
+     })
+     favs = newFavs
+    }
+      console.log('addFavs', favs, newFavs)
       //set the new favs array to the user favorites
       user.favorites = favs;
       //save it
