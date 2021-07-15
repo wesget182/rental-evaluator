@@ -14,8 +14,6 @@ function Pin(props) {
   const userFavs = useSelector(userState)
   const favsArr = userFavs.user.favorites
 
-  console.log(props.zpid, userFavs.user.favorites)
-
   let {size = 20, color, ActiveMarker} = props;
   favsArr.forEach(fav => {
     if (fav.ZPID === props.zpid) {

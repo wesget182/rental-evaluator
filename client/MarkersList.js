@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { Marker, Popup } from "react-map-gl";
 import Pin from "./Pin";
 // import PinSingleLocation from './PinSingleLocation';
@@ -48,6 +48,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const MarkersList = (props) => {
+  
   console.log("props", props);
   let features = [];
   let singleLocation = {};
@@ -224,9 +225,9 @@ console.log('selectedMarker', selectedMarker, e, idx)
                 }}
                 actionIcon={
                   <IconButton aria-label={`star ${item.title}`} >
-                    <StarBorderIcon className={classes.title} onClick = {() => {setIndex(idx)}} style={{
+                    {/* <StarBorderIcon className={classes.title} onClick = {() => {setIndex(idx)}} style={{
                     color: "yellow"
-                  }}/>
+                  }}/> */}
                   </IconButton>
                 }
               />
