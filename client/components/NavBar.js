@@ -118,7 +118,7 @@ export default function PrimarySearchAppBar() {
 
   const signInOut = isLoggedIn ? 'Sign Out' : 'Sign In';
   const handleSignInOut = (e) => {
-    e.preventDefault()
+    // e.preventDefault()
     console.log('isLoggedIn', isLoggedIn)
     dispatch(loginReducer())
   };

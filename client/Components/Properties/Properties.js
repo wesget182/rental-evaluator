@@ -62,21 +62,13 @@ const Properties = () => {
     <div>
       <div className={classes.propertiesHeader}>
         <h1>My Properties</h1>
-        <Button
-          variant='contained'
-          color='primary'
-          onClick={() => setShowNewProperty(true)}
-        >
+        <Button variant="contained" color="primary" onClick={() => setShowNewProperty(true)}>
           Add Property
         </Button>
       </div>
 
       <PropertiesTable />
-      <AddressForm
-        open={showNewProperty}
-        handleClose={handleCloseNewProperty}
-        newProperty={true}
-      />
+      <AddressForm open={showNewProperty} handleClose={handleCloseNewProperty} newProperty={true} />
     </div>
   );
 };
