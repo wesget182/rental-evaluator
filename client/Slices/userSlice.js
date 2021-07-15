@@ -22,17 +22,22 @@ export const user = createSlice({
     loginReducer: (state, action) => {
       console.log("action.payload in loginReducer", action.payload);
       const obj = action.payload
-      state.cookie = obj.cookie
-      state.favorites = obj.favorites
-      state._id = obj._id
+      
+      // state.cookie = obj.cookie
+      // state.favorites = obj.favorites
+      // state._id = action.payload
       state.isLoggedIn 
       ? state.isLoggedIn = false 
       : state.isLoggedIn = true;
     },
+    // favoritesReducer: (state, action) => {
+    //   console.log('action.payload in favoritesReducer')
+    //   state.favorites.push(action.payload);
+    // }
   },
 });
 
-export const { emailReducer, loginReducer } = user.actions;
+export const { emailReducer, loginReducer} = user.actions;
 
 export default user.reducer;
 

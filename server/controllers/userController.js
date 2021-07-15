@@ -58,6 +58,7 @@ userController.verifyLogin = (req, res, next) => {
           //login success
           else if (match) {
             const { _id, name, email, favorites } = user;
+            console.log('RES.LOCALS', res.locals)
             res.locals = { ...res.locals, _id, name, email, favorites };
             next();
           }

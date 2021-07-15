@@ -19,7 +19,7 @@ import GoogleIcon from "./GoogleIcon";
 import api from "../axios/axios";
 import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { emailReducer, loginReducer } from "../Slices/userSlice";
+import { emailReducer, loginReducer, favoritesReducer } from "../Slices/userSlice";
 import { userState } from "../Slices/userSlice";
 
 function Copyright() {
@@ -83,8 +83,10 @@ export default function SignIn() {
       },
     }).then((res) => {
       console.log("signin.js>preventDefault", res.data.isLoggedIn);
+      console.log("THIS IS RES.DATA", res.data)
       dispatch(emailReducer(email));
       dispatch(loginReducer(res.data));
+      // dispatch(favoritesReducer(res.data.favorites))
       history.push('/')
     });
     // .then(() => {

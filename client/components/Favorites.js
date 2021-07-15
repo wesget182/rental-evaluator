@@ -13,6 +13,7 @@ import InfoIcon from "@material-ui/icons/Info";
 import api from "../axios/axios";
 import FavModal from "./FavsModal";
 import { loginReducer } from "../Slices/userSlice";
+import { favsReducer } from "../Slices/favSlice"
 
 //Favorite array state set by get request in component fxn
 const useStyles = makeStyles((theme) => ({
@@ -55,6 +56,7 @@ const useStyles = makeStyles((theme) => ({
  */
 
 function TitlebarGridList() {
+  const dispatch = useDispatch()
   const history = useHistory()
   const classes = useStyles();
   const [tileData, setTileData] = useState([]);
@@ -85,7 +87,8 @@ function TitlebarGridList() {
     })
       .then((res) => {
         setTileData(res.data.favsArr);
-        setGotFavs(true);
+        // setGotFavs(true);
+        dispatch(favsReducer())
       })
       .catch((err) => {
         console.log("GET FAVS ERROR ", err.message);
