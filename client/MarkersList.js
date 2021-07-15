@@ -11,6 +11,7 @@ import boiseList from "./PropertyTestData/boiseList";
 import { useSelector, useDispatch } from "react-redux";
 import { propertyReducer } from "./Slices/propSlice";
 import { propState } from "./slices/propslice";
+
 import { makeStyles } from "@material-ui/core/styles";
 import ImageList from "@material-ui/core/ImageList";
 import ImageListItem from "@material-ui/core/ImageListItem";
@@ -27,16 +28,17 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
     flexWrap: "wrap",
     justifyContent: "space-around",
+    // justifyItems: 'end',
     //   flexDirection: 'column',
     overflow: "hidden",
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: 'transparent',
   },
   imageList: {
     flexWrap: "nowrap",
     transform: "translateZ(0)",
   },
   title: {
-    color: theme.palette.primary.light,
+    color: 'white',
   },
   titleBar: {
     background:
@@ -199,6 +201,12 @@ console.log('selectedMarker', selectedMarker, e, idx)
        index = idx
        handleAddFavs(idx)
     }
+    function changeBackground(e) {
+      e.target.style.opacity = '1';
+    }
+    function opacify(e) {
+      e.target.style.opacity = '0.6';
+    }
 // prop.properties.propertiesForSale.features
     return (
       <div className={classes.root}>
@@ -207,7 +215,7 @@ console.log('selectedMarker', selectedMarker, e, idx)
         
             <ImageListItem onClick= {(e) => handleOpen(e, idx)}key={'listViewKey '+idx} id={idx} cols={item.cols || 1}>
               {item.properties.Address}
-              <img src={item.properties.Image} alt={item.title} />
+              <img src={item.properties.Image} alt={item.title} style = {{opacity: '0.6'}} onMouseOver= {changeBackground} onMouseLeave = {opacify}/>
               <ImageListItemBar
                 title={item.properties.Address}
                 classes={{
@@ -215,8 +223,10 @@ console.log('selectedMarker', selectedMarker, e, idx)
                   title: classes.title,
                 }}
                 actionIcon={
-                  <IconButton aria-label={`star ${item.title}`}>
-                    <StarBorderIcon className={classes.title} onClick = {() => {setIndex(idx)}}/>
+                  <IconButton aria-label={`star ${item.title}`} >
+                    <StarBorderIcon className={classes.title} onClick = {() => {setIndex(idx)}} style={{
+                    color: "yellow"
+                  }}/>
                   </IconButton>
                 }
               />
@@ -246,7 +256,7 @@ console.log('selectedMarker', selectedMarker, e, idx)
         
           color={props.props.targetForSale && idx === selectedMarker ? "green" : "red"}
           size={props.props.targetForSale && idx === selectedMarker ? 25 : 20}
-          
+          zpid = {marker.properties.ZPID}
           idx = {idx}
           selectedMarker = {selectedMarker}
          

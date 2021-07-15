@@ -7,9 +7,14 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import { Typography, Grid, Divider, Box } from '@material-ui/core';
 import api from '../axios/axios';
+//redux stuff
+import { userState } from '../Slices/userSlice'
+import { useSelector } from 'react-redux'
 
 const MapModal = ({ open, handleClose, prop }) => {
   const property = prop.properties;
+  const userFavs = useSelector(userState)
+  const favsArr = userFavs.user.favorites
 
   const useStyles = makeStyles((theme) => ({
     container: {
@@ -23,6 +28,7 @@ const MapModal = ({ open, handleClose, prop }) => {
     card: {
       margin: 20,
       p: 20,
+ 
     },
     imgContainer: {
       justify: 'center',
@@ -34,10 +40,24 @@ const MapModal = ({ open, handleClose, prop }) => {
 
   const classes = useStyles();
   const [clickedFav, setClickedFav] = useState(false);
-  const favIcon = clickedFav ? <FavoriteIcon /> : <FavoriteBorderIcon />;
+  const faved = () => {
+    let found = false
+    favsArr.forEach(fav => {
+      if (fav.ZPID === property.ZPID) {
+        found = true
+      }
+    })
+   return found
+  }
+  // faved()
+
+  let favIcon = clickedFav ? <FavoriteIcon /> : <FavoriteBorderIcon />;
+  if(faved()) favIcon = <FavoriteIcon/>
   const handleAddFavs = (e) => {
     e.preventDefault();
     setClickedFav(!clickedFav);
+//add remove fave conditional
+ 
     const favorite = property;
     api({
       method: 'post',
@@ -52,7 +72,11 @@ const MapModal = ({ open, handleClose, prop }) => {
       <Box className={classes.card}>
         <Grid>
           <Grid container justify="flex-end">
-            <IconButton onClick={handleAddFavs}>{favIcon}</IconButton>
+            <IconButton onClick={handleAddFavs}   
+            style={{
+              color: "red",
+              fontSize: 100,
+    }}>{favIcon}</IconButton>
             <IconButton onClick={handleClose}>
               <CancelIcon />
             </IconButton>
