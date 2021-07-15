@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {Redirect} from 'react-router-dom'
+import {Redirect, useHistory} from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
@@ -55,6 +55,7 @@ const useStyles = makeStyles((theme) => ({
  */
 
 function TitlebarGridList() {
+  const history = useHistory()
   const classes = useStyles();
   const [tileData, setTileData] = useState([]);
   const [propDetail, setPropDetail] = useState({});
@@ -94,7 +95,7 @@ function TitlebarGridList() {
   return (
     <div>
       <Box display="flex" flexDirection="row" justifyContent="center">
-        <Button variant="outlined" color="inherit" href="/">
+        <Button variant="outlined" color="inherit" onClick={() => { history.push('/')}}>
           Map View
         </Button>
       </Box>

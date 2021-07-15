@@ -80,7 +80,7 @@ const MapView = () => {
 
   const mapStyle = {
     width: "100%",
-    height: 600,
+    height: 1000
   };
 
   const navStyle = {
@@ -97,6 +97,7 @@ const MapView = () => {
     zoom: 12,
     bearing: 0,
     pitch: 0,
+
   });
 
   // console.log('viewport ###', viewport);

@@ -1,6 +1,7 @@
 /** @format */
 
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import CurrencyTextField from '@unicef/material-ui-currency-textfield';
@@ -75,7 +76,23 @@ export default function TenantForm({ open, handleClose, tenant = {} }) {
         <Button onClick={handleClose} color='primary'>
           Cancel
         </Button>
-        <Button variant='contained' color='primary' onClick={handleClose}>
+        <Button
+          variant='contained'
+          color='primary'
+          onClick={() => {
+            handleClose();
+            // whatever you want
+            api.post('/ownedProperties/addTenantInfo', {
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+              },
+              params: {
+                body: inputs,
+              },
+            });
+          }}
+        >
           Sumbit
         </Button>
       </DialogActions>

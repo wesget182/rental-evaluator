@@ -15,6 +15,22 @@ router.post(
 );
 
 router.post(
+  '/addTenantInfo',
+  ownedPropertiesController.addTenantController,
+  (req, res) => {
+    res.status(200).send(res.locals);
+  }
+);
+
+router.post(
+  '/addFinancialInformation',
+  ownedPropertiesController.addFinancialInformaion,
+  (req, res) => {
+    res.status(200).send(res.locals);
+  }
+);
+
+router.post(
   '/listProperties',
   ownedPropertiesController.getOwnedProperties,
   (req, res) => {
@@ -22,13 +38,5 @@ router.post(
     res.status(200).send(res.locals);
   }
 );
-
-router.post('/addTenantInfo', (req, res) => {
-  res.status(200).send(res.locals);
-});
-
-router.post('/addFinancialInformation', (req, res) => {
-  res.status(200).send(res.locals);
-});
 
 module.exports = router;

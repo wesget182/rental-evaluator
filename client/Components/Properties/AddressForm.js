@@ -24,26 +24,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AddressForm({
-  open,
-  handleClose,
-  newProperty = false,
-  address = {},
-}) {
+export default function AddressForm({ open, handleClose, newProperty = false, address = {} }) {
   const classes = useStyles();
   const history = useHistory();
   const [inputs, setInputs] = useState({});
 
   const state = useSelector(userState);
 
-  console.log('userState', state.user.email);
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // TODO: add property to the user record in the db
-    const propertyId = 1; // this should be replaced with the property id generated when the record is created
-    // redirect to the property page
     try {
-      api.post('/ownedProperties/newProperty', {
+      const newPropertyId = await api.post('/properties/newProperty', {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
@@ -52,69 +43,44 @@ export default function AddressForm({
           body: inputs,
           email: state.user.email,
         },
-      });
-      history.push(`/property/${propertyId}`);
+      }).then(data => data.data.property._id) 
+      history.push(`/property/${newPropertyId}`);
     } catch (err) {
       console.log(err);
     }
   };
 
-  const handleInput = (e) =>
-    setInputs({ ...inputs, [e.target.name]: e.target.value });
+  const handleInput = (e) => setInputs({ ...inputs, [e.target.name]: e.target.value });
 
   return (
-    <Dialog
-      open={open}
-      onClose={handleClose}
-      aria-labelledby='form-dialog-title'
-    >
-      <DialogTitle id='form-dialog-title'>
+    <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+      <DialogTitle id="form-dialog-title">
         {newProperty ? 'New Property' : 'Edit Property'}
       </DialogTitle>
       <DialogContent>
-        <form
-          className={classes.form}
-          noValidate
-          autoComplete='off'
-          onSubmit={handleSubmit}
-        >
+        <form className={classes.form} noValidate autoComplete="off" onSubmit={handleSubmit}>
           <TextField
-            name='address1'
+            name="address1"
             value={inputs.address1}
-            label='Address'
+            label="Address"
             onInput={handleInput}
           />
           <TextField
-            name='address2'
+            name="address2"
             value={inputs.address2}
-            label='Address 2'
+            label="Address 2"
             onInput={handleInput}
           />
-          <TextField
-            name='city'
-            value={inputs.city}
-            label='City'
-            onInput={handleInput}
-          />
-          <TextField
-            name='state'
-            value={inputs.state}
-            label='State'
-            onInput={handleInput}
-          />
-          <TextField
-            name='zip'
-            value={inputs.zip}
-            label='Zip Code'
-            onInput={handleInput}
-          />
+          <TextField name="city" value={inputs.city} label="City" onInput={handleInput} />
+          <TextField name="state" value={inputs.state} label="State" onInput={handleInput} />
+          <TextField name="zip" value={inputs.zip} label="Zip Code" onInput={handleInput} />
         </form>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose} color='primary'>
+        <Button onClick={handleClose} color="primary">
           Cancel
         </Button>
-        <Button variant='contained' color='primary' onClick={handleSubmit}>
+        <Button variant="contained" color="primary" onClick={handleSubmit}>
           Sumbit
         </Button>
       </DialogActions>
