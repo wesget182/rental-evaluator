@@ -20,12 +20,14 @@ export const user = createSlice({
       state.email = action.payload;
     },
     loginReducer: (state, action) => {
-      console.log('action.payload in loginReducer', action.payload);
-      state.cookie = action.payload.cookie;
-      state.email = action.payload.email;
-      state.favorites = action.payload.favorites;
-      state._id = action.payload._id;
-      state.isLoggedIn ? (state.isLoggedIn = false) : (state.isLoggedIn = true);
+      console.log("action.payload in loginReducer", action.payload);
+      const obj = action.payload
+      state.cookie = obj.cookie
+      state.favorites = obj.favorites
+      state._id = obj._id
+      state.isLoggedIn 
+      ? state.isLoggedIn = false 
+      : state.isLoggedIn = true;
     },
   },
 });
