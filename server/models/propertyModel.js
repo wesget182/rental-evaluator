@@ -10,6 +10,13 @@ const propertySchema = new Schema({
   state: String,
   zip: String,
   email: String,
+  purchasePrice: Number,
+  downPayment: Number,
+  interestRate: Number,
+  monthlyExpenses: Number,
+  purchaseDate: String,
+  term: Number,
+  tenants: Array,
 });
 
 const NewProperty = mongoose.model('newProperty', propertySchema);

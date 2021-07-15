@@ -32,43 +32,51 @@ const Properties = () => {
 
   const handleCloseNewProperty = () => setShowNewProperty(false);
 
-  useEffect(() => {
-    getProperties();
-  }, []);
+  // useEffect(() => {
+  //   getProperties();
+  // }, []);
 
-  const getProperties = () => {
-    api
-      .post('/ownedProperties/listProperties', {
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: {
-          email: state.user.email,
-        },
-      })
-      .then((res) => {
-        console.log('res', res.data.ownedProps);
-        dispatch(userPropReducer(res.data.ownedProps));
-      })
-      .then(() => {
-        return;
-      })
+  // const getProperties = () => {
+  //   api
+  //     .post('/ownedProperties/listProperties', {
+  //       headers: {
+  //         Accept: 'application/json',
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: {
+  //         email: state.user.email,
+  //       },
+  //     })
+  //     .then((res) => {
+  //       console.log('res', res.data.ownedProps);
+  //       dispatch(userPropReducer(res.data.ownedProps));
+  //     })
+  //     .then(() => {
+  //       return;
+  //     })
 
-      .catch((err) => console.log(err));
-  };
+  //     .catch((err) => console.log(err));
+  // };
 
   return (
     <div>
       <div className={classes.propertiesHeader}>
         <h1>My Properties</h1>
-        <Button variant="contained" color="primary" onClick={() => setShowNewProperty(true)}>
+        <Button
+          variant='contained'
+          color='primary'
+          onClick={() => setShowNewProperty(true)}
+        >
           Add Property
         </Button>
       </div>
 
       <PropertiesTable />
-      <AddressForm open={showNewProperty} handleClose={handleCloseNewProperty} newProperty={true} />
+      <AddressForm
+        open={showNewProperty}
+        handleClose={handleCloseNewProperty}
+        newProperty={true}
+      />
     </div>
   );
 };
