@@ -10,7 +10,9 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import { addTenantReducer } from '../../Slices/userPropSlice';
 import api from '../../axios/axios';
+
 const useStyles = makeStyles((theme) => ({
   form: {
     '& .MuiTextField-root': {
@@ -21,13 +23,43 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function TenantForm({ open, handleClose, tenant = {} }) {
+export default function TenantForm({
+  open,
+  handleClose,
+  tenant = {},
+  propertyData,
+}) {
   const classes = useStyles();
   const [inputs, setInputs] = useState(tenant);
   const newTenant = !tenant.fullName;
+  const dispatch = useDispatch();
 
   const handleInput = (e) =>
     setInputs({ ...inputs, [e.target.name]: e.target.value });
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      handleClose();
+      const tenants = await api
+        .post('/ownedProperties/addTenantInfo', {
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          params: {
+            body: inputs,
+            _id: propertyData._id,
+          },
+        })
+        .then((data) => data.data.tenantInfo);
+      console.log('createdTenant', createdTenant);
+      // add createdTenant to the redux store
+      dispatch(addTenantReducer({ tenants, _id: propertyData._id }));
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <Dialog
@@ -79,19 +111,7 @@ export default function TenantForm({ open, handleClose, tenant = {} }) {
         <Button
           variant='contained'
           color='primary'
-          onClick={() => {
-            handleClose();
-            // whatever you want
-            api.post('/ownedProperties/addTenantInfo', {
-              headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-              },
-              params: {
-                body: inputs,
-              },
-            });
-          }}
+          onClick={(event) => handleSubmit(event)}
         >
           Sumbit
         </Button>

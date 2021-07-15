@@ -14,27 +14,20 @@ export const userProp = createSlice({
   reducers: {
     userPropReducer: (state, action) => {
       console.log('action.payload in userPropReducer', action.payload[0]);
-
-      //   const { address1, address2, city, state, zip } = action.payload;
-
-      state.userProperties.push(action.payload[0]);
-
-      // state = {
-      //   address1:
-      //   email:
-      //   ...state,
-      //   userProperties: [],
-      // };
-      //   state = action.payload;
+      state.userProperties.push(...action.payload);
     },
-    userPropListReducer: (state, action) => {
-      console.log('action.payload in userPropListReducer', action.payload);
-      state.userProperties.push(action.payload);
+
+    addTenantReducer: (state, action) => {
+      const propertyToUpdate = state.userProperties.find(
+        (property) => property._id === action.payload._id
+      );
+      console.log('propertyToUpdate', propertyToUpdate);
+      propertyToUpdate.tenants = action.payload.tenants;
     },
   },
 });
 
-export const { userPropReducer } = userProp.actions;
+export const { userPropReducer, addTenantReducer } = userProp.actions;
 
 export default userProp.reducer;
 

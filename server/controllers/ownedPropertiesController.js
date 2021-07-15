@@ -30,17 +30,19 @@ ownedPropertiesController.addNewProperty = async (req, res, next) => {
 };
 
 ownedPropertiesController.addTenantController = async (req, res, next) => {
+  console.log('req.body in addTenantController', req.body);
   const { params } = req.body;
 
-  const tenantInfo = params.body;
-  tenantInfo['_id'] = params._id;
-
-  await models.Tenants.create(tenantInfo)
-    .then((data) => {
-      res.locals.tenantInfo = data;
-      return next();
-    })
-    .catch((err) => next(err));
+  try {
+    const tenantInfo = params.body;
+    const property = await models.NewProperty.findOne({ _id: params._id });
+    property.tenants = [...property.tenants, tenantInfo];
+    property.save();
+    res.locals.tenantInfo = property.tenants;
+    return next();
+  } catch (err) {
+    return next(err);
+  }
 };
 
 ownedPropertiesController.addFinancialInformaion = async (req, res, next) => {
