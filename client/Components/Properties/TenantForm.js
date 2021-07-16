@@ -53,7 +53,7 @@ export default function TenantForm({
           },
         })
         .then((data) => data.data.tenantInfo);
-      console.log('createdTenant', createdTenant);
+
       // add createdTenant to the redux store
       dispatch(addTenantReducer({ tenants, _id: propertyData._id }));
     } catch (err) {

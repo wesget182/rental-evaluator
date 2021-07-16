@@ -24,8 +24,9 @@ router.post(
 
 router.post(
   '/addFinancialInformation',
-  ownedPropertiesController.addFinancialInformaion,
+  ownedPropertiesController.addFinancialInformation,
   (req, res) => {
+    console.log('res.locals in fincnail middleware', res.locals);
     res.status(200).send(res.locals);
   }
 );

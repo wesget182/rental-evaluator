@@ -10,7 +10,7 @@ require('dotenv').config();
 const ownedPropertiesController = {};
 
 ownedPropertiesController.addNewProperty = async (req, res, next) => {
-  console.log('req.body in addnewprop', req.body);
+  // console.log('req.body in addnewprop', req.body);
   const { params } = req.body;
 
   // console.log('email in newProp', email);
@@ -30,7 +30,7 @@ ownedPropertiesController.addNewProperty = async (req, res, next) => {
 };
 
 ownedPropertiesController.addTenantController = async (req, res, next) => {
-  console.log('req.body in addTenantController', req.body);
+  // console.log('req.body in addTenantController', req.body);
   const { params } = req.body;
 
   try {
@@ -45,22 +45,36 @@ ownedPropertiesController.addTenantController = async (req, res, next) => {
   }
 };
 
-ownedPropertiesController.addFinancialInformaion = async (req, res, next) => {
+ownedPropertiesController.addFinancialInformation = async (req, res, next) => {
   const { params } = req.body;
+  try {
+    const financialInfo = params.body;
+    console.log('financialInfo', financialInfo);
 
-  const financialInfo = params.body;
-  financialInfo['_id'] = params._id;
+    const property = await models.NewProperty.findOneAndUpdate(
+      {
+        _id: financialInfo._id,
+      },
+      {
+        purchasePrice: financialInfo.purchasePrice,
 
-  await models.Financials.create(financialInfo)
-    .then((data) => {
-      res.locals.financialInfo = data;
-      return next();
-    })
-    .catch((err) => next(err));
+        downPayment: financialInfo.downPayment,
+        interestRate: financialInfo.interestRate,
+        term: financialInfo['Term (Years)'],
+        monthlyExpenses: financialInfo.monthlyExpenses,
+      }
+    );
+    property.financials = financialInfo;
+    property.save();
+    res.locals.financials = property.financials;
+    return next();
+  } catch (err) {
+    return next(err);
+  }
 };
 
 ownedPropertiesController.getOwnedProperties = async (req, res, next) => {
-  console.log('req.body in getOwnerProp', req.body);
+  // console.log('req.body in getOwnerProp', req.body);
   await models.NewProperty.find({ email: req.body.body.email }).then((data) => {
     res.locals.ownedProps = data;
   });
