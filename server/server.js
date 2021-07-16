@@ -21,7 +21,7 @@ const properties = require('./routes/properties');
 const ownedProperties = require('./routes/ownedProperties');
 const addFavsRouter = require('./routes/addFavsRoute');
 const getFavsRouter = require('./routes/getFavsRoute');
-
+const removeFavRouter = require('./routes/removeFavRoute');
 //db connection
 mongoose
   .connect(process.env.DB_URI, {
@@ -42,7 +42,7 @@ app.use('/properties', properties);
 app.use('/ownedProperties', ownedProperties);
 app.use('/addFav', addFavsRouter);
 app.use('/getFavs', getFavsRouter);
-
+app.use('/removeFav', removeFavRouter)
 //check login route
 app.use('/checkLogin', sessionController.isLoggedIn, (req, res) => {
   return res.status(299).send('user is logged in');

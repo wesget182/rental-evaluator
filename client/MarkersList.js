@@ -197,11 +197,13 @@ console.log('selectedMarker', selectedMarker, e, idx)
         },
       }).catch((err) => console.log('ADD FAV ERROR', err));
     };
+
     const setIndex = (idx) => {
       console.log('setIndex', idx)
        index = idx
        handleAddFavs(idx)
     }
+    
     function changeBackground(e) {
       e.target.style.opacity = '1';
     }
@@ -213,7 +215,6 @@ console.log('selectedMarker', selectedMarker, e, idx)
       <div className={classes.root}>
         <ImageList rowHeight={160} className={classes.imageList} cols={3}>
           {features.map((item, idx) => (
-        
             <ImageListItem onClick= {(e) => handleOpen(e, idx)}key={'listViewKey '+idx} id={idx} cols={item.cols || 1}>
               {item.properties.Address}
               <img src={item.properties.Image} alt={item.title} style = {{opacity: '0.6'}} onMouseOver= {changeBackground} onMouseLeave = {opacify}/>

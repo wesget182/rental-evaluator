@@ -8,10 +8,11 @@ import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import { Typography, Grid, Divider, Box } from '@material-ui/core';
 import api from '../axios/axios';
 //redux stuff
-import { userState } from '../Slices/userSlice'
-import { useSelector } from 'react-redux'
+import { userState, favsReducer } from '../Slices/userSlice'
+import { useSelector, useDispatch } from 'react-redux'
 
 const MapModal = ({ open, handleClose, prop }) => {
+  const dispatch = useDispatch()
   const property = prop.properties;
   const userFavs = useSelector(userState)
   const favsArr = userFavs.user.favorites
@@ -51,11 +52,11 @@ const MapModal = ({ open, handleClose, prop }) => {
   }
   // faved()
 
-  let favIcon = clickedFav ? <FavoriteIcon /> : <FavoriteBorderIcon />;
-  if(faved()) favIcon = <FavoriteIcon/>
+  // let favIcon = clickedFav ? <FavoriteIcon /> : <FavoriteBorderIcon />;
+  // if(faved()) favIcon = <FavoriteIcon/>
   const handleAddFavs = (e) => {
     e.preventDefault();
-    setClickedFav(!clickedFav);
+
 //add remove fave conditional
  
     const favorite = property;
@@ -66,6 +67,20 @@ const MapModal = ({ open, handleClose, prop }) => {
         favorite: favorite,
       },
     }).catch((err) => console.log('ADD FAV ERROR', err));
+    
+    const getFavs = async () => {
+      await api({
+        method: "post",
+        url: "/getFavs",
+      })
+        .then((res) => {
+         dispatch(favsReducer({favorites: res.data.favsArr}))
+        })
+        .catch((err) => {
+          console.log("GET FAVS ERROR ", err.message);
+        });
+    };
+   getFavs()
   };
   return (
     <Dialog open={open} onClose={handleClose} className={classes.container} property={property}>
@@ -76,7 +91,7 @@ const MapModal = ({ open, handleClose, prop }) => {
             style={{
               color: "red",
               fontSize: 100,
-    }}>{favIcon}</IconButton>
+    }}>{faved() ? <FavoriteIcon/> : <FavoriteBorderIcon/>}</IconButton>
             <IconButton onClick={handleClose}>
               <CancelIcon />
             </IconButton>

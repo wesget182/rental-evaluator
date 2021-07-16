@@ -29,10 +29,16 @@ export const user = createSlice({
       ? state.isLoggedIn = false 
       : state.isLoggedIn = true;
     },
+    favsReducer: (state, action) => {
+      console.log("action.payload in loginReducer", action.payload);
+      const obj = action.payload
+      state.favorites = obj.favorites
+    }
+    
   },
 });
 
-export const { emailReducer, loginReducer } = user.actions;
+export const { emailReducer, loginReducer, favsReducer } = user.actions;
 
 export default user.reducer;
 
