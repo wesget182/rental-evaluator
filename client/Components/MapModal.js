@@ -42,6 +42,7 @@ const MapModal = ({ open, handleClose, prop }) => {
   const classes = useStyles();
   const [clickedFav, setClickedFav] = useState(false);
   const faved = () => {
+    console.log('favsArr', favsArr)
     let found = false
     favsArr.forEach(fav => {
       if (fav.ZPID === property.ZPID) {
@@ -54,40 +55,62 @@ const MapModal = ({ open, handleClose, prop }) => {
 
   // let favIcon = clickedFav ? <FavoriteIcon /> : <FavoriteBorderIcon />;
   // if(faved()) favIcon = <FavoriteIcon/>
-  const handleAddFavs = (e) => {
-    e.preventDefault();
+  const handleRemoveFav = async () => {
+    // e.preventDefault();
+    // remove from the db
+    const newFavs = await api({
+      method: "post",
+      url: "/removeFav",
+      data: {
+        favorite: property,
+      },
+    })
+      .then((data) => data.data)
+      .catch((err) => console.log("ADD FAV ERROR", err));
+    // remove from the redux store
+    dispatch(favsReducer({ favorites: newFavs }));
+  };
+  const handleAddFavs = async () => {
+    // e.preventDefault();
 
-//add remove fave conditional
- 
     const favorite = property;
-    api({
+
+    const newFavs = await api({
       method: 'post',
       url: '/addFav',
       data: {
         favorite: favorite,
       },
-    }).catch((err) => console.log('ADD FAV ERROR', err));
-    
-    const getFavs = async () => {
-      await api({
-        method: "post",
-        url: "/getFavs",
-      })
-        .then((res) => {
-         dispatch(favsReducer({favorites: res.data.favsArr}))
-        })
-        .catch((err) => {
-          console.log("GET FAVS ERROR ", err.message);
-        });
-    };
-   getFavs()
+    })
+    .then((data) => data.data)
+    .catch((err) => console.log('ADD FAV ERROR', err));
+    dispatch(favsReducer({ favorites: newFavs}))
+
+  //   const getFavs = async () => {
+  //     await api({
+  //       method: "post",
+  //       url: "/getFavs",
+  //     })
+  //       .then((res) => {
+  //        dispatch(favsReducer({favorites: res.data.favsArr}))
+  //       })
+  //       .catch((err) => {
+  //         console.log("GET FAVS ERROR ", err.message);
+  //       });
+  //   };
+  //  getFavs()
   };
+  const handleFav = (e) => {
+    e.preventDefault();
+  if(!faved()) handleAddFavs()
+  else {handleRemoveFav()}
+  }
   return (
     <Dialog open={open} onClose={handleClose} className={classes.container} property={property}>
       <Box className={classes.card}>
         <Grid>
           <Grid container justify="flex-end">
-            <IconButton onClick={handleAddFavs}   
+            <IconButton onClick={handleFav}   
             style={{
               color: "red",
               fontSize: 100,
