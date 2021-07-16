@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -24,7 +24,7 @@ function TabPanel(props) {
 
   return (
     <div
-      role='tabpanel'
+      role="tabpanel"
       hidden={value !== index}
       id={`full-width-tabpanel-${index}`}
       aria-labelledby={`full-width-tab-${index}`}
@@ -74,41 +74,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const initialPropertyState = {
-  address: {
-    address1: '123 Cherry Lane',
-    address2: null,
-    city: 'Santa Barbara',
-    state: 'CA',
-    zip: '91362',
-  },
-  financials: {
-    purchasePrice: 1500000,
-    downPayment: 300000,
-    interestRate: 0.031,
-    monthlyExpenses: 5000,
-    purchaseDate: '03/05/2019',
-    term: 30,
-  },
-  tenants: [
-    {
-      id: 1,
-      fullName: 'Johnny Appleseed',
-      email: 'johnny@appleseed.com',
-      phoneNumber: '888-888-8888',
-      monthlyRent: 3000,
-    },
-  ],
-};
-
 export default function Property(props) {
   let { id } = useParams();
   const classes = useStyles();
   const theme = useTheme();
   const fetchUserProperties = useSelector(userPropState);
-  const propertyData = fetchUserProperties.userProp.userProperties.find(
-    (el) => el._id === id
-  );
+  const propertyData = fetchUserProperties.userProp.userProperties.find((el) => el._id === id);
   const [value, setValue] = useState(0);
   const [showNewTenant, setShowNewTenant] = useState(false);
   const [showEditProperty, setShowEditProperty] = useState(false);
@@ -127,19 +98,14 @@ export default function Property(props) {
 
   const addressString = () => {
     const { address1, address2, city, state, zip } = propertyData;
-    return `${address1},${
-      address2 ? ' ' + address2 + ',' : ''
-    } ${city}, ${state} ${zip}`;
+    return `${address1},${address2 ? ' ' + address2 + ',' : ''} ${city}, ${state} ${zip}`;
   };
 
   return (
     <div className={classes.root}>
       <div className={classes.address}>
         <h2>{addressString()}</h2>
-        <EditIcon
-          className={classes.editIcon}
-          onClick={() => setShowEditProperty(true)}
-        />
+        <EditIcon className={classes.editIcon} onClick={() => setShowEditProperty(true)} />
         <AddressForm
           open={showEditProperty}
           handleClose={handleCloseEditProperty}
@@ -147,17 +113,17 @@ export default function Property(props) {
           address={propertyData}
         />
       </div>
-      <AppBar position='static' color='default'>
+      <AppBar position="static" color="default">
         <Tabs
           value={value}
           onChange={handleChange}
-          indicatorColor='primary'
-          textColor='primary'
-          variant='fullWidth'
-          aria-label='full width tabs example'
+          indicatorColor="primary"
+          textColor="primary"
+          variant="fullWidth"
+          aria-label="full width tabs example"
         >
-          <Tab label='Tenants' {...a11yProps(0)} />
-          <Tab label='Financials' {...a11yProps(1)} />
+          <Tab label="Tenants" {...a11yProps(0)} />
+          <Tab label="Financials" {...a11yProps(1)} />
         </Tabs>
       </AppBar>
       <SwipeableViews
@@ -166,20 +132,14 @@ export default function Property(props) {
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-          {propertyData?.tenants?.map((tenant) => (
-            <TenantAvatar tenant={tenant} />
-          )) || ``}
+          {propertyData?.tenants?.map((tenant) => <TenantAvatar tenant={tenant} />) || ``}
           <TenantForm
             open={showNewTenant}
             handleClose={handleCloseNewTenant}
             propertyData={propertyData}
           />
           {!showNewTenant && (
-            <Button
-              variant='contained'
-              color='primary'
-              onClick={() => setShowNewTenant(true)}
-            >
+            <Button variant="contained" color="primary" onClick={() => setShowNewTenant(true)}>
               Add Tenant
             </Button>
           )}

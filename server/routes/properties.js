@@ -73,6 +73,10 @@ router.post('/newProperty', propertyController.addNewProperty, (req, res) => {
   res.status(200).send(res.locals);
 });
 
+router.post('/editProperty', propertyController.editProperty, (req, res) => {
+  res.status(200).send(res.locals);
+});
+
 router.post('/listProperties', propertyController.getOwnedProperties, (req, res) => {
   res.status(200).send(res.locals);
 });

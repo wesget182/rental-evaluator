@@ -1,7 +1,7 @@
 /** @format */
 
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -12,7 +12,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import api from '../../axios/axios';
 
-import { userState } from '../../Slices/userSlice';
+import { userState } from '../../Slices/userSlice'
+import { userPropReducer, updateProperty } from '../../Slices/userPropSlice';
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -27,24 +28,43 @@ const useStyles = makeStyles((theme) => ({
 export default function AddressForm({ open, handleClose, newProperty = false, address = {} }) {
   const classes = useStyles();
   const history = useHistory();
-  const [inputs, setInputs] = useState({});
+  const dispatch = useDispatch();
+  const [inputs, setInputs] = useState(address);
 
   const state = useSelector(userState);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const newPropertyId = await api.post('/properties/newProperty', {
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        params: {
-          body: inputs,
-          email: state.user.email,
-        },
-      }).then(data => data.data.property._id) 
-      history.push(`/property/${newPropertyId}`);
+      if (newProperty) {
+        const newProperty = await api
+          .post('/properties/newProperty', {
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+            params: {
+              body: inputs,
+              email: state.user.email,
+            },
+          })
+          .then((data) => data.data.property);
+        dispatch(userPropReducer([newProperty]));
+        history.push(`/property/${newProperty._id}`);
+      } else {
+        await api.post('/properties/editProperty', {
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          params: {
+            body: inputs,
+            email: state.user.email,
+          },
+        });
+        dispatch(updateProperty(inputs));
+        handleClose();
+      }
     } catch (err) {
       console.log(err);
     }

@@ -11,6 +11,15 @@ export const userProp = createSlice({
     userPropReducer: (state, action) => {
       state.userProperties.push(...action.payload);
     },
+    updateProperty: (state, action) => {
+      state.userProperties = state.userProperties.map((property) => {
+        if (property._id === action.payload._id) {
+          return action.payload;
+        } else {
+          return property;
+        }
+      });
+    },
     addTenantReducer: (state, action) => {
       const propertyToUpdate = state.userProperties.find(
         (property) => property._id === action.payload._id
@@ -20,7 +29,7 @@ export const userProp = createSlice({
   },
 });
 
-export const { userPropReducer, addTenantReducer } = userProp.actions;
+export const { userPropReducer, updateProperty, addTenantReducer } = userProp.actions;
 
 export default userProp.reducer;
 
