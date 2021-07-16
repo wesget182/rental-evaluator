@@ -13,7 +13,7 @@ export const user = createSlice({
   },
   reducers: {
     emailReducer: (state, action) => {
-      state.email = action.payload
+      state.email = action.payload;
     },
     loginReducer: (state, action) => {
       const { cookie, favorites, _id } = action.payload;
@@ -22,13 +22,16 @@ export const user = createSlice({
       state._id = _id;
       state.isLoggedIn = true;
     },
+    logoutReducer: (state, action) => {
+      state.isLoggedIn = false;
+    },
     favsReducer: (state, action) => {
-      state.favorites = action.payload.favorites
+      state.favorites = action.payload.favorites;
     },
   },
 });
 
-export const { emailReducer, loginReducer, favsReducer } = user.actions;
+export const { emailReducer, loginReducer, logoutReducer, favsReducer } = user.actions;
 
 export default user.reducer;
 
