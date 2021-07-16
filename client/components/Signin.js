@@ -19,7 +19,7 @@ import GoogleIcon from "./GoogleIcon";
 import api from "../axios/axios";
 import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { emailReducer, loginReducer, favoritesReducer } from "../Slices/userSlice";
+import { emailReducer, loginReducer} from "../Slices/userSlice";
 import { userState } from "../Slices/userSlice";
 
 function Copyright() {

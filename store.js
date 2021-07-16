@@ -8,6 +8,6 @@ export default configureStore({
     user: userSlice,
     prop: propSlice,
     userProp: userPropSlice,
-    favs: favSlice
+    fav: favSlice,
   },
 });

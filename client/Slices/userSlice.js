@@ -30,10 +30,6 @@ export const user = createSlice({
       ? state.isLoggedIn = false 
       : state.isLoggedIn = true;
     },
-    // favoritesReducer: (state, action) => {
-    //   console.log('action.payload in favoritesReducer')
-    //   state.favorites.push(action.payload);
-    // }
   },
 });
 
