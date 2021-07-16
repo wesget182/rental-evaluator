@@ -185,7 +185,7 @@ export default function Property(props) {
           )}
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          <FinancialsForm financials={propertyData.financials} />
+          <FinancialsForm financials={propertyData} />
         </TabPanel>
       </SwipeableViews>
     </div>

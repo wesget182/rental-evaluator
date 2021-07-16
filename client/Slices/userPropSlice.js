@@ -13,7 +13,7 @@ export const userProp = createSlice({
   },
   reducers: {
     userPropReducer: (state, action) => {
-      console.log('action.payload in userPropReducer', action.payload[0]);
+      // console.log('action.payload in userPropReducer', action.payload[0]);
       state.userProperties.push(...action.payload);
     },
 
