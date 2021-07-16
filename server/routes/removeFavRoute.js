@@ -2,7 +2,7 @@ const express = require('express');
 const favsController = require('../controllers/favsController');
 const router = express.Router();
 
-router.post('/', [favsController.addFavs], (req, res) => {
+router.post('/', [favsController.removeFav], (req, res) => {
   return res.status(209).send(res.locals.favorites);
 });
 
