@@ -1,60 +1,42 @@
-import React, { useState, useEffect } from "react";
-import { Redirect, useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { makeStyles } from "@material-ui/core/styles";
-import { userState } from "../slices/userSlice";
-import Box from "@material-ui/core/Box";
-import Button from "@material-ui/core/Button";
-import GridList from "@material-ui/core/GridList";
-import GridListTile from "@material-ui/core/GridListTile";
-import GridListTileBar from "@material-ui/core/GridListTileBar";
-import ListSubheader from "@material-ui/core/ListSubheader";
-import IconButton from "@material-ui/core/IconButton";
-import InfoIcon from "@material-ui/icons/Info";
-import api from "../axios/axios";
-import FavModal from "./FavsModal";
-import { loginReducer, favsReducer } from "../Slices/userSlice";
-import DeleteIcon from "@material-ui/icons/Delete";
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { makeStyles } from '@material-ui/core/styles';
+import { userState } from '../slices/userSlice';
+import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
+import GridListTileBar from '@material-ui/core/GridListTileBar';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import IconButton from '@material-ui/core/IconButton';
+import InfoIcon from '@material-ui/icons/Info';
+import api from '../axios/axios';
+import FavModal from './FavsModal';
+import { favsReducer } from '../Slices/userSlice';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 //Favorite array state set by get request in component fxn
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "space-around",
-    overflow: "hidden",
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+    overflow: 'hidden',
     backgroundColor: theme.palette.background.paper,
   },
   gridList: {
     minWidth: 500,
     width: 900,
-    height: "auto",
+    height: 'auto',
   },
   icon: {
-    color: "rgba(255, 255, 255, 0.54)",
+    color: 'rgba(255, 255, 255, 0.54)',
   },
   header: {
-    fontSize: "2em",
+    fontSize: '2em',
   },
 }));
-
-/**
- * The example data is structured as follows:
- *
- * import image from 'path/to/image.jpg';
- * [etc...]
- *
- * const tileData = [
- *   {
- *     img: image,
- *     title: 'Image',
- *     author: 'author',
- *   },
- *   {
- *     [etc...]
- *   },
- * ];
- */
 
 function TitlebarGridList() {
   const history = useHistory();
@@ -79,14 +61,14 @@ function TitlebarGridList() {
   const handleRemoveFav = async (idx) => {
     // remove from the db
     const newFavs = await api({
-      method: "post",
-      url: "/removeFav",
+      method: 'post',
+      url: '/removeFav',
       data: {
         favorite: tileData[idx],
       },
     })
       .then((data) => data.data)
-      .catch((err) => console.log("ADD FAV ERROR", err));
+      .catch((err) => console.log('ADD FAV ERROR', err));
     // remove from the redux store
     dispatch(favsReducer({ favorites: newFavs }));
   };
@@ -94,33 +76,20 @@ function TitlebarGridList() {
   return (
     <div>
       <Box display="flex" flexDirection="row" justifyContent="center">
-        <Button
-          variant="outlined"
-          color="inherit"
-          onClick={() => {
-            history.push("/");
-          }}
-        >
+        <Button variant="outlined" color="inherit" onClick={() => history.push('/')}>
           Map View
         </Button>
       </Box>
       <div className={classes.root}>
         <GridList cellHeight={300} className={classes.gridList}>
-          <GridListTile key="Subheader" cols={2} style={{ height: "auto" }}>
+          <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
             <ListSubheader component="div" className={classes.header}>
               Favorites
             </ListSubheader>
           </GridListTile>
           {tileData.map((tile, idx) => (
             <GridListTile key={tile.Image} idx={idx}>
-              <img
-                src={tile.Image}
-                alt={tile.Address}
-                onClick={(e) => {
-                  console.log("ID IN ONCLICK ", idx);
-                  handleOpen(e, idx);
-                }}
-              />
+              <img src={tile.Image} alt={tile.Address} onClick={(e) => handleOpen(e, idx)} />
 
               <GridListTileBar
                 title={tile.Address}
@@ -145,10 +114,7 @@ function TitlebarGridList() {
                       idx={idx}
                       aria-label={`info about ${tile.address}`}
                       className={classes.icon}
-                      onClick={(e) => {
-                        console.log("ID IN ONCLICK ", idx);
-                        handleOpen(e, idx);
-                      }}
+                      onClick={(e) => handleOpen(e, idx)}
                     >
                       <InfoIcon />
                     </IconButton>
@@ -159,11 +125,7 @@ function TitlebarGridList() {
           ))}
         </GridList>
       </div>
-      <FavModal
-        prop={propDetail}
-        open={favDetailsOpen}
-        handleClose={handleClose}
-      />
+      <FavModal prop={propDetail} open={favDetailsOpen} handleClose={handleClose} />
     </div>
   );
 }

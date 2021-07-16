@@ -1,7 +1,6 @@
 /** @format */
 
 import React, { useState, useEffect } from 'react';
-import { Redirect } from 'react-router-dom';
 import clsx from 'clsx';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -11,13 +10,12 @@ import Typography from '@material-ui/core/Typography';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import MenuIcon from '@material-ui/icons/Menu';
-import FavoriteIcon from '@material-ui/icons/Favorite';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import DrawerMenu from './DrawerMenu';
 import Link from '@material-ui/core/Link';
-import { useSelector, useDispatch } from "react-redux";
-import { emailReducer, loginReducer } from "../Slices/userSlice";
-import { userState } from "../Slices/userSlice";
+import { useSelector, useDispatch } from 'react-redux';
+import { loginReducer } from '../Slices/userSlice';
+import { userState } from '../Slices/userSlice';
 import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
@@ -63,7 +61,6 @@ const useStyles = makeStyles((theme) => ({
   },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
     transition: theme.transitions.create('width'),
     width: '100%',
@@ -90,13 +87,14 @@ export default function PrimarySearchAppBar() {
   const classes = useStyles();
   const history = useHistory();
   const [anchorEl, setAnchorEl] = useState(null);
-  const [goToSignOut, setGoToSignOut] = useState(false);
-  const [goToSignIn, setGoToSignIn] = useState(false);
-  const [favView, setFavView] = useState(false);
   const [open, setOpen] = React.useState(false);
-  
-  const { user } = useSelector(userState)
-  const { isLoggedIn } = user
+
+  const { user } = useSelector(userState);
+  const { isLoggedIn } = user;
+
+  useEffect(() => {
+    if (!isLoggedIn) history.push('/signin');
+  }, [isLoggedIn]);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -112,18 +110,12 @@ export default function PrimarySearchAppBar() {
     setAnchorEl(null);
   };
 
-  const showFavs = () => {
-    setFavView(true);
-  };
-
   const signInOut = isLoggedIn ? 'Sign Out' : 'Sign In';
-  const handleSignInOut = (e) => {
-    // e.preventDefault()
-    console.log('isLoggedIn', isLoggedIn)
-    dispatch(loginReducer())
-  };
+
+  const handleSignInOut = () => dispatch(loginReducer());
 
   const menuId = 'primary-search-account-menu';
+
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
@@ -140,45 +132,32 @@ export default function PrimarySearchAppBar() {
     </Menu>
   );
 
-  useEffect(() => {
-    if (!isLoggedIn){
-      history.push('/signin')
-    }
-  }, [isLoggedIn])
   return (
     <div className={classes.grow}>
-      <AppBar position='static'>
+      <AppBar position="static">
         <Toolbar>
           <IconButton
-            color='inherit'
-            aria-label='open drawer'
+            color="inherit"
+            aria-label="open drawer"
             onClick={handleDrawerOpen}
-            edge='start'
+            edge="start"
             className={clsx(classes.menuButton, open && classes.hide)}
           >
             <MenuIcon />
           </IconButton>
-          <Typography className={classes.title} variant='h6' noWrap>
-            <Link color='inherit' style={{cursor: 'pointer'}} onClick={() => history.push(`/`)}>
+          <Typography className={classes.title} variant="h6" noWrap>
+            <Link color="inherit" style={{ cursor: 'pointer' }} onClick={() => history.push(`/`)}>
               Rental Evaluator
             </Link>
           </Typography>
-
-          <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            {/* {isLoggedIn && (
-              <IconButton aria-label='favorite properties' color='inherit'>
-                <FavoriteIcon onClick={() => history.push('/favs')} />
-              </IconButton>
-            )} */}
-            {/* <FavDrawer />  */}
             <IconButton
-              edge='end'
-              aria-label='account of current user'
+              edge="end"
+              aria-label="account of current user"
               aria-controls={menuId}
-              aria-haspopup='true'
+              aria-haspopup="true"
               onClick={handleProfileMenuOpen}
-              color='inherit'
+              color="inherit"
             >
               <AccountCircle />
             </IconButton>

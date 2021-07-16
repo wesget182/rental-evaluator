@@ -85,9 +85,9 @@ export default function DrawerMenu({ open, setOpen }) {
   const handleDrawerClose = () => setOpen(false);
 
   const routeChange = (path) => {
-    handleDrawerClose()
+    handleDrawerClose();
     history.push(path);
-  }
+  };
 
   return (
     <Drawer
