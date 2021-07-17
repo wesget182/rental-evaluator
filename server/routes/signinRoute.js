@@ -22,8 +22,7 @@ router.post(
   '/',
   [userController.verifyLogin, cookieController.setSSIDCookie, sessionController.startSession],
   (req, res) => {
-    return res.status(209).send({ isLoggedIn: true });
-    //res.redirect('/');
+    return res.status(209).send({ ...res.locals, isLoggedIn: true });
   }
 );
 

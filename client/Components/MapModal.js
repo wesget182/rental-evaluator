@@ -1,17 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import { makeStyles } from '@material-ui/core';
 import CancelIcon from '@material-ui/icons/Cancel';
 import IconButton from '@material-ui/core/IconButton';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
-import { Typography, Grid, Card, Divider, Box } from '@material-ui/core';
+import { Typography, Grid, Divider, Box } from '@material-ui/core';
 import api from '../axios/axios';
+import { userState, favsReducer } from '../Slices/userSlice';
+import { useSelector, useDispatch } from 'react-redux';
 
 const MapModal = ({ open, handleClose, prop }) => {
-  console.log(prop)
-  //   const property = propDetail.targetForSale.features[0];
+  const dispatch = useDispatch();
   const property = prop.properties;
+  const userFavs = useSelector(userState);
+  const favsArr = userFavs.user.favorites;
 
   const useStyles = makeStyles((theme) => ({
     container: {
@@ -33,38 +36,66 @@ const MapModal = ({ open, handleClose, prop }) => {
       padding: theme.spacing(3),
     },
   }));
+
   const classes = useStyles();
-  const [clickedFav, setClickedFav] = useState(false);
-  const favIcon = clickedFav ? <FavoriteIcon /> : <FavoriteBorderIcon />;
-  const handleAddFavs = (e) => {
-    e.preventDefault();
-    setClickedFav(!clickedFav);
+
+  const faved = () => {
+    let found = false;
+    favsArr.forEach((fav) => {
+      if (fav.ZPID === property.ZPID) found = true;
+    });
+    return found;
+  };
+
+  const handleRemoveFav = async () => {
+    const newFavs = await api({
+      method: 'post',
+      url: '/removeFav',
+      data: {
+        favorite: property,
+      },
+    })
+      .then((data) => data.data)
+      .catch((err) => console.log('ADD FAV ERROR', err));
+    dispatch(favsReducer({ favorites: newFavs }));
+  };
+
+  const handleAddFavs = async () => {
     const favorite = property;
-    console.log('FAVORITE', favorite);
-    api({
+    const newFavs = await api({
       method: 'post',
       url: '/addFav',
       data: {
         favorite: favorite,
       },
     })
-      .then((res) => {
-        console.log('ADD FAV RESPONSE ', res.data);
-      })
+      .then((data) => data.data)
       .catch((err) => console.log('ADD FAV ERROR', err));
+    dispatch(favsReducer({ favorites: newFavs }));
   };
+
+  const handleFav = (e) => {
+    e.preventDefault();
+    if (!faved()) handleAddFavs();
+    else {
+      handleRemoveFav();
+    }
+  };
+
   return (
-    <Dialog
-      open={open}
-      onClose={handleClose}
-      className={classes.container}
-      property={property}
-    >
-      {console.log('PROPERTY ', property)}
+    <Dialog open={open} onClose={handleClose} className={classes.container} property={property}>
       <Box className={classes.card}>
         <Grid>
           <Grid container justify="flex-end">
-            <IconButton onClick={handleAddFavs}>{favIcon}</IconButton>
+            <IconButton
+              onClick={handleFav}
+              style={{
+                color: 'red',
+                fontSize: 100,
+              }}
+            >
+              {faved() ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+            </IconButton>
             <IconButton onClick={handleClose}>
               <CancelIcon />
             </IconButton>
@@ -84,12 +115,16 @@ const MapModal = ({ open, handleClose, prop }) => {
             <Grid xs={12} className={classes.detail}>
               <Typography>Address: {property.Address}</Typography>
             </Grid>
-            {'Price' in property && <Grid xs={12}>
-              <Typography>Price: {property.Price}</Typography>
-            </Grid>}
-            {'Monthly rent' in property && <Grid xs={12}>
-              <Typography>Monthly Rent: {property['Monthly rent']}</Typography>
-            </Grid>}
+            {'Price' in property && (
+              <Grid xs={12}>
+                <Typography>Price: {property.Price}</Typography>
+              </Grid>
+            )}
+            {'Monthly rent' in property && (
+              <Grid xs={12}>
+                <Typography>Monthly Rent: {property['Monthly rent']}</Typography>
+              </Grid>
+            )}
             <Grid xs={12}>
               <Typography>Type: {property.Type}</Typography>
             </Grid>
@@ -102,30 +137,29 @@ const MapModal = ({ open, handleClose, prop }) => {
             <Grid xs={12}>
               <Typography>Bath Rooms: {property['# bathrooms']}</Typography>
             </Grid>
-            {'Est. monthly mortgage' in property && <Grid xs={12}>
-              <Typography>
-                Est. Monthly Mortgage: {property['Est. monthly mortgage']}
-              </Typography>
-            </Grid>}
-            {'Rating' in property && <>
+            {'Est. monthly mortgage' in property && (
               <Grid xs={12}>
-                <Typography>
-                  Est. Monthly Rent: {property['Est. monthly rent']}
-                </Typography>
+                <Typography>Est. Monthly Mortgage: {property['Est. monthly mortgage']}</Typography>
               </Grid>
-              <Grid xs={12}>
-                <Typography>
-                  Price to Rent Ratio: {property['Price-to-rent ratio']}
-                </Typography>
-              </Grid>
-              <Grid xs={12}>
-                <Typography>Rating: {property.Rating}</Typography>
-              </Grid>
-            </>}
+            )}
+            {'Rating' in property && (
+              <>
+                <Grid xs={12}>
+                  <Typography>Est. Monthly Rent: {property['Est. monthly rent']}</Typography>
+                </Grid>
+                <Grid xs={12}>
+                  <Typography>Price to Rent Ratio: {property['Price-to-rent ratio']}</Typography>
+                </Grid>
+                <Grid xs={12}>
+                  <Typography>Rating: {property.Rating}</Typography>
+                </Grid>
+              </>
+            )}
           </Grid>
         </Grid>
       </Box>
     </Dialog>
   );
 };
+
 export default MapModal;

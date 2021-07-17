@@ -3,7 +3,7 @@ import Dialog from '@material-ui/core/Dialog';
 import { makeStyles } from '@material-ui/core';
 import CancelIcon from '@material-ui/icons/Cancel';
 import IconButton from '@material-ui/core/IconButton';
-import { Typography, Grid, Card, Divider, Box } from '@material-ui/core';
+import { Typography, Grid, Divider, Box } from '@material-ui/core';
 
 const FavModal = ({ open, handleClose, prop }) => {
   const useStyles = makeStyles((theme) => ({
@@ -23,7 +23,6 @@ const FavModal = ({ open, handleClose, prop }) => {
   const classes = useStyles();
   return (
     <Dialog open={open} onClose={handleClose}>
-      {console.log('PROP', prop)}
       <Box className={classes.card}>
         <Grid>
           <Grid container justify="flex-end">
@@ -70,23 +69,17 @@ const FavModal = ({ open, handleClose, prop }) => {
             )}
             {'Est. monthy mortgage' in prop && (
               <Grid xs={12}>
-                <Typography>
-                  Est. Montly Mortgage: {prop['Est. monthy mortgage']}
-                </Typography>
+                <Typography>Est. Montly Mortgage: {prop['Est. monthy mortgage']}</Typography>
               </Grid>
             )}
             {'Est. monthly rent' in prop && (
               <Grid xs={12}>
-                <Typography>
-                  Est/ Monthly Rent: {prop['Est. monthly rent']}
-                </Typography>
+                <Typography>Est/ Monthly Rent: {prop['Est. monthly rent']}</Typography>
               </Grid>
             )}
             {'Price-to-rent ratio' in prop && (
               <Grid xs={12}>
-                <Typography>
-                  Price to Rent Ratio: {prop['Price-to-rent ratio']}
-                </Typography>
+                <Typography>Price to Rent Ratio: {prop['Price-to-rent ratio']}</Typography>
               </Grid>
             )}
             {'Rating' in prop && (

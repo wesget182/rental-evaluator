@@ -1,5 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
+import { userState } from '../slices/userSlice';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import GridList from '@material-ui/core/GridList';
@@ -10,6 +13,8 @@ import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
 import api from '../axios/axios';
 import FavModal from './FavsModal';
+import { favsReducer } from '../Slices/userSlice';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 //Favorite array state set by get request in component fxn
 const useStyles = makeStyles((theme) => ({
@@ -33,34 +38,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-/**
- * The example data is structured as follows:
- *
- * import image from 'path/to/image.jpg';
- * [etc...]
- *
- * const tileData = [
- *   {
- *     img: image,
- *     title: 'Image',
- *     author: 'author',
- *   },
- *   {
- *     [etc...]
- *   },
- * ];
- */
-
 function TitlebarGridList() {
+  const history = useHistory();
   const classes = useStyles();
-  const [tileData, setTileData] = useState([]);
+  const dispatch = useDispatch();
+  const state = useSelector(userState);
+  const tileData = state.user.favorites;
   const [propDetail, setPropDetail] = useState({});
-  const [gotFavs, setGotFavs] = useState(false);
   const [favDetailsOpen, setFavDetailsOpen] = useState(false);
-
-  useEffect(() => {
-    getFavs();
-  }, []);
 
   //open/close handlers for add record modal
   const handleOpen = (e, idx) => {
@@ -73,25 +58,25 @@ function TitlebarGridList() {
     setFavDetailsOpen(false);
   };
 
-  //get request to retrieve favorites
-  const getFavs = async () => {
-    await api({
+  const handleRemoveFav = async (idx) => {
+    // remove from the db
+    const newFavs = await api({
       method: 'post',
-      url: '/getFavs',
+      url: '/removeFav',
+      data: {
+        favorite: tileData[idx],
+      },
     })
-      .then((res) => {
-        setTileData(res.data.favsArr);
-        setGotFavs(true);
-      })
-      .catch((err) => {
-        console.log('GET FAVS ERROR ', err.message);
-      });
+      .then((data) => data.data)
+      .catch((err) => console.log('ADD FAV ERROR', err));
+    // remove from the redux store
+    dispatch(favsReducer({ favorites: newFavs }));
   };
 
   return (
     <div>
       <Box display="flex" flexDirection="row" justifyContent="center">
-        <Button variant="outlined" color="inherit" href="/">
+        <Button variant="outlined" color="inherit" onClick={() => history.push('/')}>
           Map View
         </Button>
       </Box>
@@ -102,36 +87,42 @@ function TitlebarGridList() {
               Favorites
             </ListSubheader>
           </GridListTile>
-          {gotFavs &&
-            tileData.map((tile, idx) => (
-              <GridListTile key={tile.Image} idx={idx}>
-                <img src={tile.Image} alt={tile.Address} />
+          {tileData.map((tile, idx) => (
+            <GridListTile key={tile.Image} idx={idx}>
+              <img src={tile.Image} alt={tile.Address} onClick={(e) => handleOpen(e, idx)} />
 
-                <GridListTileBar
-                  title={tile.Address}
-                  idx={idx}
-                  subtitle={
-                    <span>
-                      Price: {tile.Price}
-                      <br /> Investment Rating: {tile.Rating}
-                    </span>
-                  }
-                  actionIcon={
+              <GridListTileBar
+                title={tile.Address}
+                idx={idx}
+                subtitle={
+                  <span>
+                    Price: {tile.Price}
+                    <br /> Investment Rating: {tile.Rating}
+                  </span>
+                }
+                actionIcon={
+                  <div>
+                    <IconButton
+                      idx={idx}
+                      aria-label={`delete ${tile.address}`}
+                      className={classes.icon}
+                      onClick={() => handleRemoveFav(idx)}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
                     <IconButton
                       idx={idx}
                       aria-label={`info about ${tile.address}`}
                       className={classes.icon}
-                      onClick={(e) => {
-                        console.log('ID IN ONCLICK ', idx);
-                        handleOpen(e, idx);
-                      }}
+                      onClick={(e) => handleOpen(e, idx)}
                     >
                       <InfoIcon />
                     </IconButton>
-                  }
-                />
-              </GridListTile>
-            ))}
+                  </div>
+                }
+              />
+            </GridListTile>
+          ))}
         </GridList>
       </div>
       <FavModal prop={propDetail} open={favDetailsOpen} handleClose={handleClose} />

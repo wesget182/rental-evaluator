@@ -1,11 +1,14 @@
+/** @format */
 const fetch = require('node-fetch');
 const { URL, URLSearchParams } = require('url');
 const { quantileSorted } = require('d3');
+const models = require('../models/propertyModel');
+require('dotenv').config();
 
-const middlewares = {};
+const propertyController = {};
 
 const headers = {
-  'x-rapidapi-key': '4715328601msha1ddf1310f1bd33p19543ajsn0f32a86b34bd',
+  'x-rapidapi-key': process.env.ZILLOW_RAPID_API_KEY,
   'x-rapidapi-host': 'zillow-com1.p.rapidapi.com',
   useQueryString: true,
 };
@@ -15,7 +18,7 @@ const calcMortgage = (price, int, down = 0.2, years = 30) => {
   return ((price * (1 - down)) / (1 - r) / (1 - (1 - r) ** (12 * years))) * r;
 };
 
-middlewares.getPropertiesForSale = async (req, res, next) => {
+propertyController.getPropertiesForSale = async (req, res, next) => {
   const url = new URL('https://zillow-com1.p.rapidapi.com/propertyExtendedSearch');
   const params = {
     location: req.query.location.replace(/, United States$/, '').replace(/\d{5}/, ''),
@@ -26,18 +29,7 @@ middlewares.getPropertiesForSale = async (req, res, next) => {
   if (!isNaN(Number(req.query.bathsMin))) params.bathsMin = Number(req.query.bathsMin);
   if (!isNaN(Number(req.query.minPrice))) params.minPrice = Number(req.query.minPrice);
   if (!isNaN(Number(req.query.maxPrice))) params.maxPrice = Number(req.query.maxPrice);
-  // const params = {
-  //   location: '111 Balcaro Way UNIT 88, Sacramento, CA 95834',
-  //   // location: '2470 Peachtree Ln, San Jose, CA 95128',
-  //   // location: 'san jose, ca',
-  //   // location: 'mountain view, ca',
-  //   status_type: 'ForSale',
-  //   // home_type: 'Houses',
-  //   bathsMin: '2',
-  //   bathsMax: '2',
-  //   bedsMin: '2',
-  //   bedsMax: '2'
-  // };
+
   url.search = new URLSearchParams(params).toString();
 
   const result = await fetch(url, { method: 'GET', headers: headers }).then((res) => res.json());
@@ -93,7 +85,7 @@ middlewares.getPropertiesForSale = async (req, res, next) => {
   return next();
 };
 
-middlewares.getTargetForSale = async (req, res, next) => {
+propertyController.getTargetForSale = async (req, res, next) => {
   const url = new URL('https://zillow-com1.p.rapidapi.com/property');
   const params = {
     zpid: req.params.zpid,
@@ -162,17 +154,8 @@ middlewares.getTargetForSale = async (req, res, next) => {
   return next();
 };
 
-middlewares.getPropertiesForRental = async (req, res, next) => {
+propertyController.getPropertiesForRental = async (req, res, next) => {
   const url = new URL('https://zillow-com1.p.rapidapi.com/propertyExtendedSearch');
-  // const params = {
-  //   'location': req.params.zip,
-  //   'status_type': 'ForRent',
-  //   // 'home_type': 'Houses',
-  //   'bathsMin': '2',
-  //   'bathsMax': '2',
-  //   'bedsMin': '2',
-  //   'bedsMax': '2'
-  // };
   url.search = new URLSearchParams(req.params).toString();
   const result = await fetch(url, { method: 'GET', headers: headers }).then((res) => res.json());
 
@@ -240,4 +223,39 @@ middlewares.getPropertiesForRental = async (req, res, next) => {
   return next();
 };
 
-module.exports = middlewares;
+propertyController.addNewProperty = async (req, res, next) => {
+  const { params } = req.body;
+  const propertyInfo = params.body;
+  propertyInfo['email'] = params.email;
+
+  await models.NewProperty.create(propertyInfo)
+    .then((data) => {
+      res.locals.property = data;
+      return next();
+    })
+    .catch((err) => console.log(err));
+
+  return next();
+};
+
+propertyController.editProperty = async (req, res, next) => {
+  const { body } = req.body.params;
+  try {
+    const property = await models.NewProperty.findOneAndUpdate({ _id: body._id }, body);
+    res.locals.property = property;
+    return next();
+  } catch (err) {
+    return next(err);
+  }
+};
+
+propertyController.getOwnedProperties = async (req, res, next) => {
+  console.log('req.body in getOwnerProp', req.body);
+  await models.NewProperty.find({ email: req.body.body.email }).then((data) => {
+    res.locals.ownedProps = data;
+    console.log('owndedProps', res.locals.ownedProps);
+  });
+  return next();
+};
+
+module.exports = propertyController;
