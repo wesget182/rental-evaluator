@@ -6,7 +6,6 @@ import Box from '@material-ui/core/Box';
 import Price from './SearchBarPoppers/Price';
 import BedBath from './SearchBarPoppers/BedBath';
 import HomeType from './SearchBarPoppers/HomeType';
-import SquareFt from './SearchBarPoppers/SquareFt';
 import Geocoder from 'react-map-gl-geocoder';
 
 const SearchBar = ({
@@ -21,8 +20,6 @@ const SearchBar = ({
   const [beds, setBeds] = useState(null);
   const [baths, setBaths] = useState(null);
   const [homeTypes, setHomeTypes] = useState({});
-  const [minSquareFT, setMinSquareFT] = useState(null);
-  const [maxSquareFT, setMaxSquareFT] = useState(null);
 
   const useStyles = makeStyles((theme) => ({
     paper: {
@@ -52,8 +49,6 @@ const SearchBar = ({
         bedsMin: beds,
         bathsMin: baths,
         home_type: home_type.toString(),
-        // minSquareFT,
-        // maxSquareFT
       },
     });
     setMarkers(res.data);
@@ -68,13 +63,8 @@ const SearchBar = ({
             contianerRef={geocoderContainerRef}
             mapboxApiAccessToken={mapboxApiKey}
             onViewportChange={handleGeocoderViewportChange}
-            onResult={({ result }) => {
-              console.log(result);
-              const address = result.place_name;
-              onSubmit(address);
-            }}
+            onResult={({ result }) => onSubmit(result.place_name)}
           />
-
           <Price
             minPrice={minPrice}
             maxPrice={maxPrice}
@@ -90,13 +80,6 @@ const SearchBar = ({
             classes={classes}
           />
           <HomeType homeTypes={homeTypes} setHomeTypes={setHomeTypes} classes={classes} />
-          {/* <SquareFt
-            minSquareFT={minSquareFT}
-            maxSquareFT={maxSquareFT}
-            setMaxSquareFT={setMaxSquareFT}
-            setMinSquareFT={setMinSquareFT}
-            classes={classes}
-          /> */}
         </Box>
       </form>
     </>

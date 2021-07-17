@@ -1,17 +1,13 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 export const prop = createSlice({
-  // Creating the name of the slice => Correlated to redux store
-  name: "prop",
-  // initial state reducers wil
+  name: 'prop',
   initialState: {
-    properties: { }
-    
+    properties: {},
   },
   reducers: {
     propertyReducer: (state, action) => {
       state.properties = action.payload;
- 
     },
   },
 });

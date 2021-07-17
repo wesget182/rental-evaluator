@@ -1,5 +1,4 @@
 /** @format */
-const { Mongoose } = require('mongoose');
 const fetch = require('node-fetch');
 const { URL, URLSearchParams } = require('url');
 const { quantileSorted } = require('d3');
@@ -20,30 +19,20 @@ const calcMortgage = (price, int, down = 0.2, years = 30) => {
 };
 
 propertyController.getPropertiesForSale = async (req, res, next) => {
-  const url = new URL(
-    'https://zillow-com1.p.rapidapi.com/propertyExtendedSearch'
-  );
+  const url = new URL('https://zillow-com1.p.rapidapi.com/propertyExtendedSearch');
   const params = {
-    location: req.query.location
-      .replace(/, United States$/, '')
-      .replace(/\d{5}/, ''),
+    location: req.query.location.replace(/, United States$/, '').replace(/\d{5}/, ''),
     status_type: 'ForSale',
   };
   if (req.query.home_type !== '') params.home_type = req.query.home_type;
-  if (!isNaN(Number(req.query.bedsMin)))
-    params.bedsMin = Number(req.query.bedsMin);
-  if (!isNaN(Number(req.query.bathsMin)))
-    params.bathsMin = Number(req.query.bathsMin);
-  if (!isNaN(Number(req.query.minPrice)))
-    params.minPrice = Number(req.query.minPrice);
-  if (!isNaN(Number(req.query.maxPrice)))
-    params.maxPrice = Number(req.query.maxPrice);
+  if (!isNaN(Number(req.query.bedsMin))) params.bedsMin = Number(req.query.bedsMin);
+  if (!isNaN(Number(req.query.bathsMin))) params.bathsMin = Number(req.query.bathsMin);
+  if (!isNaN(Number(req.query.minPrice))) params.minPrice = Number(req.query.minPrice);
+  if (!isNaN(Number(req.query.maxPrice))) params.maxPrice = Number(req.query.maxPrice);
 
   url.search = new URLSearchParams(params).toString();
 
-  const result = await fetch(url, { method: 'GET', headers: headers }).then(
-    (res) => res.json()
-  );
+  const result = await fetch(url, { method: 'GET', headers: headers }).then((res) => res.json());
 
   if ('zpid' in result) {
     res.locals.zpid = result.zpid;
@@ -102,9 +91,7 @@ propertyController.getTargetForSale = async (req, res, next) => {
     zpid: req.params.zpid,
   };
   url.search = new URLSearchParams(params).toString();
-  const result = await fetch(url, { method: 'GET', headers: headers }).then(
-    (res) => res.json()
-  );
+  const result = await fetch(url, { method: 'GET', headers: headers }).then((res) => res.json());
 
   if ('zpid' in result) {
     const {
@@ -168,22 +155,9 @@ propertyController.getTargetForSale = async (req, res, next) => {
 };
 
 propertyController.getPropertiesForRental = async (req, res, next) => {
-  const url = new URL(
-    'https://zillow-com1.p.rapidapi.com/propertyExtendedSearch'
-  );
-  // const params = {
-  //   'location': req.params.zip,
-  //   'status_type': 'ForRent',
-  //   // 'home_type': 'Houses',
-  //   'bathsMin': '2',
-  //   'bathsMax': '2',
-  //   'bedsMin': '2',
-  //   'bedsMax': '2'
-  // };
+  const url = new URL('https://zillow-com1.p.rapidapi.com/propertyExtendedSearch');
   url.search = new URLSearchParams(req.params).toString();
-  const result = await fetch(url, { method: 'GET', headers: headers }).then(
-    (res) => res.json()
-  );
+  const result = await fetch(url, { method: 'GET', headers: headers }).then((res) => res.json());
 
   if ('totalResultCount' in result) {
     if (result.totalResultCount > 0) {
@@ -228,11 +202,8 @@ propertyController.getPropertiesForRental = async (req, res, next) => {
           .map((p) => Number(p['properties']['Monthly rent'].slice(1)))
           .sort((a, b) => a - b);
         const rent = quantileSorted(rentArr, 0.5);
-        const ratio = Math.round(
-          Number(target['Price'].slice(1)) / (rent * 12)
-        );
-        const rating =
-          ratio <= 15 ? 'Strong buy' : ratio >= 21 ? 'Strong no buy' : 'No buy';
+        const ratio = Math.round(Number(target['Price'].slice(1)) / (rent * 12));
+        const rating = ratio <= 15 ? 'Strong buy' : ratio >= 21 ? 'Strong no buy' : 'No buy';
         Object.assign(target, {
           'Rent array': rentArr,
           'Est. monthly rent': rent,
@@ -253,14 +224,9 @@ propertyController.getPropertiesForRental = async (req, res, next) => {
 };
 
 propertyController.addNewProperty = async (req, res, next) => {
-  console.log('req.body in addnewprop', req.body);
   const { params } = req.body;
-
-  // console.log('email in newProp', email);
-
   const propertyInfo = params.body;
   propertyInfo['email'] = params.email;
-  console.log('Property Info: ', propertyInfo);
 
   await models.NewProperty.create(propertyInfo)
     .then((data) => {
@@ -270,6 +236,17 @@ propertyController.addNewProperty = async (req, res, next) => {
     .catch((err) => console.log(err));
 
   return next();
+};
+
+propertyController.editProperty = async (req, res, next) => {
+  const { body } = req.body.params;
+  try {
+    const property = await models.NewProperty.findOneAndUpdate({ _id: body._id }, body);
+    res.locals.property = property;
+    return next();
+  } catch (err) {
+    return next(err);
+  }
 };
 
 propertyController.getOwnedProperties = async (req, res, next) => {

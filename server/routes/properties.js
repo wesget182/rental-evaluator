@@ -65,25 +65,21 @@ router.post(
     propertyController.getPropertiesForRental(req, res, next);
   },
   (req, res) => {
-    console.log('Response of target endpoint:');
-    console.log(JSON.stringify(res.locals, null, 2));
     return res.status(200).json(res.locals);
   }
 );
 
 router.post('/newProperty', propertyController.addNewProperty, (req, res) => {
-  console.log('res.locals in newProperty route: ', res.locals);
   res.status(200).send(res.locals);
 });
 
-router.post(
-  '/listProperties',
-  propertyController.getOwnedProperties,
-  (req, res) => {
-    console.log('res.locals in getListProps route: ', res.locals);
-    res.status(200).send(res.locals);
-  }
-);
+router.post('/editProperty', propertyController.editProperty, (req, res) => {
+  res.status(200).send(res.locals);
+});
+
+router.post('/listProperties', propertyController.getOwnedProperties, (req, res) => {
+  res.status(200).send(res.locals);
+});
 
 router.post('/addTenantInfo', (req, res) => {
   res.status(200).send(res.locals);

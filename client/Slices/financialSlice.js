@@ -1,29 +1,24 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice } from '@reduxjs/toolkit';
 
 export const financials = createSlice({
-    // Creating the name of the slice => correlated to redux store
-    name: "financials",
-
-    // initial state
-    initialState: {
-        purchasePrice: 0,
-        downPayment: 0,
-        interestRate: 0,
-        monthlyExpenses: 0,
-        purchaseDate: '',
-        term: 0,
+  name: 'financials',
+  initialState: {
+    purchasePrice: 0,
+    downPayment: 0,
+    interestRate: 0,
+    monthlyExpenses: 0,
+    purchaseDate: '',
+    term: 0,
+  },
+  reducers: {
+    financialReducer: (state, action) => {
+      state = action.payload;
     },
-    // create reducers
-    reducers: {
-        financialReducer: (state, action) => {
-            console.log("action.payload in financialReducer")
-            state = action.payload
-        }
-    }
-})
+  },
+});
 
 export const { financialReducer } = financials.actions;
 
 export default financials.reducer;
 
-export const financialState = (state) => state
+export const financialState = (state) => state;

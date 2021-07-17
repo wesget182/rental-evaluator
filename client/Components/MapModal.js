@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import { makeStyles } from '@material-ui/core';
 import CancelIcon from '@material-ui/icons/Cancel';
@@ -7,15 +7,14 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import { Typography, Grid, Divider, Box } from '@material-ui/core';
 import api from '../axios/axios';
-//redux stuff
-import { userState, favsReducer } from '../Slices/userSlice'
-import { useSelector, useDispatch } from 'react-redux'
+import { userState, favsReducer } from '../Slices/userSlice';
+import { useSelector, useDispatch } from 'react-redux';
 
 const MapModal = ({ open, handleClose, prop }) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const property = prop.properties;
-  const userFavs = useSelector(userState)
-  const favsArr = userFavs.user.favorites
+  const userFavs = useSelector(userState);
+  const favsArr = userFavs.user.favorites;
 
   const useStyles = makeStyles((theme) => ({
     container: {
@@ -29,7 +28,6 @@ const MapModal = ({ open, handleClose, prop }) => {
     card: {
       margin: 20,
       p: 20,
- 
     },
     imgContainer: {
       justify: 'center',
@@ -40,41 +38,30 @@ const MapModal = ({ open, handleClose, prop }) => {
   }));
 
   const classes = useStyles();
-  const [clickedFav, setClickedFav] = useState(false);
-  const faved = () => {
-    console.log('favsArr', favsArr)
-    let found = false
-    favsArr.forEach(fav => {
-      if (fav.ZPID === property.ZPID) {
-        found = true
-      }
-    })
-   return found
-  }
-  // faved()
 
-  // let favIcon = clickedFav ? <FavoriteIcon /> : <FavoriteBorderIcon />;
-  // if(faved()) favIcon = <FavoriteIcon/>
+  const faved = () => {
+    let found = false;
+    favsArr.forEach((fav) => {
+      if (fav.ZPID === property.ZPID) found = true;
+    });
+    return found;
+  };
+
   const handleRemoveFav = async () => {
-    // e.preventDefault();
-    // remove from the db
     const newFavs = await api({
-      method: "post",
-      url: "/removeFav",
+      method: 'post',
+      url: '/removeFav',
       data: {
         favorite: property,
       },
     })
       .then((data) => data.data)
-      .catch((err) => console.log("ADD FAV ERROR", err));
-    // remove from the redux store
+      .catch((err) => console.log('ADD FAV ERROR', err));
     dispatch(favsReducer({ favorites: newFavs }));
   };
+
   const handleAddFavs = async () => {
-    // e.preventDefault();
-
     const favorite = property;
-
     const newFavs = await api({
       method: 'post',
       url: '/addFav',
@@ -82,39 +69,33 @@ const MapModal = ({ open, handleClose, prop }) => {
         favorite: favorite,
       },
     })
-    .then((data) => data.data)
-    .catch((err) => console.log('ADD FAV ERROR', err));
-    dispatch(favsReducer({ favorites: newFavs}))
-
-  //   const getFavs = async () => {
-  //     await api({
-  //       method: "post",
-  //       url: "/getFavs",
-  //     })
-  //       .then((res) => {
-  //        dispatch(favsReducer({favorites: res.data.favsArr}))
-  //       })
-  //       .catch((err) => {
-  //         console.log("GET FAVS ERROR ", err.message);
-  //       });
-  //   };
-  //  getFavs()
+      .then((data) => data.data)
+      .catch((err) => console.log('ADD FAV ERROR', err));
+    dispatch(favsReducer({ favorites: newFavs }));
   };
+
   const handleFav = (e) => {
     e.preventDefault();
-  if(!faved()) handleAddFavs()
-  else {handleRemoveFav()}
-  }
+    if (!faved()) handleAddFavs();
+    else {
+      handleRemoveFav();
+    }
+  };
+
   return (
     <Dialog open={open} onClose={handleClose} className={classes.container} property={property}>
       <Box className={classes.card}>
         <Grid>
           <Grid container justify="flex-end">
-            <IconButton onClick={handleFav}   
-            style={{
-              color: "red",
-              fontSize: 100,
-    }}>{faved() ? <FavoriteIcon/> : <FavoriteBorderIcon/>}</IconButton>
+            <IconButton
+              onClick={handleFav}
+              style={{
+                color: 'red',
+                fontSize: 100,
+              }}
+            >
+              {faved() ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+            </IconButton>
             <IconButton onClick={handleClose}>
               <CancelIcon />
             </IconButton>
@@ -180,4 +161,5 @@ const MapModal = ({ open, handleClose, prop }) => {
     </Dialog>
   );
 };
+
 export default MapModal;

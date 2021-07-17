@@ -4,30 +4,32 @@ import { createSlice } from '@reduxjs/toolkit';
 
 export const userProp = createSlice({
   name: 'userProp',
-
   initialState: {
-    // Total expenses
-    // Total Units
-    // Total Tenants
     userProperties: [],
   },
   reducers: {
     userPropReducer: (state, action) => {
-      // console.log('action.payload in userPropReducer', action.payload[0]);
       state.userProperties.push(...action.payload);
     },
-
+    updateProperty: (state, action) => {
+      state.userProperties = state.userProperties.map((property) => {
+        if (property._id === action.payload._id) {
+          return action.payload;
+        } else {
+          return property;
+        }
+      });
+    },
     addTenantReducer: (state, action) => {
       const propertyToUpdate = state.userProperties.find(
         (property) => property._id === action.payload._id
       );
-      console.log('propertyToUpdate', propertyToUpdate);
       propertyToUpdate.tenants = action.payload.tenants;
     },
   },
 });
 
-export const { userPropReducer, addTenantReducer } = userProp.actions;
+export const { userPropReducer, updateProperty, addTenantReducer } = userProp.actions;
 
 export default userProp.reducer;
 
